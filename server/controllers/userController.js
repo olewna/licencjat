@@ -52,7 +52,12 @@ const createUser = async (req, res) => {
       return res.status(409).json({ message: "Email already in use" });
     }
 
-    const newUser = await User.create({ name, type, hashed_password, email });
+    const newUser = await User.create({
+      name,
+      type,
+      password: hashed_password,
+      email,
+    });
     res.status(201).json(newUser);
   } catch (error) {
     console.error("Error: ", error);

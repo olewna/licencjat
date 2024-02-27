@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { passwordConfirmValidator } from 'src/app/shared/directives/password-confirm-directive';
 import { UserRegister } from 'src/app/shared/form.models/UserRegister.model';
+import { User } from 'src/app/shared/models/User.model';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
     private formbuilder: NonNullableFormBuilder,
     private userService: UserService
   ) {}
+
   public ngOnInit(): void {
     this.userRegisterForm = this.formbuilder.group(
       {
@@ -35,20 +37,24 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
   protected userRegisterForm!: FormGroup<UserRegister>;
   protected loginMode: boolean = true;
+  protected errorMsg: string = '';
 
   public onSubmit(): void {
-    this.userService.createUser(this.userRegisterForm.value).subscribe({
-      next: () => {
-        console.log('stworzono');
+    this.userService.createUser(this.userRegisterForm.value as User).subscribe({
+      next: (value) => {
+        this.userRegisterForm.reset();
+        console.log(value);
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err);
+        this.errorMsg = err.error.message;
+        setTimeout(() => {
+          this.errorMsg = '';
+        }, 3000);
       },
     });
-    console.log(this.userRegisterForm.value);
-    console.log(typeof this.userRegisterForm.value);
   }
 
   public changeMode(): void {

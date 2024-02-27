@@ -12,12 +12,12 @@ export class ComboService {
   constructor(private httpClient: HttpClient) {}
 
   public getRandomFood(): Observable<Food> {
-    return this.httpClient.get<Food>('food/random');
+    return this.httpClient.get<Food>('api/food/random');
   }
   public getRandomMusic(): Observable<Music> {
-    return this.httpClient.get<Music>('music/random');
+    return this.httpClient.get<Music>('api/music/random');
   }
   public getRandomGame(): Observable<Game> {
-    return this.httpClient.get<Game>('games/random');
+    return this.httpClient.get<Game>('api/games/random');
   }
 }

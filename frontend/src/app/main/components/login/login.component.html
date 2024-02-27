@@ -27,30 +27,31 @@
         <form [formGroup]="userRegisterForm" (ngSubmit)="onSubmit()">
             <label for="name">Nickname:</label>
             <input type="text" id="name" formControlName="name" placeholder="Nickname...">
-            <!-- <div *ngIf="userForm.controls.login.touched && userForm.controls.login.hasError('required')">
-                Pole jest wymagane
-            </div> -->
-            <!-- <div *ngIf="userForm.controls.login.hasError('minlength')">Login powinien mieć przynajmniej 3 znaki</div> -->
+            <div *ngIf="userRegisterForm.controls.name.touched && userRegisterForm.controls.name.hasError('required')">
+                Nickname required
+            </div>
+            <div *ngIf="userRegisterForm.controls.name.hasError('minlength')">Nickname should be at least 5 letter long</div>
       
             <label for="email">Email:</label>
             <input type="email" id="email" formControlName="email" placeholder="Email...">
-            <!-- <div *ngIf="userForm.controls.email.touched && userForm.controls.email.hasError('required')">
-                Pole jest wymagane
-            </div> -->
-            <!-- <div *ngIf="userForm.controls.email.hasError('pattern')">Niepoprawny email</div> -->
+            <div *ngIf="userRegisterForm.controls.email.touched && userRegisterForm.controls.email.hasError('required')">
+                Email required
+            </div>
+            <div *ngIf="userRegisterForm.controls.email.hasError('pattern')">Wrong email pattern</div>
     
             <label for="password">Hasło:</label>
             <input type="password" id="password" formControlName="password" placeholder="Password...">
-            <!-- <div *ngIf="userForm.controls.password.touched && userForm.controls.password.hasError('required')">
-                Pole jest wymagane
-            </div> -->
-            <!-- <div *ngIf="userForm.controls.password.hasError('minlength')">Hasło musi mieć przynajmniej 5 znaków</div> -->
+            <div *ngIf="userRegisterForm.controls.password.touched && userRegisterForm.controls.password.hasError('required')">
+                Password required
+            </div>
+            <div *ngIf="userRegisterForm.controls.password.hasError('minlength')">Password should be at least 8 sign long</div>
         
             <label for="confirmPassword">Powtórz hasło:</label>
             <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm password...">
-            <!-- <div *ngIf="userForm.controls.confirmPassword.touched && userForm.hasError('passwordMismatch')">Hasła nie są takie same</div> -->
+            <div *ngIf="userRegisterForm.controls.confirmPassword.touched && userRegisterForm.hasError('passwordMismatch')">Passwords are different</div>
         
             <button type="submit" [disabled]="!userRegisterForm.valid">Sign in</button>
+            <div *ngIf="errorMsg!==''">{{errorMsg}}</div>
             <div (click)="changeMode()">Login</div>
         </form>
     

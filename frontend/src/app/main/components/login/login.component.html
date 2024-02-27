@@ -1,1 +1,49 @@
-<p>login works!</p>
+<div>
+    <ng-container *ngIf="loginMode; else registerForm">
+        <form class="form">
+            <label htmlFor="nickname-log">Nickname: </label>
+            <input
+              id="nickname-log"
+              name="nickname"
+              type="text"
+              placeholder="Your nickname"
+            />
+        
+            <label htmlFor="password-log">Password: </label>
+            <input
+              id="password-log"
+              name="password"
+              type="password"
+              placeholder="Your password"
+            />
+            <button type="submit">
+              Sign up
+            </button>
+            <div (click)="changeMode()">Register</div>
+        </form>
+    </ng-container>
+
+    <ng-template #registerForm>
+        <form class="form">
+            <label htmlFor="nickname-log">Nickname: </label>
+            <input
+              id="nickname-log"
+              name="nickname"
+              type="text"
+              placeholder="Your nickname"
+            />
+        
+            <label htmlFor="password-log">Password: </label>
+            <input
+              id="password-log"
+              name="password"
+              type="password"
+              placeholder="Your password"
+            />
+            <button type="submit">
+              Sign in
+            </button>
+            <div (click)="changeMode()">Login</div>
+        </form>
+    </ng-template>
+</div>

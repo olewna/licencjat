@@ -4,7 +4,8 @@ import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [],
+  declarations: [NavbarComponent],
   imports: [CommonModule, HttpClientModule],
+  exports: [NavbarComponent],
 })
 export class CoreModule {}

@@ -81,7 +81,11 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  public changeMode(): void {
-    this.loginMode = !this.loginMode;
+  public changeMode(mode: string): void {
+    if (mode === 'login') {
+      this.loginMode = true;
+    } else {
+      this.loginMode = false;
+    }
   }
 }

@@ -18,4 +18,9 @@ export class NavbarComponent {
     this.router.navigate(['login']);
     this.navbarCollapsed = true;
   }
+
+  public goToHome(): void {
+    this.router.navigate(['home']);
+    this.navbarCollapsed = true;
+  }
 }

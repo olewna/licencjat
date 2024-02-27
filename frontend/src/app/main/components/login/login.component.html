@@ -1,55 +1,68 @@
-<div>
-    <ng-container *ngIf="loginMode; else registerForm">
+<div class="d-flex justify-content-center align-items-center mt-5">
+    <div class="card shadow p-4 border">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item text-center">
+              <a class="nav-link" [ngClass]="{'active': loginMode}" (click)="changeMode('login')">Login</a>
+            </li>
+            <li class="nav-item text-center">
+              <a class="nav-link" [ngClass]="{'active': !loginMode}" (click)="changeMode('register')">Register</a>
+            </li>
+          </ul>
+
+      <ng-container *ngIf="loginMode; else registerForm">
         <form [formGroup]="userLoginForm" (ngSubmit)="onSubmit()">
-            <label for="name">Nickname:</label>
-            <input type="text" id="name" formControlName="name" placeholder="Nickname...">
-            <div *ngIf="userRegisterForm.controls.name.touched && userRegisterForm.controls.name.hasError('required')">
-                Nickname required
-            </div>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" formControlName="password" placeholder="Password...">
-            <div *ngIf="userRegisterForm.controls.password.touched && userRegisterForm.controls.password.hasError('required')">
-                Password required
-            </div>
-            <button type="submit">
-              Sign up
-            </button>
-            <div (click)="changeMode()">Register</div>
+          <label for="name">Nickname:</label>
+          <input type="text" id="name" formControlName="name" class="form-control" placeholder="Nickname...">
+          <div *ngIf="userLoginForm.controls.name.touched && userLoginForm.controls.name.hasError('required')" class="text-danger">
+            Nickname required
+          </div>
+  
+          <label for="password">Password:</label>
+          <input type="password" id="password" formControlName="password" class="form-control" placeholder="Password...">
+          <div *ngIf="userLoginForm.controls.password.touched && userLoginForm.controls.password.hasError('required')" class="text-danger">
+            Password required
+          </div>
+          <button type="submit" class="btn btn-primary mt-3" [disabled]="!userLoginForm.valid">
+            Sign up
+          </button>
         </form>
-    </ng-container>
-
-    <ng-template #registerForm>
+      </ng-container>
+  
+      <ng-template #registerForm>
         <form [formGroup]="userRegisterForm" (ngSubmit)="onSubmit()">
-            <label for="name">Nickname:</label>
-            <input type="text" id="name" formControlName="name" placeholder="Nickname...">
-            <div *ngIf="userRegisterForm.controls.name.touched && userRegisterForm.controls.name.hasError('required')">
-                Nickname required
-            </div>
-            <div *ngIf="userRegisterForm.controls.name.hasError('minlength')">Nickname should be at least 5 letter long</div>
-      
-            <label for="email">Email:</label>
-            <input type="email" id="email" formControlName="email" placeholder="Email...">
-            <div *ngIf="userRegisterForm.controls.email.touched && userRegisterForm.controls.email.hasError('required')">
-                Email required
-            </div>
-            <div *ngIf="userRegisterForm.controls.email.hasError('pattern')">Wrong email pattern</div>
-    
-            <label for="password">Hasło:</label>
-            <input type="password" id="password" formControlName="password" placeholder="Password...">
-            <div *ngIf="userRegisterForm.controls.password.touched && userRegisterForm.controls.password.hasError('required')">
-                Password required
-            </div>
-            <div *ngIf="userRegisterForm.controls.password.hasError('minlength')">Password should be at least 8 sign long</div>
-        
-            <label for="confirmPassword">Powtórz hasło:</label>
-            <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm password...">
-            <div *ngIf="userRegisterForm.controls.confirmPassword.touched && userRegisterForm.hasError('passwordMismatch')">Passwords are different</div>
-        
-            <button type="submit" [disabled]="!userRegisterForm.valid">Sign in</button>
-            <div *ngIf="errorMsg!==''">{{errorMsg}}</div>
-            <div (click)="changeMode()">Login</div>
+          <label for="name">Nickname:</label>
+          <input type="text" id="name" formControlName="name" class="form-control" placeholder="Nickname...">
+          <div *ngIf="userRegisterForm.controls.name.touched && userRegisterForm.controls.name.hasError('required')" class="text-danger">
+            Nickname required
+          </div>
+          <div *ngIf="userRegisterForm.controls.name.hasError('minlength')" class="text-danger">Nickname should be at least 5 letters long</div>
+  
+          <label for="email">Email:</label>
+          <input type="email" id="email" formControlName="email" class="form-control" placeholder="Email...">
+          <div *ngIf="userRegisterForm.controls.email.touched && userRegisterForm.controls.email.hasError('required')" class="text-danger">
+            Email required
+          </div>
+          <div *ngIf="userRegisterForm.controls.email.hasError('pattern')" class="text-danger">Wrong email pattern</div>
+  
+          <label for="password">Password:</label>
+          <input type="password" id="password" formControlName="password" class="form-control" placeholder="Password...">
+          <div *ngIf="userRegisterForm.controls.password.touched && userRegisterForm.controls.password.hasError('required')" class="text-danger">
+            Password required
+          </div>
+          <div *ngIf="userRegisterForm.controls.password.hasError('minlength')" class="text-danger">Password should be at least 8 signs long</div>
+  
+          <label for="confirmPassword">Confirm password:</label>
+          <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control" placeholder="Confirm password...">
+          <div *ngIf="userRegisterForm.controls.confirmPassword.touched && userRegisterForm.hasError('passwordMismatch')" class="text-danger">
+            Passwords are different
+          </div>
+  
+          <button type="submit" class="btn btn-primary mt-3" [disabled]="!userRegisterForm.valid">
+            Sign in
+          </button>
+          <div *ngIf="errorMsg !== ''" class="text-danger mt-2">{{errorMsg}}</div>
         </form>
-    
-    </ng-template>
-</div>
+      </ng-template>
+    </div>
+  </div>
+  

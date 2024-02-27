@@ -1,0 +1,45 @@
+<nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
+    <div class="container-fluid">
+      <div class="navbar-brand fw-bold">
+        <h1 class="mx-5">Gamer CaVe</h1>
+      </div>
+      <button
+      (click)="toggleNavbarCollapsing()"
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarsExample01"
+        aria-controls="navbarsExample01"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div [class.collapse]="navbarCollapsed" class="collapse navbar-collapse" id="navbarsExample01">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <div class="btn btn-dark text-warning">
+              FOOD
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="btn btn-dark text-success">
+              MUSIC
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="btn btn-dark text-danger">
+              GAMES
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="btn btn-dark text-info">
+              <div>ACCOUNT</div> 
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  

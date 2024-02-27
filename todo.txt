@@ -1,0 +1,11 @@
+- guzik do losowania
+- zdjecie jedzenia
+- zdjecie do playlist (customowe maja defaultowy obrazek nutki)
+- zdjecie logo gier
+- mozliwosc dodawania do ulubionych
+- mozliwosc dodawania wlasnych jedzen, muzyki oraz gry (prywatne)
+- mozliwosc przegladania profili
+- checkboxy dla mozliwosci filtrowania zestawów
+- mozliwosc losowania kategorii osobno
+- logowanie: backend sprawdza czy uzytkownik istnieje, potem sprawdza hasło, zwraca znalezionego usera oraz token (userId, userType), frontend ma interceptor który zapisuje jwt
+- chat z użyciem socket io, który będzie umożliwiał znalezienie grupy lub partnera do wspólnej rozgrywki

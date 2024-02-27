@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { passwordConfirmValidator } from 'src/app/shared/directives/password-confirm-directive';
 import { UserRegister } from 'src/app/shared/form.models/UserRegister.model';
+import { UserLogin } from 'src/app/shared/form.models/UserLogin.model';
 import { User } from 'src/app/shared/models/User.model';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -36,25 +37,48 @@ export class LoginComponent implements OnInit {
         validators: [passwordConfirmValidator],
       }
     );
+
+    this.userLoginForm = this.formbuilder.group({
+      name: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
   }
 
+  protected userLoginForm!: FormGroup<UserLogin>;
   protected userRegisterForm!: FormGroup<UserRegister>;
   protected loginMode: boolean = true;
   protected errorMsg: string = '';
 
   public onSubmit(): void {
-    this.userService.createUser(this.userRegisterForm.value as User).subscribe({
-      next: (value) => {
-        this.userRegisterForm.reset();
-        console.log(value);
-      },
-      error: (err: HttpErrorResponse) => {
-        this.errorMsg = err.error.message;
-        setTimeout(() => {
-          this.errorMsg = '';
-        }, 3000);
-      },
-    });
+    if (this.loginMode) {
+      this.userService.loginUser(this.userLoginForm.value as User).subscribe({
+        next: (value) => {
+          console.log('Zalogowano: ');
+          console.log(value);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.errorMsg = err.error.message;
+          setTimeout(() => {
+            this.errorMsg = '';
+          }, 3000);
+        },
+      });
+    } else {
+      this.userService
+        .registerUser(this.userRegisterForm.value as User)
+        .subscribe({
+          next: (value) => {
+            this.userRegisterForm.reset();
+            this.loginMode = true;
+          },
+          error: (err: HttpErrorResponse) => {
+            this.errorMsg = err.error.message;
+            setTimeout(() => {
+              this.errorMsg = '';
+            }, 3000);
+          },
+        });
+    }
   }
 
   public changeMode(): void {

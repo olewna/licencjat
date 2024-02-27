@@ -1,21 +1,17 @@
 <div>
     <ng-container *ngIf="loginMode; else registerForm">
-        <form class="form">
-            <label htmlFor="nickname-log">Nickname: </label>
-            <input
-              id="nickname-log"
-              name="nickname"
-              type="text"
-              placeholder="Your nickname"
-            />
-        
-            <label htmlFor="password-log">Password: </label>
-            <input
-              id="password-log"
-              name="password"
-              type="password"
-              placeholder="Your password"
-            />
+        <form [formGroup]="userLoginForm" (ngSubmit)="onSubmit()">
+            <label for="name">Nickname:</label>
+            <input type="text" id="name" formControlName="name" placeholder="Nickname...">
+            <div *ngIf="userRegisterForm.controls.name.touched && userRegisterForm.controls.name.hasError('required')">
+                Nickname required
+            </div>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" formControlName="password" placeholder="Password...">
+            <div *ngIf="userRegisterForm.controls.password.touched && userRegisterForm.controls.password.hasError('required')">
+                Password required
+            </div>
             <button type="submit">
               Sign up
             </button>

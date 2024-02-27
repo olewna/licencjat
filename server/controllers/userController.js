@@ -8,8 +8,8 @@ const getUsers = async (req, res) => {
   res.status(200).json(users);
 };
 
-//GET user
-const getUser = async (req, res) => {
+//POST login user
+const loginUser = async (req, res) => {
   try {
     const { name, password } = req.body;
     const user = await User.findOne({ name });
@@ -36,8 +36,8 @@ const getUser = async (req, res) => {
   }
 };
 
-//POST create user
-const createUser = async (req, res) => {
+//POST register user
+const registerUser = async (req, res) => {
   const { name, type, password, email } = req.body;
   const hashed_password = sha256(password);
 
@@ -67,6 +67,6 @@ const createUser = async (req, res) => {
 
 module.exports = {
   getUsers,
-  createUser,
-  getUser,
+  registerUser,
+  loginUser,
 };

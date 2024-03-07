@@ -35,8 +35,8 @@
           </li>
           <li class="nav-item">
             <div class="btn btn-dark text-info">
-              <div *ngIf="!isLogged()" (click)="goToLogin()">ACCOUNT</div> 
-              <div *ngIf="isLogged()">{{ this.currentUser!.name | uppercase }}</div> 
+              <div *ngIf="!isLogged()" (click)="goToLogin()">LOGIN</div> 
+              <div *ngIf="isLogged()" (click)="goToAccount()">{{ this.currentUser!.name | uppercase }}</div> 
             </div>
           </li>
         </ul>

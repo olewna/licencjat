@@ -39,4 +39,8 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['home']);
     this.navbarCollapsed = true;
   }
+
+  public goToAccount(): void {
+    this.router.navigate(['account', this.currentUser?._id]);
+  }
 }

@@ -16,6 +16,7 @@ export class HomeComponent {
   protected todayGames: Game | null = null;
   protected todayFood: Food | null = null;
   protected todayMusic: Music | null = null;
+  protected vegetarian: boolean = false;
 
   public roll(): void {
     const randomFood$ = this.comboService.getRandomFood();
@@ -28,7 +29,10 @@ export class HomeComponent {
         this.todayMusic = musicResult as Music;
         this.todayGames = gameResult as Game;
 
-        this.notRolled = !this.notRolled;
+        this.notRolled = false;
+
+        // todo
+        // zapisywanie do bazy co wylosował uzytkownik
       },
       error: (error) =>
         console.error('Error occurred in one of the subscriptions: ', error),

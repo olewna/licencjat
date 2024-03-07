@@ -1,5 +1,10 @@
 <div class="container">
     <div class="row">
+      <div>
+        <label for="check">Vege</label>
+        <input type="checkbox" id="check" [(ngModel)]="vegetarian"/>
+        <div>{{vegetarian}}</div>
+      </div>
       <div *ngIf="!notRolled" class="col-12 d-flex flex-column pt-5 mt-5 align-items-center">
         <div class="h1 my-5 text-info">Your combo for today:</div>
         <div class="h1 text-warning">Food: {{ todayFood!.name }}</div>
@@ -7,12 +12,12 @@
         <div class="h1 text-danger">Game: {{ todayGames!.name }}</div>
         <div>
             Don't like it?
-            <button>Roll again</button>
+            <button (click)="roll()" class="btn btn-info">Roll again</button>
         </div>
     </div>
     <div *ngIf="notRolled" class="col-12 d-flex flex-column pt-5 mt-5 align-items-center">
-          <div class="h1 my-5 text-info">Your combo for today:</div>
-        <button (click)="roll()">Roll your combo for today!</button>
+          <!-- <div class="h1 my-5 text-info">Your combo for today:</div> -->
+        <button (click)="roll()" class="btn btn-info">Roll your combo for today!</button>
       </div>
     </div>
 </div>

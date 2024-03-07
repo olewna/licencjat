@@ -6,6 +6,8 @@ import { UserRegister } from 'src/app/shared/form.models/UserRegister.model';
 import { UserLogin } from 'src/app/shared/form.models/UserLogin.model';
 import { User } from 'src/app/shared/models/User.model';
 import { UserService } from 'src/app/shared/services/user.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,9 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class LoginComponent implements OnInit {
   public constructor(
     private formbuilder: NonNullableFormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -53,8 +57,9 @@ export class LoginComponent implements OnInit {
     if (this.loginMode) {
       this.userService.loginUser(this.userLoginForm.value as User).subscribe({
         next: (value) => {
-          console.log('Zalogowano: ');
-          console.log(value);
+          const { token, user } = value;
+          this.authService.setCurrentUser(user, token);
+          this.router.navigate(['home']);
         },
         error: (err: HttpErrorResponse) => {
           this.errorMsg = err.error.message;

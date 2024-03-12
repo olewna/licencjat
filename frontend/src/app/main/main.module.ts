@@ -4,9 +4,12 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccountComponent } from './components/account/account.component';
+import { FoodComponent } from './components/food/food.component';
+import { MusicComponent } from './components/music/music.component';
+import { GameComponent } from './components/game/game.component';
 
 @NgModule({
-  declarations: [HomeComponent, LoginComponent, AccountComponent],
+  declarations: [HomeComponent, LoginComponent, AccountComponent, FoodComponent, MusicComponent, GameComponent],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   exports: [],
 })

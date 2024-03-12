@@ -39,6 +39,18 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['home']);
     this.navbarCollapsed = true;
   }
+  public goToFood(): void {
+    this.router.navigate(['food']);
+    this.navbarCollapsed = true;
+  }
+  public goToMusic(): void {
+    this.router.navigate(['music']);
+    this.navbarCollapsed = true;
+  }
+  public goToGames(): void {
+    this.router.navigate(['games']);
+    this.navbarCollapsed = true;
+  }
 
   public goToAccount(): void {
     this.router.navigate(['account', this.currentUser?._id]);

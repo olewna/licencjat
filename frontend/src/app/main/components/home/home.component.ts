@@ -17,6 +17,8 @@ export class HomeComponent {
   protected todayFood: Food | null = null;
   protected todayMusic: Music | null = null;
   protected vegetarian: boolean = false;
+  protected multiplayer: boolean = false;
+  protected singleplayer: boolean = false;
 
   public roll(): void {
     const randomFood$ = this.comboService.getRandomFood();

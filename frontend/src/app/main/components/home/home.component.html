@@ -17,7 +17,7 @@
         </div>
       </div>
       <div *ngIf="!notRolled" class="d-flex flex-column mt-5 align-items-center">
-        <div class="d-flex flex-column mb-5 align-items-center">
+        <div class="d-flex flex-column mb-5 align-items-center glow">
           <div class="h1 my-5 text-info">Your combo for today:</div>
           <div class="h1 text-warning">Food: {{ todayFood!.name }}</div>
           <div class="h1 text-success">Playlist: {{ todayMusic!.name }}</div>
@@ -36,9 +36,9 @@
             </div>
         </div>
     </div>
-    <div *ngIf="notRolled" class="d-flex flex-column mt-5 align-items-center">
+    <div *ngIf="notRolled" class="h-100 d-flex flex-column mt-5 justify-content-center align-items-center">
           <!-- <div class="h1 my-5 text-info">Your combo for today:</div> -->
-        <button (click)="roll()" class="btn btn-info">Roll your combo for today!</button>
+        <button (click)="roll()" class="glow-on-hover">Roll your combo for today!</button>
       </div>
     </div>
 </div>

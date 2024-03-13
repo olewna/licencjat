@@ -1,8 +1,19 @@
-<div>
-    <div>Account</div>
-    <div>{{ this.user!.name }}</div>
-    <div>{{ this.user!.email }}</div>
-    <div>{{ this.user!.type }}</div>
-    <div>{{ this.user!._id }}</div>
-    <button (click)="logout()" class="btn btn-danger">Log out</button>
-</div>
+<div class="container h-75">
+    <div class="row h-75">
+      <div class="col-md-6 mx-auto d-flex justify-content-center align-items-center">
+        <div class="border border-secondary rounded d-flex flex-column justify-content-between align-items-center p-4 mt-4">
+          <div class="h2">Account</div>
+          <img class="rounded" src="http://www.gravatar.com/avatar/?d=mp" />
+          <div class="text-secondary">{{ this.user!.name }}</div>
+          <div class="text-secondary">{{ this.user!.email }}</div>
+          <div class="text-secondary">{{ this.user!.type }}</div>
+          <div class="text-secondary">{{ this.user!._id }}</div>
+          <div class="h3 text-primary">FAVOURITE COMBOS:</div>
+          <div class="text-primary">item 1</div>
+          <div class="text-primary">item 2</div>
+          <div class="text-primary">item 3</div>
+          <button (click)="logout()" class="btn btn-danger">Log out</button>
+        </div>
+      </div>
+    </div>
+  </div>

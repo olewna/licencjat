@@ -14,13 +14,7 @@ const getFood = async (req, res) => {
     .sort((a, b) => {
       const nameA = a.name.toLowerCase();
       const nameB = b.name.toLowerCase();
-
-      if (nameA < nameB) {
-        return -1;
-      } else if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
+      return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
     })
     .slice(startIndex, endIndex);
 
@@ -39,15 +33,30 @@ const getRandomFood = async (req, res) => {
 //GET searched
 const getSearchedFood = async (req, res) => {
   const { nazwa } = req.params;
+  const pageNumber = parseInt(req.query.pageNumber) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 3;
+  let food;
 
-  if (/^[A-Za-z0-9]*$/.test(nazwa)) {
-    const food = await Food.find({ name: { $regex: nazwa } });
-    if (!food) {
-      res.status(200).json({});
-    } else {
-      res.status(200).json(food);
-    }
+  if (nazwa) {
+    food = await Food.find({
+      $or: [
+        { name: { $regex: nazwa, $options: "i" } },
+        { company: { $regex: nazwa, $options: "i" } },
+      ],
+    });
+  } else {
+    food = await Food.find({});
   }
+
+  const startIndex = (pageNumber - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const resultFood = food.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(food.length / pageSize);
+
+  res.status(200).json({
+    food: resultFood,
+    allPages: totalPages,
+  });
 };
 
 //POST new

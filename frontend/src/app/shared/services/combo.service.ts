@@ -22,7 +22,9 @@ export class ComboService {
     return this.httpClient.get<Game>('api/games/random');
   }
 
-  public getFood(page: number): Observable<FoodResponse> {
-    return this.httpClient.get<FoodResponse>(`api/food/?pageNumber=${page}`);
+  public getFood(page: number, search: string): Observable<FoodResponse> {
+    return this.httpClient.get<FoodResponse>(
+      `api/food/${search}?pageNumber=${page}`
+    );
   }
 }

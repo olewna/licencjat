@@ -15,7 +15,7 @@ export class FoodComponent implements OnInit {
   }
 
   protected loadFood(): void {
-    this.crudService.getFood(this.page).subscribe({
+    this.crudService.getFood(this.page, this.searchedInput).subscribe({
       next: (val) => {
         this.foodList = [...this.foodList, ...val.food];
         if (val.allPages > this.page) {
@@ -27,6 +27,23 @@ export class FoodComponent implements OnInit {
     });
   }
 
+  protected listIsEmpty(): boolean {
+    return this.foodList.length === 0;
+  }
+
+  public handleChange(value: string): void {
+    if (value === '') {
+      this.search();
+    }
+  }
+
+  protected search(): void {
+    this.foodList = [];
+    this.page = 1;
+    this.loadFood();
+  }
+
+  protected searchedInput: string = '';
   protected isNextPage: boolean = true;
   protected page: number = 1;
   protected foodList: Food[] = [];

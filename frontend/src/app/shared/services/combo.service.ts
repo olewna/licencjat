@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Food } from '../models/Food.model';
 import { Music } from '../models/Music.model';
 import { Game } from '../models/Game.model';
+import { FoodResponse } from '../models/Pagination.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,5 +20,9 @@ export class ComboService {
   }
   public getRandomGame(): Observable<Game> {
     return this.httpClient.get<Game>('api/games/random');
+  }
+
+  public getFood(page: number): Observable<FoodResponse> {
+    return this.httpClient.get<FoodResponse>(`api/food/?pageNumber=${page}`);
   }
 }

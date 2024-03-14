@@ -5,7 +5,11 @@
             <input placeholder="Search food..." />
         </div>
         <div class="col-12 d-flex flex-column pt-5 align-items-center">
-            List here // todo lazy loading
+            <div class="border rounded p-3 item" *ngFor="let food of foodList">
+                <div class="border p-2">{{food.name}} from {{food.company}}</div>
+                <div class="border p-2">{{food.telephone}}</div>
+            </div>
+            <button *ngIf="isNextPage" (click)="loadFood()">More</button>
         </div>
     </div>
 </div>

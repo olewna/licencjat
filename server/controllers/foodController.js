@@ -3,8 +3,29 @@ const mongoose = require("mongoose");
 
 //GET all
 const getFood = async (req, res) => {
+  const pageNumber = parseInt(req.query.pageNumber) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 3;
+
   const food = await Food.find({});
-  res.status(200).json(food);
+
+  const startIndex = (pageNumber - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const resultFood = food
+    .sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+
+      if (nameA < nameB) {
+        return -1;
+      } else if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    })
+    .slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(food.length / pageSize);
+  res.status(200).json({ food: resultFood, allPages: totalPages });
 };
 
 //GET random

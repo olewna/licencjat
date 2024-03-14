@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const commentRoutes = require("./routes/commentsRouter.js");
 const foodRoutes = require("./routes/foodRouter.js");
 const musicRoutes = require("./routes/musicRouter");
 const gamesRoutes = require("./routes/gamesRouter");
@@ -22,7 +21,6 @@ app.use((req, res, next) => {
 });
 
 //routes
-app.use("/api/comments", commentRoutes);
 app.use("/api/food", foodRoutes);
 app.use("/api/music", musicRoutes);
 app.use("/api/games", gamesRoutes);

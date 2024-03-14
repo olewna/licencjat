@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-      <div class="d-flex flex-column align-items-center mt-5">
+      <div class="d-flex flex-column align-items-center mt-1">
         <div class="d-flex justify-content-around w-75">
           <div class="d-flex flex-column justify-content-center align-items-center check">
             <label class="my-1 py-1" for="check">Vegetarian</label>
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div *ngIf="!notRolled" class="d-flex flex-column mt-5 align-items-center">
-        <div class="d-flex flex-column mb-5 align-items-center glow">
+        <div class="d-flex flex-column mb-5 pb-4 align-items-center glow">
           <div class="h1 my-5 text-info">Your combo for today:</div>
           <div class="h1 text-warning">Food: {{ todayFood!.name }}</div>
           <div class="h1 text-success">Playlist: {{ todayMusic!.name }}</div>
@@ -26,13 +26,13 @@
         <div class="d-flex flex-column align-items-center justify-content-center">
             <div class="h5">Don't like it?</div>
             <div class="p-2">
-              <button (click)="roll()" class="btn btn-info roll">Roll again all</button>
+              <button (click)="roll()" class="btn btn-info roll glow-on-hover ">Roll again all</button>
             </div>
             <div class="h5">Only one does not fit you?</div>
             <div class="d-flex justify-content-around">
-              <button class="btn btn-info m-1 roll">Roll again food</button>
-              <button class="btn btn-info m-1 roll">Roll again music</button>
-              <button class="btn btn-info m-1 roll">Roll again game</button>
+              <button class="btn btn-info m-1 roll glow-on-hover " (click)="rollFood()">Roll again food</button>
+              <button class="btn btn-info m-1 roll glow-on-hover " (click)="rollMusic()">Roll again music</button>
+              <button class="btn btn-info m-1 roll glow-on-hover " (click)="rollGame()">Roll again game</button>
             </div>
         </div>
     </div>

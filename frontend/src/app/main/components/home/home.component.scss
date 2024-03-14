@@ -6,10 +6,6 @@
     width: 300px;
 }
 
-.roll {
-    width: 200px;
-}
-
 .glow-on-hover {
     width: 300px;
     height: 300px;
@@ -69,4 +65,10 @@
     0% { background-position: 0 0; }
     50% { background-position: 400% 0; }
     100% { background-position: 0 0; }
+}
+
+.roll {
+    width: 200px;
+    height: 50px;
+    font-size: medium;
 }

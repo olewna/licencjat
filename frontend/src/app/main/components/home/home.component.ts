@@ -40,4 +40,28 @@ export class HomeComponent {
         console.error('Error occurred in one of the subscriptions: ', error),
     });
   }
+
+  public rollFood(): void {
+    this.comboService.getRandomFood().subscribe({
+      next: (val) => {
+        this.todayFood = val as Food;
+      },
+    });
+  }
+
+  public rollGame(): void {
+    this.comboService.getRandomGame().subscribe({
+      next: (val) => {
+        this.todayGames = val as Game;
+      },
+    });
+  }
+
+  public rollMusic(): void {
+    this.comboService.getRandomMusic().subscribe({
+      next: (val) => {
+        this.todayMusic = val as Music;
+      },
+    });
+  }
 }

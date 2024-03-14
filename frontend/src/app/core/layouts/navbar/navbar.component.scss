@@ -1,3 +1,22 @@
 .home {
     cursor: pointer;
+    background: linear-gradient(
+        to right,
+        #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000, #ff7300, #fffb00,
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 500% auto;
+    animation: textShine 2s infinite linear;
+    font-weight: bold;
+}
+
+@keyframes textShine {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
 }

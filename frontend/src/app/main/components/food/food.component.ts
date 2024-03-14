@@ -20,6 +20,7 @@ export class FoodComponent implements OnInit {
         this.foodList = [...this.foodList, ...val.food];
         if (val.allPages > this.page) {
           this.page++;
+          this.isNextPage = true;
         } else {
           this.isNextPage = false;
         }
@@ -27,8 +28,12 @@ export class FoodComponent implements OnInit {
     });
   }
 
-  protected listIsEmpty(): boolean {
-    return this.foodList.length === 0;
+  protected listIsEmptyAfterSearch(): boolean {
+    return this.foodList.length === 0 && this.searchedInput !== '';
+  }
+
+  protected listIsEmptyNoSearch(): boolean {
+    return this.foodList.length === 0 && this.searchedInput === '';
   }
 
   public handleChange(value: string): void {
@@ -44,7 +49,7 @@ export class FoodComponent implements OnInit {
   }
 
   protected searchedInput: string = '';
-  protected isNextPage: boolean = true;
+  protected isNextPage: boolean = false;
   protected page: number = 1;
   protected foodList: Food[] = [];
 }

@@ -15,7 +15,8 @@
                 <div class="border p-2">{{food.telephone}}</div>
             </div>
             <button *ngIf="isNextPage" (click)="loadFood()">More</button>
-            <div *ngIf="listIsEmpty()">No food found...</div>
+            <div *ngIf="listIsEmptyAfterSearch()">No food found...</div>
+            <div *ngIf="listIsEmptyNoSearch()">Loading...</div>
         </div>
     </div>
 </div>

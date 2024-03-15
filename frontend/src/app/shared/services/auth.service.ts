@@ -17,6 +17,10 @@ export class AuthService {
     return this.currentUser;
   }
 
+  public isLogged(): boolean {
+    return this.currentUser.getValue() !== null;
+  }
+
   public getToken(): string {
     return this.currentToken;
   }
@@ -29,14 +33,16 @@ export class AuthService {
 
   public loadCurrentUser(): void {
     this.currentToken = localStorage.getItem('token')! || '';
-    this.userService.checkSession(this.currentToken).subscribe({
-      next: (val) => {
-        this.setCurrentUser(val, this.currentToken);
-      },
-      error: (err) => {
-        this.setCurrentUser(null, '');
-      },
-    });
+    if (this.currentToken) {
+      this.userService.checkSession(this.currentToken).subscribe({
+        next: (val) => {
+          this.setCurrentUser(val, this.currentToken);
+        },
+        error: (err) => {
+          this.setCurrentUser(null, '');
+        },
+      });
+    }
   }
 
   private updateLocalStorage(): void {

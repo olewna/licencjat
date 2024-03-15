@@ -5,4 +5,5 @@ export interface Music {
   readonly length: string;
   readonly type: string;
   readonly createdAt: string;
+  readonly service: string[];
 }

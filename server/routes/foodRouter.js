@@ -11,13 +11,13 @@ const {
 const router = express.Router();
 
 //GET all food
-router.get("/", getFood);
+router.get("/search", getFood);
 
 //GET random food
 router.get("/random", getRandomFood);
 
 //GET searched
-router.get("/:nazwa", getSearchedFood);
+router.get("/search/:nazwa", getSearchedFood);
 
 // POST new Food
 router.post("/", createFood);

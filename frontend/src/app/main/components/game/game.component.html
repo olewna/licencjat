@@ -2,10 +2,21 @@
     <div class="row">
         <div class="col-12 d-flex flex-column align-items-center">
             <div class="h1 my-5">Something that will fill your heart <3</div>
-            <input placeholder="Search games..." />
+            <div class="input-group mb-3">
+                <input [(ngModel)]="searchedInput" (ngModelChange)="handleChange($event)" type="text" class="form-control" placeholder="Search games..." aria-label="games" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button (click)="search()" class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </div>
         </div>
-        <div class="col-12 d-flex flex-column pt-5 align-items-center">
-            List here // todo lazy loading
+        <div class="col-12 d-flex flex-column pt-3 align-items-center">
+            <div class="border rounded p-3 item" *ngFor="let game of gameList">
+                <div class="border p-2">{{game.name}} ({{game.type}}{{game.multiplayer && game.singleplayer ? ", singleplayer & multiplayer" : game.multiplayer ? ", multiplayer" : game.singleplayer ? ", singleplayer" : ""}})</div>
+                <div class="border p-2">Price: {{game.price}}</div>
+            </div>
+            <button *ngIf="isNextPage" (click)="loadGames()">More</button>
+            <div *ngIf="listIsEmptyAfterSearch()">No games found...</div>
+            <div *ngIf="listIsEmptyNoSearch()">Loading...</div>
         </div>
     </div>
 </div>

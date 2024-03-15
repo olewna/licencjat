@@ -50,7 +50,13 @@ const getSearchedFood = async (req, res) => {
 
   const startIndex = (pageNumber - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const resultFood = food.slice(startIndex, endIndex);
+  const resultFood = food
+    .sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+    })
+    .slice(startIndex, endIndex);
   const totalPages = Math.ceil(food.length / pageSize);
 
   res.status(200).json({

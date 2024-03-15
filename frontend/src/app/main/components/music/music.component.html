@@ -2,10 +2,23 @@
     <div class="row">
         <div class="col-12 d-flex flex-column align-items-center">
             <div class="h1 my-5">Something that will fill your head :D</div>
-            <input placeholder="Search music..." />
+            <div class="input-group mb-3">
+                <input [(ngModel)]="searchedInput" (ngModelChange)="handleChange($event)" type="text" class="form-control" placeholder="Search music..." aria-label="music" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button (click)="search()" class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </div>
         </div>
-        <div class="col-12 d-flex flex-column pt-5 align-items-center">
-            List here // todo lazy loading
+        <div class="col-12 d-flex flex-column pt-3 align-items-center">
+            <div class="border rounded p-3 item" *ngFor="let music of musicList">
+                <div class="border p-2">{{music.name}} <div class="text-secondary">{{music.author}}</div></div>
+
+                <div class="border d-flex flex-column">
+                    <div class="p-2" *ngFor="let service of music.service">{{service}}</div></div>
+                </div>
+            <button *ngIf="isNextPage" (click)="loadMusic()">More</button>
+            <div *ngIf="listIsEmptyAfterSearch()">No food found...</div>
+            <div *ngIf="listIsEmptyNoSearch()">Loading...</div>
         </div>
     </div>
 </div>

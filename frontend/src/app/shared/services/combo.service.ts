@@ -4,7 +4,11 @@ import { Observable } from 'rxjs';
 import { Food } from '../models/Food.model';
 import { Music } from '../models/Music.model';
 import { Game } from '../models/Game.model';
-import { FoodResponse } from '../models/Pagination.model';
+import {
+  FoodResponse,
+  GameResponse,
+  MusicResponse,
+} from '../models/Pagination.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +28,17 @@ export class ComboService {
 
   public getFood(page: number, search: string): Observable<FoodResponse> {
     return this.httpClient.get<FoodResponse>(
-      `api/food/${search}?pageNumber=${page}`
+      `api/food/search/${search}?pageNumber=${page}`
+    );
+  }
+  public getMusic(page: number, search: string): Observable<MusicResponse> {
+    return this.httpClient.get<MusicResponse>(
+      `api/music/search/${search}?pageNumber=${page}`
+    );
+  }
+  public getGames(page: number, search: string): Observable<GameResponse> {
+    return this.httpClient.get<GameResponse>(
+      `api/games/search/${search}?pageNumber=${page}`
     );
   }
 }

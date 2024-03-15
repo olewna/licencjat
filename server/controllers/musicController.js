@@ -3,8 +3,23 @@ const mongoose = require("mongoose");
 
 //GET all
 const getMusic = async (req, res) => {
+  const pageNumber = parseInt(req.query.pageNumber) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 3;
+
   const music = await Music.find({});
-  res.status(200).json(music);
+
+  const startIndex = (pageNumber - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const resultMusic = music
+    .sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+    })
+    .slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(music.length / pageSize);
+  res.status(200).json({ music: resultMusic, allPages: totalPages });
 };
 
 const getRandomMusic = async (req, res) => {
@@ -17,15 +32,37 @@ const getRandomMusic = async (req, res) => {
 // GET searched
 const getSearchedMusic = async (req, res) => {
   const { nazwa } = req.params;
+  const pageNumber = parseInt(req.query.pageNumber) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 3;
+  let music;
 
-  if (/^[A-Za-z0-9]*$/.test(nazwa)) {
-    const music = await Music.find({ name: { $regex: nazwa } });
-    if (!music) {
-      res.status(200).json({});
-    } else {
-      res.status(200).json(music);
-    }
+  if (nazwa) {
+    music = await Music.find({
+      $or: [
+        { name: { $regex: nazwa, $options: "i" } },
+        { author: { $regex: nazwa, $options: "i" } },
+        { type: { $regex: nazwa, $options: "i" } },
+      ],
+    });
+  } else {
+    music = await Music.find({});
   }
+
+  const startIndex = (pageNumber - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const resultMusic = music
+    .sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+    })
+    .slice(startIndex, endIndex);
+  const totalPages = Math.ceil(music.length / pageSize);
+
+  res.status(200).json({
+    music: resultMusic,
+    allPages: totalPages,
+  });
 };
 
 //POST new

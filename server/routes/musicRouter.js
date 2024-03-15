@@ -12,13 +12,13 @@ const {
 const router = express.Router();
 
 //GET all music
-router.get("/", getMusic);
+router.get("/search", getMusic);
 
 //GET random music
 router.get("/random", getRandomMusic);
 
 // GET searched
-router.get("/:nazwa", getSearchedMusic);
+router.get("/search/:nazwa", getSearchedMusic);
 
 // POST new music
 router.post("/", createMusic);

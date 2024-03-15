@@ -3,8 +3,23 @@ const mongoose = require("mongoose");
 
 //GET all
 const getGames = async (req, res) => {
+  const pageNumber = parseInt(req.query.pageNumber) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 3;
+
   const games = await Games.find({});
-  res.status(200).json(games);
+
+  const startIndex = (pageNumber - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const resultGames = games
+    .sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+    })
+    .slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(games.length / pageSize);
+  res.status(200).json({ games: resultGames, allPages: totalPages });
 };
 
 //GET random
@@ -18,15 +33,36 @@ const getRandomGame = async (req, res) => {
 //GET searched
 const getSearchedGames = async (req, res) => {
   const { nazwa } = req.params;
+  const pageNumber = parseInt(req.query.pageNumber) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 3;
+  let games;
 
-  if (/^[A-Za-z0-9]*$/.test(nazwa)) {
-    const games = await Games.find({ name: { $regex: nazwa } });
-    if (!games) {
-      res.status(200).json({});
-    } else {
-      res.status(200).json(games);
-    }
+  if (nazwa) {
+    games = await Games.find({
+      $or: [
+        { name: { $regex: nazwa, $options: "i" } },
+        { type: { $regex: nazwa, $options: "i" } },
+      ],
+    });
+  } else {
+    games = await Games.find({});
   }
+
+  const startIndex = (pageNumber - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const resultGames = games
+    .sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+    })
+    .slice(startIndex, endIndex);
+  const totalPages = Math.ceil(games.length / pageSize);
+
+  res.status(200).json({
+    games: resultGames,
+    allPages: totalPages,
+  });
 };
 
 //POST new

@@ -11,13 +11,13 @@ const {
 const router = express.Router();
 
 //GET all games
-router.get("/", getGames);
+router.get("/search", getGames);
 
 //GET random game
 router.get("/random", getRandomGame);
 
 // GET searched
-router.get("/:nazwa", getSearchedGames);
+router.get("/search/:nazwa", getSearchedGames);
 
 // POST new games
 router.post("/", createGames);

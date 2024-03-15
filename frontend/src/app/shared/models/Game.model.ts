@@ -4,4 +4,6 @@ export interface Game {
   readonly type: string;
   readonly price: string;
   readonly createdAt: string;
+  readonly singleplayer: boolean;
+  readonly multiplayer: boolean;
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Music } from 'src/app/shared/models/Music.model';
 import { ComboService } from 'src/app/shared/services/combo.service';
 
@@ -7,8 +7,13 @@ import { ComboService } from 'src/app/shared/services/combo.service';
   templateUrl: './music.component.html',
   styleUrls: ['./music.component.scss'],
 })
-export class MusicComponent {
+export class MusicComponent implements OnInit {
   public constructor(private crudService: ComboService) {}
+
+  protected searchedInput: string = '';
+  protected isNextPage: boolean = false;
+  protected page: number = 1;
+  protected musicList: Music[] = [];
 
   public ngOnInit(): void {
     this.loadMusic();
@@ -47,9 +52,4 @@ export class MusicComponent {
     this.page = 1;
     this.loadMusic();
   }
-
-  protected searchedInput: string = '';
-  protected isNextPage: boolean = false;
-  protected page: number = 1;
-  protected musicList: Music[] = [];
 }

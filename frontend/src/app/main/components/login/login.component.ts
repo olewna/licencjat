@@ -57,8 +57,8 @@ export class LoginComponent implements OnInit {
     if (this.loginMode) {
       this.userService.loginUser(this.userLoginForm.value as User).subscribe({
         next: (value) => {
-          const { token, user } = value;
-          this.authService.setCurrentUser(user, token);
+          const { userToken, user } = value;
+          this.authService.setCurrentUser(user, userToken);
           this.router.navigate(['home']);
         },
         error: (err: HttpErrorResponse) => {

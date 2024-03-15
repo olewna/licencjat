@@ -1,6 +1,7 @@
 const express = require("express");
 const {
-  getUsers,
+  verifyToken,
+  getUser,
   registerUser,
   loginUser,
 } = require("../controllers/userController.js");
@@ -8,7 +9,7 @@ const {
 const router = express.Router();
 
 //GET all users
-router.get("/", getUsers);
+router.get("/", verifyToken, getUser);
 
 //POST login user
 router.post("/login", loginUser);

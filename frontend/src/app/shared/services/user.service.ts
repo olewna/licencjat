@@ -13,10 +13,14 @@ export class UserService {
     return this.httpClient.post<User>('api/users/register', user);
   }
 
-  public loginUser(user: User): Observable<{ token: string; user: User }> {
-    return this.httpClient.post<{ token: string; user: User }>(
+  public loginUser(user: User): Observable<{ userToken: string; user: User }> {
+    return this.httpClient.post<{ userToken: string; user: User }>(
       'api/users/login',
       user
     );
+  }
+
+  public checkSession(token: string): Observable<User> {
+    return this.httpClient.get<User>('api/users');
   }
 }

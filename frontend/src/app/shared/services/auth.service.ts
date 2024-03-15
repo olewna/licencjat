@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/User.model';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor() {}
+  constructor(private userService: UserService) {}
 
   private currentUser: BehaviorSubject<User | null> =
     new BehaviorSubject<User | null>(null);
@@ -27,8 +28,15 @@ export class AuthService {
   }
 
   public loadCurrentUser(): void {
-    this.currentUser.next(JSON.parse(localStorage.getItem('user')!) || null);
     this.currentToken = localStorage.getItem('token')! || '';
+    this.userService.checkSession(this.currentToken).subscribe({
+      next: (val) => {
+        this.setCurrentUser(val, this.currentToken);
+      },
+      error: (err) => {
+        this.setCurrentUser(null, '');
+      },
+    });
   }
 
   private updateLocalStorage(): void {

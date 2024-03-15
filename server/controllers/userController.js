@@ -1,11 +1,28 @@
 const User = require("../models/userModel");
 const sha256 = require("js-sha256");
 const jwt = require("jsonwebtoken");
+const secret = "si3m5s0NXD";
+
+const verifyToken = (req, res, next) => {
+  const jwtToken = req.headers["authorization"];
+
+  if (typeof jwtToken !== "undefined") {
+    jwt.verify(jwtToken, secret, (err, decoded) => {
+      if (err) {
+        return res.status(403).json(err);
+      }
+      req.user = decoded;
+      next();
+    });
+  } else {
+    res.status(401);
+  }
+};
 
 //GET all users
-const getUsers = async (req, res) => {
-  const users = await User.find({});
-  res.status(200).json(users);
+const getUser = async (req, res) => {
+  const currentUser = await User.findOne({ _id: req.user.userId });
+  res.status(200).json(currentUser);
 };
 
 //POST login user
@@ -23,11 +40,9 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
-    const userToken = jwt.sign(
-      { userId: user._id, username: user.name },
-      "si3m5s0NXD",
-      { expiresIn: "1h" }
-    );
+    const userToken = jwt.sign({ userId: user._id, name: user.name }, secret, {
+      expiresIn: "1h",
+    });
 
     res.status(200).json({ userToken, user });
   } catch (error) {
@@ -66,7 +81,8 @@ const registerUser = async (req, res) => {
 };
 
 module.exports = {
-  getUsers,
+  verifyToken,
+  getUser,
   registerUser,
   loginUser,
 };

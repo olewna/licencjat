@@ -10,6 +10,11 @@ import { ComboService } from 'src/app/shared/services/combo.service';
 export class FoodComponent implements OnInit {
   public constructor(private crudService: ComboService) {}
 
+  protected searchedInput: string = '';
+  protected isNextPage: boolean = false;
+  protected page: number = 1;
+  protected foodList: Food[] = [];
+
   public ngOnInit(): void {
     this.loadFood();
   }
@@ -47,9 +52,4 @@ export class FoodComponent implements OnInit {
     this.page = 1;
     this.loadFood();
   }
-
-  protected searchedInput: string = '';
-  protected isNextPage: boolean = false;
-  protected page: number = 1;
-  protected foodList: Food[] = [];
 }

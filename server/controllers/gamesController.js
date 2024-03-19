@@ -37,13 +37,11 @@ const getRandomGame = async (req, res) => {
     })
       .skip(random)
       .limit(1);
-    console.log("XD1");
     return res.status(200).json(randomGame);
   } else {
     const count = await Games.find({});
     const random = Math.floor(Math.random() * count.length);
     const randomGame = await Games.findOne({}).skip(random).limit(1);
-    console.log("XD2");
     return res.status(200).json(randomGame);
   }
 };

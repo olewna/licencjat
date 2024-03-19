@@ -3,6 +3,7 @@ import { forkJoin } from 'rxjs';
 import { Food } from 'src/app/shared/models/Food.model';
 import { Game } from 'src/app/shared/models/Game.model';
 import { Music } from 'src/app/shared/models/Music.model';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
 
 @Component({
@@ -11,7 +12,10 @@ import { ComboService } from 'src/app/shared/services/combo.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  public constructor(private comboService: ComboService) {}
+  public constructor(
+    private comboService: ComboService,
+    private authService: AuthService
+  ) {}
   protected notRolled: boolean = true;
   protected todayGames: Game | null = null;
   protected todayFood: Food | null = null;
@@ -39,6 +43,10 @@ export class HomeComponent {
       error: (error) =>
         console.error('Error occurred in one of the subscriptions: ', error),
     });
+  }
+
+  public isLogged(): boolean {
+    return this.authService.isLogged();
   }
 
   public setFilters(): void {

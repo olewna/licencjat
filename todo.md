@@ -5,7 +5,7 @@
 - &#9744; mozliwosc dodawania do ulubionych
 - &#9744; mozliwosc dodawania wlasnych jedzen, muzyki oraz gry (prywatne)
 - &#9744; mozliwosc przegladania profili
-- &#9744; checkboxy dla mozliwosci filtrowania zestawów
+- &#9745; checkboxy dla mozliwosci filtrowania zestawów
 - &#9745; mozliwosc losowania kategorii osobno
 - &#9745; logowanie: backend sprawdza czy uzytkownik istnieje, potem sprawdza hasło, zwraca znalezionego usera oraz token (userId, userType), frontend ma interceptor który zapisuje jwt
 - &#9744; chat z użyciem socket io, który będzie umożliwiał znalezienie grupy lub partnera do wspólnej rozgrywki

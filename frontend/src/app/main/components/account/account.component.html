@@ -3,11 +3,9 @@
       <div class="col-md-6 mx-auto d-flex justify-content-center align-items-center">
         <div class="border border-secondary rounded d-flex flex-column justify-content-between align-items-center p-4 mt-4">
           <div class="h2">Account</div>
-          <img class="rounded" src="http://www.gravatar.com/avatar/?d=mp" />
-          <div class="text-secondary">{{ this.user!.name }}</div>
+          <img class="rounded" [src]="this.user!.image || 'https://ucarecdn.com/d5086e57-9d49-4245-b588-1ff652fd0d24/usersigniconpersonsymbolhumanavatarisolatedonwhitebackogrundvector.jpg'" />
+          <div class="h4">{{ this.user!.name }}</div>
           <div class="text-secondary">{{ this.user!.email }}</div>
-          <div class="text-secondary">{{ this.user!.type }}</div>
-          <div class="text-secondary">{{ this.user!._id }}</div>
           <div class="h3 text-primary">FAVOURITE COMBOS:</div>
           <div class="text-primary">item 1</div>
           <div class="text-primary">item 2</div>

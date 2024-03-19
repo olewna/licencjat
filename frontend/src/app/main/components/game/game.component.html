@@ -11,7 +11,7 @@
         </div>
         <div class="col-12 d-flex flex-column pt-3 align-items-center">
             <div class="border rounded p-3 item d-flex align-items-center" *ngFor="let game of gameList">
-                <img class="img img-thumbnail" src="{{game.logoUrl}}" alt="{{game.name}} logo" />
+                <img class="img img-thumbnail" [src]="game.logoUrl || 'https://ucarecdn.com/378b3a04-7d09-4adb-bee0-7220880dd725/pngtreevectorvideogameiconpngimage_4101325.jpg'" alt="{{game.name}} logo" />
                 <div class="d-flex flex-column w-100">
                     <div class="border p-2">{{game.name}} ({{game.type}}{{game.multiplayer && game.singleplayer ? ", singleplayer & multiplayer" : game.multiplayer ? ", multiplayer" : game.singleplayer ? ", singleplayer" : ""}})</div>
                     <div class="border p-2">Price: {{game.price}}</div>

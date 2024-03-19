@@ -4,4 +4,5 @@ export interface User {
   readonly type: string;
   readonly password: string;
   readonly email: string;
+  readonly image: string;
 }

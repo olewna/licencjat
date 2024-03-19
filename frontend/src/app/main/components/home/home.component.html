@@ -16,12 +16,19 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!notRolled" class="d-flex flex-column mt-5 align-items-center">
-        <div class="d-flex flex-column mb-5 pb-4 align-items-center glow">
+      <div *ngIf="!notRolled" class="d-flex flex-column align-items-center">
+        <div class="d-flex flex-column mb-5 align-items-center glow">
           <div class="h1 my-5 text-info">Your combo for today:</div>
           <div class="h1 text-warning">Food: {{ todayFood!.name }}</div>
           <div class="h1 text-success">Playlist: {{ todayMusic!.name }}</div>
-          <div class="h1 text-danger">Game: {{ todayGames!.name }}</div>
+          <div class="h1 text-danger  pb-4">Game: {{ todayGames!.name }}</div>
+          <div class="d-flex justify-content-between align-items-center w-100">
+            <div><img class="img" src="{{todayFood!.image}}" /></div>
+            <div class="plus"> + </div>
+            <div><img class="img" src="{{todayMusic!.image}}" /></div>
+            <div class="plus"> + </div>
+            <div><img class="img" src="{{todayGames!.logoUrl}}" /></div>
+          </div>
         </div>
         <div class="d-flex flex-column align-items-center justify-content-center">
             <div class="h5">Don't like it?</div>

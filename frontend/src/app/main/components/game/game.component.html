@@ -10,9 +10,12 @@
             </div>
         </div>
         <div class="col-12 d-flex flex-column pt-3 align-items-center">
-            <div class="border rounded p-3 item" *ngFor="let game of gameList">
-                <div class="border p-2">{{game.name}} ({{game.type}}{{game.multiplayer && game.singleplayer ? ", singleplayer & multiplayer" : game.multiplayer ? ", multiplayer" : game.singleplayer ? ", singleplayer" : ""}})</div>
-                <div class="border p-2">Price: {{game.price}}</div>
+            <div class="border rounded p-3 item d-flex align-items-center" *ngFor="let game of gameList">
+                <img class="img img-thumbnail" src="{{game.logoUrl}}" alt="{{game.name}} logo" />
+                <div class="d-flex flex-column w-100">
+                    <div class="border p-2">{{game.name}} ({{game.type}}{{game.multiplayer && game.singleplayer ? ", singleplayer & multiplayer" : game.multiplayer ? ", multiplayer" : game.singleplayer ? ", singleplayer" : ""}})</div>
+                    <div class="border p-2">Price: {{game.price}}</div>
+                </div>
             </div>
             <button *ngIf="isNextPage" (click)="loadGames()">More</button>
             <div *ngIf="listIsEmptyAfterSearch()">No games found...</div>

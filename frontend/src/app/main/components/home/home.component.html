@@ -4,15 +4,15 @@
         <div class="d-flex justify-content-around w-75">
           <div class="d-flex flex-column justify-content-center align-items-center check">
             <label class="my-1 py-1" for="check">I am Vegetarian</label>
-            <input type="checkbox" id="check" [(ngModel)]="vegetarian"/>
+            <input type="checkbox" id="check" [(ngModel)]="vegetarian" (change)="setFilters()"/>
           </div>
           <div class="d-flex flex-column justify-content-center align-items-center check">
             <label class="my-1 py-1" for="check">Only singleplayer</label>
-            <input [disabled]="multiplayer" type="checkbox" id="check" [(ngModel)]="singleplayer"/>
+            <input [disabled]="multiplayer" type="checkbox" id="check" (change)="setFilters()" [(ngModel)]="singleplayer"/>
           </div>
           <div class="d-flex flex-column justify-content-center align-items-center check">
             <label class="my-1 py-1" for="check">Only multiplayer</label>
-            <input [disabled]="singleplayer" type="checkbox" id="check" [(ngModel)]="multiplayer"/>
+            <input [disabled]="singleplayer" type="checkbox" id="check" (change)="setFilters()" [(ngModel)]="multiplayer"/>
           </div>
         </div>
       </div>

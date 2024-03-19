@@ -15,15 +15,28 @@ import {
 })
 export class ComboService {
   constructor(private httpClient: HttpClient) {}
+  private vegetarian: boolean = false;
+  private singleplayer: boolean = false;
+  private multiplayer: boolean = false;
+
+  public setFilters(v: boolean, s: boolean, m: boolean): void {
+    this.vegetarian = v;
+    this.singleplayer = s;
+    this.multiplayer = m;
+  }
 
   public getRandomFood(): Observable<Food> {
-    return this.httpClient.get<Food>('api/food/random');
+    return this.httpClient.get<Food>(
+      `api/food/random?vegetarian=${this.vegetarian}`
+    );
   }
   public getRandomMusic(): Observable<Music> {
     return this.httpClient.get<Music>('api/music/random');
   }
   public getRandomGame(): Observable<Game> {
-    return this.httpClient.get<Game>('api/games/random');
+    return this.httpClient.get<Game>(
+      `api/games/random?singleplayer=${this.singleplayer}&multiplayer=${this.multiplayer}`
+    );
   }
 
   public getFood(page: number, search: string): Observable<FoodResponse> {

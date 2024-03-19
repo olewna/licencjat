@@ -24,9 +24,18 @@ const getFood = async (req, res) => {
 
 //GET random
 const getRandomFood = async (req, res) => {
-  const count = await Food.countDocuments();
-  const random = Math.floor(Math.random() * count);
-  const randomFood = await Food.findOne().skip(random).limit(1);
+  const { vegetarian } = req.query;
+  const count =
+    vegetarian === "true"
+      ? await Food.find({
+          vegetarian: vegetarian,
+        })
+      : await Food.find({});
+  const random = Math.floor(Math.random() * count.length);
+  const randomFood =
+    vegetarian === "true"
+      ? await Food.findOne({ vegetarian: vegetarian }).skip(random).limit(1)
+      : await Food.findOne({}).skip(random).limit(1);
   res.status(200).json(randomFood);
 };
 

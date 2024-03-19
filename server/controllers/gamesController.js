@@ -24,10 +24,28 @@ const getGames = async (req, res) => {
 
 //GET random
 const getRandomGame = async (req, res) => {
-  const count = await Games.countDocuments();
-  const random = Math.floor(Math.random() * count);
-  const randomGame = await Games.findOne().skip(random).limit(1);
-  res.status(200).json(randomGame);
+  const { singleplayer, multiplayer } = req.query;
+  if (singleplayer === "true" || multiplayer === "true") {
+    const count = await Games.find({
+      singleplayer: singleplayer,
+      multiplayer: multiplayer,
+    });
+    const random = Math.floor(Math.random() * count.length);
+    const randomGame = await Games.findOne({
+      singleplayer: singleplayer,
+      multiplayer: multiplayer,
+    })
+      .skip(random)
+      .limit(1);
+    console.log("XD1");
+    return res.status(200).json(randomGame);
+  } else {
+    const count = await Games.find({});
+    const random = Math.floor(Math.random() * count.length);
+    const randomGame = await Games.findOne({}).skip(random).limit(1);
+    console.log("XD2");
+    return res.status(200).json(randomGame);
+  }
 };
 
 //GET searched

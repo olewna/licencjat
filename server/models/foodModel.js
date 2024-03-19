@@ -20,6 +20,13 @@ const foodSchema = new Schema(
       type: String,
       required: true,
     },
+    vegetarian: {
+      type: Boolean,
+      required: true,
+    },
+    image: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

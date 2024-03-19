@@ -20,6 +20,17 @@ const gamesSchema = new Schema(
       type: String,
       required: true,
     },
+    multiplayer: {
+      type: Boolean,
+      required: true,
+    },
+    singleplayer: {
+      type: Boolean,
+      required: true,
+    },
+    logoUrl: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

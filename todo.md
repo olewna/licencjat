@@ -1,7 +1,7 @@
 - &#9745; guzik do losowania
-- &#9744; zdjecie jedzenia
-- &#9744; zdjecie do playlist (customowe maja defaultowy obrazek nutki)
-- &#9744; zdjecie logo gier
+- &#9745; zdjecie jedzenia
+- &#9745; zdjecie do playlist (customowe maja defaultowy obrazek nutki)
+- &#9745; zdjecie logo gier
 - &#9744; mozliwosc dodawania do ulubionych
 - &#9744; mozliwosc dodawania wlasnych jedzen, muzyki oraz gry (prywatne)
 - &#9744; mozliwosc przegladania profili

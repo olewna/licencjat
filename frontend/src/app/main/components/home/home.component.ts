@@ -41,6 +41,14 @@ export class HomeComponent {
     });
   }
 
+  public setFilters(): void {
+    this.comboService.setFilters(
+      this.vegetarian,
+      this.singleplayer,
+      this.multiplayer
+    );
+  }
+
   public rollFood(): void {
     this.comboService.getRandomFood().subscribe({
       next: (val) => {

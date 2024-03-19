@@ -10,9 +10,12 @@
             </div>
         </div>
         <div class="col-12 d-flex flex-column pt-3 align-items-center">
-            <div class="border rounded p-3 item" *ngFor="let food of foodList">
-                <div class="border p-2">{{food.name}} from {{food.company}}</div>
-                <div class="border p-2">{{food.telephone}}</div>
+            <div class="border rounded p-3 item d-flex align-items-center" *ngFor="let food of foodList">
+                <img class="img img-thumbnail" src="{{food.image}}" alt="{{food.name}} image"/>
+                <div class="d-flex flex-column w-100">
+                    <div class="border p-2">{{food.name}} from {{food.company}}</div>
+                    <div class="border p-2">{{food.telephone}}</div>
+                </div>
             </div>
             <button *ngIf="isNextPage" (click)="loadFood()">More</button>
             <div *ngIf="listIsEmptyAfterSearch()">No food found...</div>

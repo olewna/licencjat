@@ -4,4 +4,5 @@ export interface Food {
   readonly telephone: string;
   readonly company: string;
   readonly createdAt: string;
+  readonly image: string;
 }

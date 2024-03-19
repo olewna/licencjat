@@ -4,12 +4,16 @@ const {
   getUser,
   registerUser,
   loginUser,
+  getUserById,
 } = require("../controllers/userController.js");
 
 const router = express.Router();
 
-//GET all users
+//GET user
 router.get("/", verifyToken, getUser);
+
+//GET user
+router.get("/user/:id", getUserById);
 
 //POST login user
 router.post("/login", loginUser);

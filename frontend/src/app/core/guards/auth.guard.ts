@@ -10,6 +10,6 @@ export const notLoggedGuard: CanActivateFn = (route, state) => {
 
 export const loggedGuard: CanActivateFn = (route, state) => {
   return (
-    !inject(AuthService).isLogged() || inject(Router).createUrlTree(['/login'])
+    !inject(AuthService).isLogged() || inject(Router).createUrlTree(['/home'])
   );
 };

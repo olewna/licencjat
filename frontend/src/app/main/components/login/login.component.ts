@@ -4,7 +4,7 @@ import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { passwordConfirmValidator } from 'src/app/shared/directives/password-confirm-directive';
 import { UserRegister } from 'src/app/shared/form.models/UserRegister.model';
 import { UserLogin } from 'src/app/shared/form.models/UserLogin.model';
-import { User } from 'src/app/shared/models/User.model';
+import { LoggedUser } from 'src/app/shared/models/User.model';
 import { UserService } from 'src/app/shared/services/user.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
@@ -55,22 +55,24 @@ export class LoginComponent implements OnInit {
 
   public onSubmit(): void {
     if (this.loginMode) {
-      this.userService.loginUser(this.userLoginForm.value as User).subscribe({
-        next: (value) => {
-          const { userToken, user } = value;
-          this.authService.setCurrentUser(user, userToken);
-          this.router.navigate(['home']);
-        },
-        error: (err: HttpErrorResponse) => {
-          this.errorMsg = err.error.message;
-          setTimeout(() => {
-            this.errorMsg = '';
-          }, 3000);
-        },
-      });
+      this.userService
+        .loginUser(this.userLoginForm.value as LoggedUser)
+        .subscribe({
+          next: (value) => {
+            const { userToken, user } = value;
+            this.authService.setCurrentUser(user, userToken);
+            this.router.navigate(['home']);
+          },
+          error: (err: HttpErrorResponse) => {
+            this.errorMsg = err.error.message;
+            setTimeout(() => {
+              this.errorMsg = '';
+            }, 3000);
+          },
+        });
     } else {
       this.userService
-        .registerUser(this.userRegisterForm.value as User)
+        .registerUser(this.userRegisterForm.value as LoggedUser)
         .subscribe({
           next: (value) => {
             this.userRegisterForm.reset();

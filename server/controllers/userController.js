@@ -25,6 +25,16 @@ const getUser = async (req, res) => {
   res.status(200).json(currentUser);
 };
 
+const getUserById = async (req, res) => {
+  const userId = req.params.id;
+  try {
+    const currentUser = await User.findOne({ _id: userId });
+    return res.status(200).json(currentUser);
+  } catch (err) {
+    return res.status(404).json({ message: "User not found" });
+  }
+};
+
 //POST login user
 const loginUser = async (req, res) => {
   try {
@@ -53,7 +63,7 @@ const loginUser = async (req, res) => {
 
 //POST register user
 const registerUser = async (req, res) => {
-  const { name, type, password, email } = req.body;
+  const { name, type, password, email, image } = req.body;
   const hashed_password = sha256(password);
 
   try {
@@ -72,6 +82,8 @@ const registerUser = async (req, res) => {
       type,
       password: hashed_password,
       email,
+      image: image || "",
+      favouriteCombos: [],
     });
     res.status(201).json(newUser);
   } catch (error) {
@@ -83,6 +95,7 @@ const registerUser = async (req, res) => {
 module.exports = {
   verifyToken,
   getUser,
+  getUserById,
   registerUser,
   loginUser,
 };

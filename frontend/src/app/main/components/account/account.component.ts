@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { User } from 'src/app/shared/models/User.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoggedUser, User } from 'src/app/shared/models/User.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-account',
@@ -9,14 +10,20 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   styleUrls: ['./account.component.scss'],
 })
 export class AccountComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService
+  ) {}
   public ngOnInit(): void {
-    this.authService.getUser().subscribe({
-      next: (value) => {
-        this.loggedUser = value;
-        this.user = value;
-      },
-    });
+    this.userService
+      .getUserById(this.route.snapshot.paramMap.get('id')!)
+      .subscribe({
+        next: (value) => {
+          this.user = value;
+        },
+      });
   }
 
   protected logout(): void {
@@ -24,6 +31,5 @@ export class AccountComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
-  protected loggedUser: User | null = null;
   protected user: User | null = null;
 }

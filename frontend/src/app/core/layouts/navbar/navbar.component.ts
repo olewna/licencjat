@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
-import { User } from 'src/app/shared/models/User.model';
+import { LoggedUser } from 'src/app/shared/models/User.model';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
     this.navbarCollapsed = !this.navbarCollapsed;
   }
 
-  protected currentUser: User | null = null;
+  protected currentUser: LoggedUser | null = null;
 
   public ngOnInit(): void {
     this.authService.loadCurrentUser();

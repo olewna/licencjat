@@ -16,20 +16,47 @@ export class AccountComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService
   ) {}
+  protected user: User | null = null;
+  protected loggedUser: LoggedUser | null = null;
+  protected loading: boolean = true;
+  protected theSameUser: boolean = true;
+  protected id: string = '';
+
   public ngOnInit(): void {
-    this.userService
-      .getUserById(this.route.snapshot.paramMap.get('id')!)
-      .subscribe({
+    this.route.params.subscribe((params) => {
+      this.id = params['id'];
+      console.log(this.id);
+      this.loadUser();
+    });
+  }
+
+  private loadUser(): void {
+    this.authService.getUser().subscribe({
+      next: (val) => {
+        this.loggedUser = val;
+      },
+    });
+    if (this.loggedUser?._id !== this.id) {
+      this.userService.getUserById(this.id).subscribe({
         next: (value) => {
           this.user = value;
+          this.theSameUser = false;
+          this.loading = false;
         },
       });
+    } else {
+      this.user = this.loggedUser;
+      this.loading = false;
+      this.theSameUser = true;
+    }
+  }
+
+  public thisUserIsLogged(): boolean {
+    return this.theSameUser;
   }
 
   protected logout(): void {
     this.authService.setCurrentUser(null, '');
     this.router.navigate(['home']);
   }
-
-  protected user: User | null = null;
 }

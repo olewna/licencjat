@@ -3,6 +3,7 @@ import { LoggedUser } from '../models/User.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserService } from './user.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtHelper: JwtHelperService
+    private jwtHelper: JwtHelperService,
+    private router: Router
   ) {}
 
   private currentUser: BehaviorSubject<LoggedUser | null> =
@@ -45,6 +47,7 @@ export class AuthService {
         },
         error: (err) => {
           this.setCurrentUser(null, '');
+          this.router.navigate(['home']);
         },
       });
     }

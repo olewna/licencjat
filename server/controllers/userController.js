@@ -45,7 +45,7 @@ const getTodayCombo = async (req, res) => {
     const dailyCombo = currentUser.dailyCombo.get(today);
     return res.status(200).json(dailyCombo);
   } catch (err) {
-    return res.status(400).json({ message: "Can't get combo for this user" });
+    return res.status(404).json({ message: "Can't get combo for this user" });
   }
 };
 

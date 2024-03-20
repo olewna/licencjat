@@ -16,7 +16,7 @@ export interface LoggedUser {
   readonly favouriteCombos: Combo[];
 }
 
-interface Combo {
+export interface Combo {
   readonly foodId: string;
   readonly gameId: string;
   readonly musicId: string;

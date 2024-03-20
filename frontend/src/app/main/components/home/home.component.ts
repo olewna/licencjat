@@ -5,6 +5,8 @@ import { Game } from 'src/app/shared/models/Game.model';
 import { Music } from 'src/app/shared/models/Music.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
+import { UserService } from '../../../shared/services/user.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +16,8 @@ import { ComboService } from 'src/app/shared/services/combo.service';
 export class HomeComponent implements OnInit {
   public constructor(
     private comboService: ComboService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
   protected notRolled: boolean = true;
   protected todayGames: Game | null = null;
@@ -28,9 +31,24 @@ export class HomeComponent implements OnInit {
     this.authService.currentUser.subscribe({
       next: (user) => {
         if (user) {
-          console.log('user istnieje');
-          // user.todayCombo
-          // todo pobieranie combo od uzytkownika jak juz wylosował dzisiaj
+          this.userService.getTodayCombo(user._id).subscribe({
+            next: (combo) => {
+              const todayFood = this.comboService.getFoodById(combo.foodId);
+              const todayGame = this.comboService.getGameById(combo.gameId);
+              const todayMusic = this.comboService.getMusicById(combo.musicId);
+              forkJoin([todayFood, todayMusic, todayGame]).subscribe({
+                next: ([food, music, game]) => {
+                  this.todayFood = food;
+                  this.todayMusic = music;
+                  this.todayGames = game;
+                  this.notRolled = false;
+                },
+              });
+            },
+            error: (err: HttpErrorResponse) => {
+              console.log(err.error.message);
+            },
+          });
         }
       },
     });

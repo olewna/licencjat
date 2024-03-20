@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LoggedUser, User } from '../models/User.model';
+import { Combo, LoggedUser, User } from '../models/User.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +28,9 @@ export class UserService {
 
   public getUserById(id: string): Observable<User> {
     return this.httpClient.get<User>('api/users/user/' + id);
+  }
+
+  public getTodayCombo(id: string): Observable<Combo> {
+    return this.httpClient.get<Combo>(`api/users/combo/${id}`);
   }
 }

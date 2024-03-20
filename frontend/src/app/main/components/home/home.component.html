@@ -41,7 +41,7 @@
             <div *ngIf="isLogged()" class="d-flex flex-column justify-content-center align-items-center">
               <div class="h5">You love it?</div>
               <div class="p-2">
-                <button class="btn btn-info roll glow-on-hover ">Add to favourite</button>
+                <button (click)="addToFavourite()" class="btn btn-info roll glow-on-hover ">Add to favourite</button>
               </div>
             </div>
           </div>

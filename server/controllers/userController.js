@@ -25,6 +25,7 @@ const getUser = async (req, res) => {
   res.status(200).json(currentUser);
 };
 
+//GET by id
 const getUserById = async (req, res) => {
   const userId = req.params.id;
   try {
@@ -32,6 +33,19 @@ const getUserById = async (req, res) => {
     return res.status(200).json(currentUser);
   } catch (err) {
     return res.status(404).json({ message: "User not found" });
+  }
+};
+
+// GET today combo
+const getTodayCombo = async (req, res) => {
+  const userId = req.params.id;
+  const today = new Date().toJSON().slice(0, 10);
+  try {
+    const currentUser = await User.findOne({ _id: userId });
+    const dailyCombo = currentUser.dailyCombo.get(today);
+    return res.status(200).json(dailyCombo);
+  } catch (err) {
+    return res.status(400).json({ message: "Can't get combo for this user" });
   }
 };
 
@@ -94,6 +108,7 @@ const registerUser = async (req, res) => {
 
 module.exports = {
   verifyToken,
+  getTodayCombo,
   getUser,
   getUserById,
   registerUser,

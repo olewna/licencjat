@@ -41,6 +41,10 @@ const usersSchema = new Schema(
     favouriteCombos: {
       type: [comboSchema],
     },
+    dailyCombo: {
+      type: Map,
+      of: comboSchema,
+    },
   },
   { timestamps: true }
 );

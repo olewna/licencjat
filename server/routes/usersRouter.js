@@ -5,6 +5,7 @@ const {
   registerUser,
   loginUser,
   getUserById,
+  getTodayCombo,
 } = require("../controllers/userController.js");
 
 const router = express.Router();
@@ -14,6 +15,9 @@ router.get("/", verifyToken, getUser);
 
 //GET user
 router.get("/user/:id", getUserById);
+
+//GET today combo
+router.get("/combo/:id", getTodayCombo);
 
 //POST login user
 router.post("/login", loginUser);

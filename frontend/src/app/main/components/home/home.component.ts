@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { Food } from 'src/app/shared/models/Food.model';
 import { Game } from 'src/app/shared/models/Game.model';
@@ -11,7 +11,7 @@ import { ComboService } from 'src/app/shared/services/combo.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   public constructor(
     private comboService: ComboService,
     private authService: AuthService
@@ -23,6 +23,18 @@ export class HomeComponent {
   protected vegetarian: boolean = false;
   protected multiplayer: boolean = false;
   protected singleplayer: boolean = false;
+
+  public ngOnInit(): void {
+    this.authService.currentUser.subscribe({
+      next: (user) => {
+        if (user) {
+          console.log('user istnieje');
+          // user.todayCombo
+          // todo pobieranie combo od uzytkownika jak juz wylosował dzisiaj
+        }
+      },
+    });
+  }
 
   public roll(): void {
     const randomFood$ = this.comboService.getRandomFood();
@@ -43,6 +55,11 @@ export class HomeComponent {
       error: (error) =>
         console.error('Error occurred in one of the subscriptions: ', error),
     });
+  }
+
+  public addToFavourite(): void {
+    console.log('add');
+    //todo zrobic dodawania i sprawdzanie czy combo jest juz polubione
   }
 
   public isLogged(): boolean {

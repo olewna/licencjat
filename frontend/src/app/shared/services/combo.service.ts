@@ -39,6 +39,16 @@ export class ComboService {
     );
   }
 
+  public getFoodById(id: string): Observable<Food> {
+    return this.httpClient.get<Food>(`api/food/${id}`);
+  }
+  public getGameById(id: string): Observable<Game> {
+    return this.httpClient.get<Game>(`api/games/${id}`);
+  }
+  public getMusicById(id: string): Observable<Music> {
+    return this.httpClient.get<Music>(`api/music/${id}`);
+  }
+
   public getFood(page: number, search: string): Observable<FoodResponse> {
     return this.httpClient.get<FoodResponse>(
       `api/food/search/${search}?pageNumber=${page}`

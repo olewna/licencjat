@@ -39,6 +39,17 @@ const getRandomFood = async (req, res) => {
   res.status(200).json(randomFood);
 };
 
+//GET by id
+const getFoodById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const food = await Food.findOne({ id: id });
+    return res.status(200).json(food);
+  } catch {
+    return res.status(404).json({ message: "Food with given id not found" });
+  }
+};
+
 //GET searched
 const getSearchedFood = async (req, res) => {
   const { nazwa } = req.params;
@@ -122,6 +133,7 @@ const updateFood = async (req, res) => {
 
 module.exports = {
   getFood,
+  getFoodById,
   createFood,
   deleteFood,
   updateFood,

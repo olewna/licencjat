@@ -65,6 +65,17 @@ const getSearchedMusic = async (req, res) => {
   });
 };
 
+//GET by id
+const getMusicById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const music = await Music.findOne({ id: id });
+    return res.status(200).json(music);
+  } catch {
+    return res.status(404).json({ message: "Music with given id not found" });
+  }
+};
+
 //POST new
 const createMusic = async (req, res) => {
   const { name, author, length, type, id } = req.body;
@@ -113,6 +124,7 @@ const updateMusic = async (req, res) => {
 
 module.exports = {
   getMusic,
+  getMusicById,
   createMusic,
   deleteMusic,
   updateMusic,

@@ -6,6 +6,7 @@ const {
   updateFood,
   getSearchedFood,
   getRandomFood,
+  getFoodById,
 } = require("../controllers/foodController.js");
 
 const router = express.Router();
@@ -18,6 +19,9 @@ router.get("/random", getRandomFood);
 
 //GET searched
 router.get("/search/:nazwa", getSearchedFood);
+
+//GET by id
+router.get("/:id", getFoodById);
 
 // POST new Food
 router.post("/", createFood);

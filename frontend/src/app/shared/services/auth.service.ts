@@ -15,13 +15,9 @@ export class AuthService {
     private router: Router
   ) {}
 
-  private currentUser: BehaviorSubject<LoggedUser | null> =
+  public currentUser: BehaviorSubject<LoggedUser | null> =
     new BehaviorSubject<LoggedUser | null>(null);
   private currentToken: string = '';
-
-  public getUser(): Observable<LoggedUser | null> {
-    return this.currentUser;
-  }
 
   public isLogged(): boolean {
     const token = localStorage.getItem('token');

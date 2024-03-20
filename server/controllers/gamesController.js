@@ -46,6 +46,17 @@ const getRandomGame = async (req, res) => {
   }
 };
 
+//GET by id
+const getGameById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const game = await Games.findOne({ id: id });
+    return res.status(200).json(game);
+  } catch {
+    return res.status(404).json({ message: "Game with given id not found" });
+  }
+};
+
 //GET searched
 const getSearchedGames = async (req, res) => {
   const { nazwa } = req.params;
@@ -129,6 +140,7 @@ const updateGames = async (req, res) => {
 
 module.exports = {
   getGames,
+  getGameById,
   createGames,
   deleteGames,
   updateGames,

@@ -6,6 +6,7 @@ const {
   updateGames,
   getSearchedGames,
   getRandomGame,
+  getGameById,
 } = require("../controllers/gamesController.js");
 
 const router = express.Router();
@@ -18,6 +19,9 @@ router.get("/random", getRandomGame);
 
 // GET searched
 router.get("/search/:nazwa", getSearchedGames);
+
+// GET by id
+router.get("/:id", getGameById);
 
 // POST new games
 router.post("/", createGames);

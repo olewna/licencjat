@@ -7,6 +7,7 @@ const {
   updateMusic,
   getSearchedMusic,
   getRandomMusic,
+  getMusicById,
 } = require("../controllers/musicController.js");
 
 const router = express.Router();
@@ -19,6 +20,9 @@ router.get("/random", getRandomMusic);
 
 // GET searched
 router.get("/search/:nazwa", getSearchedMusic);
+
+// GET by id
+router.get("/:id", getMusicById);
 
 // POST new music
 router.post("/", createMusic);

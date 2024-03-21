@@ -33,4 +33,15 @@ export class UserService {
   public getTodayCombo(id: string): Observable<Combo> {
     return this.httpClient.get<Combo>(`api/users/combo/${id}`);
   }
+
+  public saveTodayCombo(id: string, combo: Combo): Observable<Combo> {
+    return this.httpClient.post<Combo>(`api/users/combo/${id}`, combo);
+  }
+
+  public updateOneElementInCombo(
+    id: string,
+    body: { type: string; id: string }
+  ): Observable<Combo> {
+    return this.httpClient.put<Combo>(`api/users/combo/${id}`, body);
+  }
 }

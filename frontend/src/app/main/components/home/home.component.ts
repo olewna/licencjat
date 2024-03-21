@@ -26,11 +26,13 @@ export class HomeComponent implements OnInit {
   protected vegetarian: boolean = false;
   protected multiplayer: boolean = false;
   protected singleplayer: boolean = false;
+  private loggedUserId: string = '';
 
   public ngOnInit(): void {
     this.authService.currentUser.subscribe({
       next: (user) => {
         if (user) {
+          this.loggedUserId = user._id;
           this.userService.getTodayCombo(user._id).subscribe({
             next: (combo) => {
               const todayFood = this.comboService.getFoodById(combo.foodId);
@@ -65,10 +67,20 @@ export class HomeComponent implements OnInit {
         this.todayMusic = musicResult as Music;
         this.todayGames = gameResult as Game;
 
-        this.notRolled = false;
-
-        // todo
-        // zapisywanie do bazy co wylosował uzytkownik
+        this.userService
+          .saveTodayCombo(this.loggedUserId, {
+            foodId: foodResult.id,
+            gameId: gameResult.id,
+            musicId: musicResult.id,
+          })
+          .subscribe({
+            next: () => {
+              this.notRolled = false;
+            },
+            error: (err: HttpErrorResponse) => {
+              console.log(err.error.message);
+            },
+          });
       },
       error: (error) =>
         console.error('Error occurred in one of the subscriptions: ', error),

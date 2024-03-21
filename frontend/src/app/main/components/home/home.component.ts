@@ -67,20 +67,24 @@ export class HomeComponent implements OnInit {
         this.todayMusic = musicResult as Music;
         this.todayGames = gameResult as Game;
 
-        this.userService
-          .saveTodayCombo(this.loggedUserId, {
-            foodId: foodResult.id,
-            gameId: gameResult.id,
-            musicId: musicResult.id,
-          })
-          .subscribe({
-            next: () => {
-              this.notRolled = false;
-            },
-            error: (err: HttpErrorResponse) => {
-              console.log(err.error.message);
-            },
-          });
+        if (this.loggedUserId) {
+          this.userService
+            .saveTodayCombo(this.loggedUserId, {
+              foodId: foodResult.id,
+              gameId: gameResult.id,
+              musicId: musicResult.id,
+            })
+            .subscribe({
+              next: () => {
+                this.notRolled = false;
+              },
+              error: (err: HttpErrorResponse) => {
+                console.log(err.error.message);
+              },
+            });
+        } else {
+          this.notRolled = false;
+        }
       },
       error: (error) =>
         console.error('Error occurred in one of the subscriptions: ', error),
@@ -108,6 +112,7 @@ export class HomeComponent implements OnInit {
     this.comboService.getRandomFood().subscribe({
       next: (val) => {
         this.todayFood = val as Food;
+        this.saveSingleElementInCombo('food', val.id);
       },
     });
   }
@@ -116,6 +121,7 @@ export class HomeComponent implements OnInit {
     this.comboService.getRandomGame().subscribe({
       next: (val) => {
         this.todayGames = val as Game;
+        this.saveSingleElementInCombo('game', val.id);
       },
     });
   }
@@ -124,7 +130,20 @@ export class HomeComponent implements OnInit {
     this.comboService.getRandomMusic().subscribe({
       next: (val) => {
         this.todayMusic = val as Music;
+        this.saveSingleElementInCombo('music', val.id);
       },
     });
+  }
+
+  private saveSingleElementInCombo(type: string, id: string): void {
+    if (this.loggedUserId) {
+      this.userService
+        .updateOneElementInCombo(this.loggedUserId, { type, id })
+        .subscribe({
+          error: (err: HttpErrorResponse) => {
+            console.log(err.error.message);
+          },
+        });
+    }
   }
 }

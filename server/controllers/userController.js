@@ -49,6 +49,45 @@ const getTodayCombo = async (req, res) => {
   }
 };
 
+// POST add combo to user
+const addComboToUser = async (req, res) => {
+  const userId = req.params.id;
+  const today = new Date().toJSON().slice(0, 10);
+  const combo = req.body;
+  try {
+    const currentUser = await User.findOneAndUpdate(
+      { _id: userId },
+      { $set: { [`dailyCombo.${today}`]: combo } },
+      { upsert: true, new: true }
+    );
+    const dailyCombo = currentUser.dailyCombo.get(today);
+    return res.status(201).json(dailyCombo);
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ message: "Error while adding combo to user" });
+  }
+};
+
+// PUT update combo with new element
+const updateComboWithOneElement = async (req, res) => {
+  const userId = req.params.id;
+  const today = new Date().toJSON().slice(0, 10);
+  const { type, id } = req.body;
+  try {
+    const currentUser = await User.findOneAndUpdate(
+      { _id: userId },
+      { $set: { [`dailyCombo.${today}.${type}Id`]: id } }
+    );
+    const dailyCombo = currentUser.dailyCombo.get(today);
+    return res.status(200).json(dailyCombo);
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ message: "Error while updating single element of combo" });
+  }
+};
+
 //POST login user
 const loginUser = async (req, res) => {
   try {
@@ -109,8 +148,10 @@ const registerUser = async (req, res) => {
 module.exports = {
   verifyToken,
   getTodayCombo,
+  updateComboWithOneElement,
   getUser,
   getUserById,
+  addComboToUser,
   registerUser,
   loginUser,
 };

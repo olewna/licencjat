@@ -60,4 +60,7 @@
         <button (click)="roll()" class="glow-on-hover">Roll your combo for today!</button>
       </div>
     </div>
+
+    <!-- todo - zmienic ten chat -->
+    <app-chat *ngIf="false && !notRolled && todayGames?.multiplayer" [gamename]="todayGames!.name"></app-chat>
 </div>

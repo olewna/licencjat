@@ -1,0 +1,16 @@
+<div class="chat container rounded border w-100 h-100">
+    <div class="row h-100">
+        <div class="title border rounded p-3 text-light text-center">Chat with {{gamename}} players</div>
+        <div *ngIf="!joined" class="d-flex h-75 flex-column align-items-center justify-content-center">
+            <button (click)="joinChat()" class="join glow-on-hover">Join chat</button>
+        </div>
+        <div *ngIf="joined" class="rest d-flex flex-column align-items-center justify-content-center">
+            <div class="h-100 w-100 m-2 text-light">Chat XD</div>
+            <div class="d-flex flex-row">
+                <input class="w-100" type="text" placeholder="Ask about coop gaming..."/>
+                <button class="send glow-on-hover">Send</button>
+            </div>
+            <button (click)="leaveChat()" class="leave glow-on-hover">Leave chat</button>
+        </div>
+    </div>
+</div>

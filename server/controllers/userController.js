@@ -69,6 +69,31 @@ const addComboToUser = async (req, res) => {
   }
 };
 
+// POST check if combo is favourite
+const checkIfComboFavourite = async (req, res) => {
+  const userId = req.params.id;
+  const combo = req.body;
+  try {
+    const currentUser = await User.findOne({ _id: userId });
+    const isFav = currentUser.favouriteCombos.find((obj) => {
+      return (
+        obj.foodId === combo.foodId &&
+        obj.gameId === combo.gameId &&
+        obj.musicId === combo.musicId
+      );
+    });
+    if (isFav) {
+      return res.status(200).json(true);
+    } else {
+      return res.status(200).json(false);
+    }
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ message: "Error occured while checking favourite combo" });
+  }
+};
+
 // PUT update combo with new element
 const updateComboWithOneElement = async (req, res) => {
   const userId = req.params.id;
@@ -149,6 +174,7 @@ module.exports = {
   verifyToken,
   getTodayCombo,
   updateComboWithOneElement,
+  checkIfComboFavourite,
   getUser,
   getUserById,
   addComboToUser,

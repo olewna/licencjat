@@ -8,6 +8,7 @@ const {
   getTodayCombo,
   addComboToUser,
   updateComboWithOneElement,
+  checkIfComboFavourite,
 } = require("../controllers/userController.js");
 
 const router = express.Router();
@@ -26,6 +27,9 @@ router.post("/combo/:id", addComboToUser);
 
 //PUT change one element in combo
 router.put("/combo/:id", updateComboWithOneElement);
+
+//POST check if favourite
+router.post("/combo/:id/favourite", checkIfComboFavourite);
 
 //POST login user
 router.post("/login", loginUser);

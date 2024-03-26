@@ -7,6 +7,9 @@ import { AccountComponent } from './main/components/account/account.component';
 import { FoodComponent } from './main/components/food/food.component';
 import { MusicComponent } from './main/components/music/music.component';
 import { GameComponent } from './main/components/game/game.component';
+import { FoodFormComponent } from './main/components/food-form/food-form.component';
+import { GameFormComponent } from './main/components/game-form/game-form.component';
+import { MusicFormComponent } from './main/components/music-form/music-form.component';
 
 const routes: Routes = [
   {
@@ -33,12 +36,27 @@ const routes: Routes = [
     component: FoodComponent,
   },
   {
+    path: 'food/form',
+    component: FoodFormComponent,
+    canActivate: [notLoggedGuard],
+  },
+  {
     path: 'music',
     component: MusicComponent,
   },
   {
+    path: 'music/form',
+    component: MusicFormComponent,
+    canActivate: [notLoggedGuard],
+  },
+  {
     path: 'games',
     component: GameComponent,
+  },
+  {
+    path: 'games/form',
+    component: GameFormComponent,
+    canActivate: [notLoggedGuard],
   },
 ];
 

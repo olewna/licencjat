@@ -9,6 +9,8 @@ const {
   addComboToUser,
   updateComboWithOneElement,
   checkIfComboFavourite,
+  addComboToFavourite,
+  deleteComboFromFavourite,
 } = require("../controllers/userController.js");
 
 const router = express.Router();
@@ -28,8 +30,14 @@ router.post("/combo/:id", addComboToUser);
 //PUT change one element in combo
 router.put("/combo/:id", updateComboWithOneElement);
 
-//POST check if favourite
-router.post("/combo/:id/favourite", checkIfComboFavourite);
+//DELETE combo from favourite
+router.put("/combo/:id/favourite/delete", deleteComboFromFavourite);
+
+//PUT check if favourite
+router.put("/combo/:id/favourite", checkIfComboFavourite);
+
+//POST add combo to favourite
+router.post("/combo/:id/favourite", addComboToFavourite);
 
 //POST login user
 router.post("/login", loginUser);

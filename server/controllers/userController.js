@@ -69,7 +69,7 @@ const addComboToUser = async (req, res) => {
   }
 };
 
-// POST check if combo is favourite
+// PUt check if combo is favourite
 const checkIfComboFavourite = async (req, res) => {
   const userId = req.params.id;
   const combo = req.body;
@@ -91,6 +91,40 @@ const checkIfComboFavourite = async (req, res) => {
     return res
       .status(400)
       .json({ message: "Error occured while checking favourite combo" });
+  }
+};
+
+// POST add combo to favourite
+const addComboToFavourite = async (req, res) => {
+  const userId = req.params.id;
+  const combo = req.body;
+  try {
+    await User.findOneAndUpdate(
+      { _id: userId },
+      { $addToSet: { favouriteCombos: combo } }
+    );
+    return res.status(201).json(combo);
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ message: "Error while adding combo to user's favourites" });
+  }
+};
+
+// DELETE delete combo from favourite
+const deleteComboFromFavourite = async (req, res) => {
+  const userId = req.params.id;
+  const combo = req.body;
+  try {
+    await User.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { favouriteCombos: combo } }
+    );
+    return res.status(201).json(combo);
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ message: "Error while deleting combo from user's favourites" });
   }
 };
 
@@ -173,6 +207,8 @@ const registerUser = async (req, res) => {
 module.exports = {
   verifyToken,
   getTodayCombo,
+  addComboToFavourite,
+  deleteComboFromFavourite,
   updateComboWithOneElement,
   checkIfComboFavourite,
   getUser,

@@ -46,7 +46,7 @@ export class UserService {
   }
 
   public checkIfComboIsFavourite(id: string, body: Combo): Observable<boolean> {
-    return this.httpClient.post<boolean>(
+    return this.httpClient.put<boolean>(
       `api/users/combo/${id}/favourite`,
       body
     );

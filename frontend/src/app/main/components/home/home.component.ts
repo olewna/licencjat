@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
 import { UserService } from '../../../shared/services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Combo } from 'src/app/shared/models/User.model';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
   protected multiplayer: boolean = false;
   protected singleplayer: boolean = false;
   private loggedUserId: string = '';
+  protected favouriteCombo: boolean = false;
 
   public ngOnInit(): void {
     this.authService.currentUser.subscribe({
@@ -35,6 +37,7 @@ export class HomeComponent implements OnInit {
           this.loggedUserId = user._id;
           this.userService.getTodayCombo(user._id).subscribe({
             next: (combo) => {
+              this.checkIfFav(this.loggedUserId, combo);
               const todayFood = this.comboService.getFoodById(combo.foodId);
               const todayGame = this.comboService.getGameById(combo.gameId);
               const todayMusic = this.comboService.getMusicById(combo.musicId);
@@ -66,22 +69,22 @@ export class HomeComponent implements OnInit {
         this.todayFood = foodResult as Food;
         this.todayMusic = musicResult as Music;
         this.todayGames = gameResult as Game;
+        const combo = {
+          foodId: foodResult.id,
+          gameId: gameResult.id,
+          musicId: musicResult.id,
+        };
 
         if (this.loggedUserId) {
-          this.userService
-            .saveTodayCombo(this.loggedUserId, {
-              foodId: foodResult.id,
-              gameId: gameResult.id,
-              musicId: musicResult.id,
-            })
-            .subscribe({
-              next: () => {
-                this.notRolled = false;
-              },
-              error: (err: HttpErrorResponse) => {
-                console.log(err.error.message);
-              },
-            });
+          this.checkIfFav(this.loggedUserId, combo);
+          this.userService.saveTodayCombo(this.loggedUserId, combo).subscribe({
+            next: () => {
+              this.notRolled = false;
+            },
+            error: (err: HttpErrorResponse) => {
+              console.log(err.error.message);
+            },
+          });
         } else {
           this.notRolled = false;
         }
@@ -93,6 +96,10 @@ export class HomeComponent implements OnInit {
 
   public addToFavourite(): void {
     console.log('add');
+    //todo zrobic dodawania i sprawdzanie czy combo jest juz polubione
+  }
+  public deleteFromFavourite(): void {
+    console.log('del');
     //todo zrobic dodawania i sprawdzanie czy combo jest juz polubione
   }
 
@@ -112,6 +119,11 @@ export class HomeComponent implements OnInit {
     this.comboService.getRandomFood().subscribe({
       next: (val) => {
         this.todayFood = val as Food;
+        this.checkIfFav(this.loggedUserId, {
+          foodId: val.id,
+          gameId: this.todayGames!.id,
+          musicId: this.todayMusic!.id,
+        });
         this.saveSingleElementInCombo('food', val.id);
       },
     });
@@ -121,6 +133,11 @@ export class HomeComponent implements OnInit {
     this.comboService.getRandomGame().subscribe({
       next: (val) => {
         this.todayGames = val as Game;
+        this.checkIfFav(this.loggedUserId, {
+          foodId: this.todayFood!.id,
+          gameId: val.id,
+          musicId: this.todayMusic!.id,
+        });
         this.saveSingleElementInCombo('game', val.id);
       },
     });
@@ -130,7 +147,24 @@ export class HomeComponent implements OnInit {
     this.comboService.getRandomMusic().subscribe({
       next: (val) => {
         this.todayMusic = val as Music;
+        this.checkIfFav(this.loggedUserId, {
+          foodId: this.todayFood!.id,
+          gameId: this.todayGames!.id,
+          musicId: val.id,
+        });
         this.saveSingleElementInCombo('music', val.id);
+      },
+    });
+  }
+
+  private checkIfFav(id: string, combo: Combo): void {
+    this.userService.checkIfComboIsFavourite(id, combo).subscribe({
+      next: (val) => {
+        this.favouriteCombo = val;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.favouriteCombo = false;
+        console.log('ERROR: ' + err.error.message);
       },
     });
   }

@@ -44,4 +44,11 @@ export class UserService {
   ): Observable<Combo> {
     return this.httpClient.put<Combo>(`api/users/combo/${id}`, body);
   }
+
+  public checkIfComboIsFavourite(id: string, body: Combo): Observable<boolean> {
+    return this.httpClient.post<boolean>(
+      `api/users/combo/${id}/favourite`,
+      body
+    );
+  }
 }

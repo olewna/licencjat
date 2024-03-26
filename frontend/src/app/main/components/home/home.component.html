@@ -39,9 +39,10 @@
               </div>
             </div>
             <div *ngIf="isLogged()" class="d-flex flex-column justify-content-center align-items-center">
-              <div class="h5">You love it?</div>
+              <div class="h5">{{favouriteCombo ? '♡ favourite combo ♡' : 'You love it?'}}</div>
               <div class="p-2">
-                <button (click)="addToFavourite()" class="btn btn-info roll glow-on-hover ">Add to favourite</button>
+                <button *ngIf="!favouriteCombo" (click)="addToFavourite()" class="btn btn-info roll glow-on-hover ">Add to favourite</button>
+                <button *ngIf="favouriteCombo" (click)="deleteFromFavourite()" class="btn btn-info roll glow-on-hover ">Delete from favourite</button>
               </div>
             </div>
           </div>

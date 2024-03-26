@@ -95,12 +95,32 @@ export class HomeComponent implements OnInit {
   }
 
   public addToFavourite(): void {
-    console.log('add');
-    //todo zrobic dodawania i sprawdzanie czy combo jest juz polubione
+    this.userService
+      .addToFavourite(this.loggedUserId, {
+        foodId: this.todayFood!.id,
+        gameId: this.todayGames!.id,
+        musicId: this.todayMusic!.id,
+      })
+      .subscribe({
+        next: () => {
+          this.favouriteCombo = true;
+          //todo jakies powiadomienie ze sie udalo dodac
+        },
+      });
   }
   public deleteFromFavourite(): void {
-    console.log('del');
-    //todo zrobic dodawania i sprawdzanie czy combo jest juz polubione
+    this.userService
+      .deleteFromFavourite(this.loggedUserId, {
+        foodId: this.todayFood!.id,
+        gameId: this.todayGames!.id,
+        musicId: this.todayMusic!.id,
+      })
+      .subscribe({
+        next: () => {
+          this.favouriteCombo = false;
+          //todo jakies powiadomienie ze sie udalo usunac
+        },
+      });
   }
 
   public isLogged(): boolean {

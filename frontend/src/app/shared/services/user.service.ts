@@ -51,4 +51,15 @@ export class UserService {
       body
     );
   }
+
+  public addToFavourite(id: string, body: Combo): Observable<Combo> {
+    return this.httpClient.post<Combo>(`api/users/combo/${id}/favourite`, body);
+  }
+
+  public deleteFromFavourite(id: string, body: Combo): Observable<Combo> {
+    return this.httpClient.put<Combo>(
+      `api/users/combo/${id}/favourite/delete`,
+      body
+    );
+  }
 }

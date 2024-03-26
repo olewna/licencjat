@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Game } from 'src/app/shared/models/Game.model';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
 
 @Component({
@@ -8,15 +10,25 @@ import { ComboService } from 'src/app/shared/services/combo.service';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
-  public constructor(private crudService: ComboService) {}
+  public constructor(
+    private crudService: ComboService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   protected searchedInput: string = '';
   protected isNextPage: boolean = false;
   protected page: number = 1;
   protected gameList: Game[] = [];
+  protected isLoggedUser: boolean = false;
 
   public ngOnInit(): void {
     this.loadGames();
+    this.isLoggedUser = this.authService.isLogged();
+  }
+
+  public goToForm(): void {
+    this.router.navigate(['games', 'form']);
   }
 
   protected loadGames(): void {

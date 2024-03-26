@@ -9,6 +9,10 @@
                 </div>
             </div>
         </div>
+        <div *ngIf="isLoggedUser" class="d-flex justify-content-center align-items-center">
+            <div>Can't find your games?</div>
+            <button (click)="goToForm()" class="btn btn-link">Add here</button>
+        </div>
         <div class="col-12 d-flex flex-column pt-3 align-items-center">
             <div class="border rounded p-3 item d-flex align-items-center" *ngFor="let game of gameList">
                 <img class="img img-thumbnail" [src]="game.logoUrl || 'https://ucarecdn.com/378b3a04-7d09-4adb-bee0-7220880dd725/pngtreevectorvideogameiconpngimage_4101325.jpg'" alt="{{game.name}} logo" />

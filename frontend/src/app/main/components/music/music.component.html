@@ -9,6 +9,10 @@
                 </div>
             </div>
         </div>
+        <div *ngIf="isLoggedUser" class="d-flex justify-content-center align-items-center">
+            <div>Not seeing you favourite beats?</div>
+            <button (click)="goToForm()" class="btn btn-link">Add here</button>
+        </div>
         <div class="col-12 d-flex flex-column pt-3 align-items-center">
             <div class="border rounded p-3 item d-flex align-items-center" *ngFor="let music of musicList">
                 <img class="img img-thumbnail" [src]="music?.image || 'https://ucarecdn.com/24cef946-d0f9-49a1-bca0-aaf9783cc685/d5bf4ba00a7a2ff69cf76b6c4e57c3e7.jpg'" alt="{{music.name}} cover" /> 

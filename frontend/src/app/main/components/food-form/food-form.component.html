@@ -1,1 +1,42 @@
-<p>food-form works!</p>
+<div class="h-75 d-flex justify-content-center align-items-center p-5">
+    <div class="row h-100 border p-3">
+        <form class="d-flex flex-column justify-content-center align-items-center">
+            <div class="h3">New food! *Yummy*</div>
+            <input class="w-75 p-1 m-1" type="text" placeholder="Name of your food..." />
+            <label for="own">Is it your food?</label>
+            <input type="checkbox" id="own" [(ngModel)]="owner" name="owner"/>
+            <input [disabled]="owner" class="w-75 p-1 m-1" type="text" placeholder="Company name..." />
+            <input [disabled]="owner" class="w-75 p-1 m-1" type="tel" placeholder="Company phone number..." />
+            <label for="vege">Vegetarian?</label>
+            <input type="checkbox" id="vege" />
+            <div class=" w-100 m-3 d-flex flex-column justify-content-around align-items-center">
+                <div>Food photo</div>
+                <div class="wrapper">
+                    <lr-config
+                        ctx-name="my-uploader"
+                        pubkey="8cbea8aa64b63a8be92f"
+                    />
+
+                    <lr-file-uploader-regular
+                      class="uploader-cfg"
+                      ctx-name="my-uploader"
+                      css-src="https://unpkg.com/@uploadcare/blocks@0.24.1/web/file-uploader-regular.min.css"
+                    >
+                      <lr-data-output
+                        (lr-data-output)="handleUploaderEvent($event)"
+                        use-event
+                        hidden
+                        class="uploader-cfg"
+                        ctx-name="my-uploader"
+                      ></lr-data-output>
+                    </lr-file-uploader-regular>
+                  
+                    <div class="output">
+                      <img *ngFor="let file of files" src="{{ file.cdnUrl }}" width="300" />
+                    </div>
+                  </div>
+            </div>
+            <button type="submit">Add food</button>
+        </form>
+    </div>
+</div>

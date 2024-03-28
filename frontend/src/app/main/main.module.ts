@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -11,10 +11,25 @@ import { ChatComponent } from './components/chat/chat.component';
 import { FoodFormComponent } from './components/food-form/food-form.component';
 import { GameFormComponent } from './components/game-form/game-form.component';
 import { MusicFormComponent } from './components/music-form/music-form.component';
+import * as LR from '@uploadcare/blocks';
+
+LR.registerBlocks(LR);
 
 @NgModule({
-  declarations: [HomeComponent, LoginComponent, AccountComponent, FoodComponent, MusicComponent, GameComponent, ChatComponent, FoodFormComponent, GameFormComponent, MusicFormComponent],
+  declarations: [
+    HomeComponent,
+    LoginComponent,
+    AccountComponent,
+    FoodComponent,
+    MusicComponent,
+    GameComponent,
+    ChatComponent,
+    FoodFormComponent,
+    GameFormComponent,
+    MusicFormComponent,
+  ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   exports: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class MainModule {}

@@ -25,6 +25,7 @@ export class AccountComponent implements OnInit {
   protected theSameUser: boolean = true;
   protected id: string = '';
   protected favCombo: any[] = [];
+  protected favouritePage: number = 0;
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -40,14 +41,12 @@ export class AccountComponent implements OnInit {
         if (this.loggedUser?._id === this.id) {
           this.theSameUser = true;
         }
-        console.log('XD2');
       },
     });
     if (this.loggedUser?._id !== this.id) {
       this.theSameUser = false;
       this.userService.getUserById(this.id).subscribe({
         next: (value) => {
-          console.log('XD');
           this.user = value;
           this.getFavouriteCombos(value);
         },
@@ -62,23 +61,35 @@ export class AccountComponent implements OnInit {
   private getFavouriteCombos(value: User): void {
     if (value.favouriteCombos.length > 0) {
       const favFood = this.comboService.getFoodById(
-        value?.favouriteCombos[0].foodId
+        value?.favouriteCombos[this.favouritePage].foodId
       );
       const favGame = this.comboService.getGameById(
-        value?.favouriteCombos[0].gameId
+        value?.favouriteCombos[this.favouritePage].gameId
       );
       const favMusic = this.comboService.getMusicById(
-        value?.favouriteCombos[0].musicId
+        value?.favouriteCombos[this.favouritePage].musicId
       );
       forkJoin([favFood, favMusic, favGame]).subscribe({
         next: ([food, music, game]) => {
-          this.favCombo.push([food, music, game]);
-          // console.log(food);
+          this.favCombo = [food, music, game];
           this.loading = false;
         },
       });
     } else {
       this.loading = false;
+    }
+  }
+
+  public nextFavouriteCombo(): void {
+    if (this.user!.favouriteCombos.length > this.favouritePage) {
+      this.favouritePage += 1;
+      this.getFavouriteCombos(this.user!);
+    }
+  }
+  public previousFavouriteCombo(): void {
+    if (this.favouritePage > 0) {
+      this.favouritePage -= 1;
+      this.getFavouriteCombos(this.user!);
     }
   }
 

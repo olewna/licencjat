@@ -8,8 +8,13 @@
           <div class="text-secondary">{{ this.user!.email }}</div>
           <ng-container *ngIf="favCombo.length >0">
             <div class="h3 text-primary text-center">FAVOURITE COMBOS:</div>
-            <div class="text-primary" *ngFor="let combo of favCombo">
-              <div>{{combo[0].name}} + {{combo[1].name}} + {{combo[2].name}}</div>
+            <div class="text-primary">
+              <div>{{favCombo[0].name}} + {{favCombo[1].name}} + {{favCombo[2].name}}</div>
+            </div>
+            <div>
+              <button class="btn btn-link" [disabled]="!(favouritePage>0)" (click)="previousFavouriteCombo()">&laquo;</button>
+              <button class="btn btn-link" >{{favouritePage+1}}</button>
+              <button class="btn btn-link" [disabled]="!(user!.favouriteCombos.length>favouritePage+1)" (click)="nextFavouriteCombo()">&raquo;</button>
             </div>
           </ng-container>
           <ng-container *ngIf="favCombo.length===0" ><div class="h5 text-secondary text-center">This user does not have favourite combo yet</div></ng-container>

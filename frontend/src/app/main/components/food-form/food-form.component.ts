@@ -18,21 +18,11 @@ import { LoggedUser } from '../../../shared/models/User.model';
 export class FoodFormComponent implements OnInit {
   public constructor(
     private formbuilder: NonNullableFormBuilder,
-    private comboService: ComboService,
-    private authService: AuthService
+    private comboService: ComboService
   ) {}
   protected foodForm!: FormGroup<FoodForm>;
-  protected loggedUserId: string = '';
 
   public ngOnInit(): void {
-    this.authService.currentUser.subscribe({
-      next: (val: LoggedUser | null) => {
-        if (val) {
-          this.loggedUserId = val._id;
-        }
-      },
-    });
-
     this.foodForm = this.formbuilder.group({
       name: ['', [Validators.required]],
       telephone: ['', [Validators.required]],
@@ -63,18 +53,16 @@ export class FoodFormComponent implements OnInit {
 
   public onSubmit(form: any): void {
     console.log(form.value);
-    this.comboService
-      .addFood(this.foodForm.value as FoodRequest, this.loggedUserId)
-      .subscribe({
-        next: (val: Food) => {
-          this.foodForm.reset();
-          this.foodForm.get('company')!.enable();
-          this.foodForm.get('telephone')!.enable();
-        },
-        error: (err: HttpErrorResponse) => {
-          console.log(err.error.message);
-        },
-      });
+    this.comboService.addFood(this.foodForm.value as FoodRequest).subscribe({
+      next: (val: Food) => {
+        this.foodForm.reset();
+        this.foodForm.get('company')!.enable();
+        this.foodForm.get('telephone')!.enable();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err.error.message);
+      },
+    });
   }
 
   public onOwnerChange() {

@@ -66,7 +66,7 @@ export class ComboService {
     );
   }
 
-  public addFood(food: FoodRequest, userId: string): Observable<Food> {
-    return this.httpClient.post<Food>(`api/food/`, { food, userId });
+  public addFood(food: FoodRequest): Observable<Food> {
+    return this.httpClient.post<Food>(`api/food/`, { food });
   }
 }

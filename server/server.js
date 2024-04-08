@@ -5,6 +5,8 @@ const foodRoutes = require("./routes/foodRouter.js");
 const musicRoutes = require("./routes/musicRouter");
 const gamesRoutes = require("./routes/gamesRouter");
 const userRoutes = require("./routes/usersRouter");
+const jwt = require("jsonwebtoken");
+const secret = "si3m5s0NXD";
 
 const mongoose = require("mongoose");
 const port = process.env.PORT || 4000;
@@ -19,6 +21,19 @@ app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
+
+const checkIfUserIsLogged = (req, res, next) => {
+  const jwtToken = req.headers["authorization"];
+
+  if (typeof jwtToken !== "undefined") {
+    jwt.verify(jwtToken, secret, (err, decoded) => {
+      req.user = decoded;
+    });
+  }
+  next();
+};
+
+app.use(checkIfUserIsLogged);
 
 //routes
 app.use("/api/food", foodRoutes);

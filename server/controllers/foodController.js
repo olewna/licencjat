@@ -7,7 +7,14 @@ const getFood = async (req, res) => {
   const pageNumber = parseInt(req.query.pageNumber) || 1;
   const pageSize = parseInt(req.query.pageSize) || 3;
 
-  const food = await Food.find({});
+  let food;
+  if (req.user) {
+    food = await Food.find({
+      $or: [{ owner: { $exists: false } }, { owner: req.user.userId }],
+    });
+  } else {
+    food = await Food.find({ owner: { $exists: false } });
+  }
 
   const startIndex = (pageNumber - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -26,18 +33,53 @@ const getFood = async (req, res) => {
 //GET random
 const getRandomFood = async (req, res) => {
   const { vegetarian } = req.query;
-  const count =
-    vegetarian === "true"
-      ? await Food.find({
-          vegetarian: vegetarian,
-        })
-      : await Food.find({});
-  const random = Math.floor(Math.random() * count.length);
-  const randomFood =
-    vegetarian === "true"
-      ? await Food.findOne({ vegetarian: vegetarian }).skip(random).limit(1)
-      : await Food.findOne({}).skip(random).limit(1);
-  res.status(200).json(randomFood);
+  if (req.user) {
+    const count =
+      vegetarian === "true"
+        ? await Food.find({
+            $or: [{ owner: { $exists: false } }, { owner: req.user.userId }],
+            vegetarian: vegetarian,
+          })
+        : await Food.find({
+            $or: [{ owner: { $exists: false } }, { owner: req.user.userId }],
+          });
+    const random = Math.floor(Math.random() * count.length);
+    const randomFood =
+      vegetarian === "true"
+        ? await Food.findOne({
+            $or: [{ owner: { $exists: false } }, { owner: req.user.userId }],
+            vegetarian: vegetarian,
+          })
+            .skip(random)
+            .limit(1)
+        : await Food.findOne({
+            $or: [{ owner: { $exists: false } }, { owner: req.user.userId }],
+          })
+            .skip(random)
+            .limit(1);
+    return res.status(200).json(randomFood);
+  } else {
+    const count =
+      vegetarian === "true"
+        ? await Food.find({
+            owner: { $exists: false },
+            vegetarian: vegetarian,
+          })
+        : await Food.find({ owner: { $exists: false } });
+    const random = Math.floor(Math.random() * count.length);
+    const randomFood =
+      vegetarian === "true"
+        ? await Food.findOne({
+            owner: { $exists: false },
+            vegetarian: vegetarian,
+          })
+            .skip(random)
+            .limit(1)
+        : await Food.findOne({ owner: { $exists: false } })
+            .skip(random)
+            .limit(1);
+    return res.status(200).json(randomFood);
+  }
 };
 
 //GET by id
@@ -58,15 +100,22 @@ const getSearchedFood = async (req, res) => {
   const pageSize = parseInt(req.query.pageSize) || 3;
   let food;
 
-  if (nazwa) {
+  if (req.user) {
     food = await Food.find({
+      $or: [{ owner: { $exists: false } }, { owner: req.user.userId }],
       $or: [
         { name: { $regex: nazwa, $options: "i" } },
         { company: { $regex: nazwa, $options: "i" } },
       ],
     });
   } else {
-    food = await Food.find({});
+    food = await Food.find({
+      owner: { $exists: false },
+      $or: [
+        { name: { $regex: nazwa, $options: "i" } },
+        { company: { $regex: nazwa, $options: "i" } },
+      ],
+    });
   }
 
   const startIndex = (pageNumber - 1) * pageSize;
@@ -95,7 +144,7 @@ const createFood = async (req, res) => {
       const food = await Food.create({
         name,
         id: uuid(),
-        owner: req.body.userId,
+        owner: req.user.userId,
         vegetarian,
         image: image
           ? image
@@ -107,7 +156,7 @@ const createFood = async (req, res) => {
         name,
         company,
         id: uuid(),
-        owner: req.body.userId,
+        owner: req.user.userId,
         telephone,
         vegetarian,
         image: image

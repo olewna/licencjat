@@ -8,6 +8,7 @@ const {
   getRandomFood,
   getFoodById,
 } = require("../controllers/foodController.js");
+const { verifyToken } = require("../controllers/userController.js");
 
 const router = express.Router();
 
@@ -24,12 +25,12 @@ router.get("/search/:nazwa", getSearchedFood);
 router.get("/:id", getFoodById);
 
 // POST new Food
-router.post("/", createFood);
+router.post("/", verifyToken, createFood);
 
 // DELETE Food
-router.delete("/:id", deleteFood);
+router.delete("/:id", verifyToken, deleteFood);
 
 // UPDATE Food
-router.patch("/:id", updateFood);
+router.patch("/:id", verifyToken, updateFood);
 
 module.exports = router;

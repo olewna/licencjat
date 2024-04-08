@@ -37,18 +37,22 @@ export class HomeComponent implements OnInit {
           this.loggedUserId = user._id;
           this.userService.getTodayCombo(user._id).subscribe({
             next: (combo) => {
-              this.checkIfFav(this.loggedUserId, combo);
-              const todayFood = this.comboService.getFoodById(combo.foodId);
-              const todayGame = this.comboService.getGameById(combo.gameId);
-              const todayMusic = this.comboService.getMusicById(combo.musicId);
-              forkJoin([todayFood, todayMusic, todayGame]).subscribe({
-                next: ([food, music, game]) => {
-                  this.todayFood = food;
-                  this.todayMusic = music;
-                  this.todayGames = game;
-                  this.notRolled = false;
-                },
-              });
+              if (combo) {
+                this.checkIfFav(this.loggedUserId, combo);
+                const todayFood = this.comboService.getFoodById(combo.foodId);
+                const todayGame = this.comboService.getGameById(combo.gameId);
+                const todayMusic = this.comboService.getMusicById(
+                  combo.musicId
+                );
+                forkJoin([todayFood, todayMusic, todayGame]).subscribe({
+                  next: ([food, music, game]) => {
+                    this.todayFood = food;
+                    this.todayMusic = music;
+                    this.todayGames = game;
+                    this.notRolled = false;
+                  },
+                });
+              }
             },
             error: (err: HttpErrorResponse) => {
               console.log(err.error.message);

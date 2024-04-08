@@ -9,6 +9,7 @@ import {
   GameResponse,
   MusicResponse,
 } from '../models/Pagination.model';
+import { FoodForm, FoodRequest } from '../form.models/FoodForm.model';
 
 @Injectable({
   providedIn: 'root',
@@ -63,5 +64,9 @@ export class ComboService {
     return this.httpClient.get<GameResponse>(
       `api/games/search/${search}?pageNumber=${page}`
     );
+  }
+
+  public addFood(food: FoodRequest, userId: string): Observable<Food> {
+    return this.httpClient.post<Food>(`api/food/`, { food, userId });
   }
 }

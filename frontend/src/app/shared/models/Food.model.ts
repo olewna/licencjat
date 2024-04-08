@@ -5,4 +5,6 @@ export interface Food {
   readonly company: string;
   readonly createdAt: string;
   readonly image: string;
+  readonly vegetarian: boolean;
+  readonly owner: string;
 }

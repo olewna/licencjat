@@ -54,8 +54,8 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
   public handleModalCloseEvent = (): void => {
     this.resetUploaderState();
     this.uploadedFiles = [];
-    this.url.emit('');
-    this.imageUrl = '';
+    // this.url.emit('');
+    // this.imageUrl = '';
   };
 
   public handleChangeEvent = (e: LR.EventMap['change']): void => {
@@ -64,7 +64,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
     ) as LR.OutputFileEntry<'success'>[];
     if (this.uploadedFiles.length > 0) {
       this.url.emit(this.uploadedFiles[0].cdnUrl);
-      this.imageUrl = '';
+      this.imageUrl = this.uploadedFiles[0].cdnUrl;
     }
   };
 }

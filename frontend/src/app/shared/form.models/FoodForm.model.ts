@@ -8,3 +8,12 @@ export interface FoodForm {
   readonly vegetarian: FormControl<boolean>;
   readonly image: FormControl<string>;
 }
+
+export interface FoodRequest {
+  readonly name: string;
+  readonly telephone: string;
+  readonly company: string;
+  readonly owner: boolean;
+  readonly vegetarian: boolean;
+  readonly image: string;
+}

@@ -1,19 +1,23 @@
 <div class="h-75 d-flex justify-content-center align-items-center p-5">
     <div class="row border p-3">
-        <form class="d-flex flex-column justify-content-center align-items-center">
+        <form [formGroup]="foodForm" (ngSubmit)="onSubmit(foodForm)" class="d-flex flex-column justify-content-center align-items-center">
             <div class="h3">New food! *Yummy*</div>
-            <input class="w-75 p-1 m-1" type="text" placeholder="Name of your food..." />
+            <input formControlName="name" class="w-75 p-1 m-1" type="text" placeholder="Name of your food..." />
             <label for="own">Is it your food?</label>
-            <input type="checkbox" id="own" [(ngModel)]="owner" name="owner"/>
-            <input [disabled]="owner" class="w-75 p-1 m-1" type="text" placeholder="Company name..." />
-            <input [disabled]="owner" class="w-75 p-1 m-1" type="tel" placeholder="Company phone number..." />
+            <input formControlName="owner" (change)="onOwnerChange()" type="checkbox" id="own" name="owner"/>
+            <input formControlName="company" class="w-75 p-1 m-1" type="text" placeholder="Made by..." />
+            <input formControlName="telephone" class="w-75 p-1 m-1" type="tel" placeholder="Company phone number..." />
             <label for="vege">Vegetarian?</label>
-            <input type="checkbox" id="vege" />
+            <input formControlName="vegetarian" type="checkbox" id="vege" />
             <div class=" w-100 m-3 d-flex flex-column justify-content-around align-items-center">
               <div>Food photo</div>
               <app-file-uploader (url)="setImageUrl($event)"></app-file-uploader>
+              <div class="d-flex w-75 flex-row justify-content-around align-items-center">
+                <img *ngIf="getImageUrl()" class="preview-image" src="{{getImageUrl() + '/-/preview/-/resize/x200/'}}" />
+                <button *ngIf="getImageUrl()" (click)="deleteImage()" class="btn-close" aria-label="Close"></button>
+              </div>
             </div>
-            <button type="submit">Add food</button>
+            <button type="submit" [disabled]="foodForm.invalid">Add food</button>
         </form>
     </div>
 </div>

@@ -1,5 +1,6 @@
 const Food = require("../models/foodModel");
 const mongoose = require("mongoose");
+const { v4: uuid } = require("uuid");
 
 //GET all
 const getFood = async (req, res) => {
@@ -87,12 +88,36 @@ const getSearchedFood = async (req, res) => {
 
 //POST new
 const createFood = async (req, res) => {
-  const { name, telephone, id, company } = req.body;
   try {
-    const food = await Food.create({ name, telephone, id, company });
-    res.status(200).json(food);
+    const { name, telephone, company, owner, vegetarian, image } =
+      req.body.food;
+    if (owner) {
+      const food = await Food.create({
+        name,
+        id: uuid(),
+        owner: req.body.userId,
+        vegetarian,
+        image: image
+          ? image
+          : "https://ucarecdn.com/372b11d4-fa5d-4b61-bad0-04e8ff495dff/pngtreerestauranticonvectorpngimage_5045307.jpg",
+      });
+      return res.status(201).json(food);
+    } else {
+      const food = await Food.create({
+        name,
+        company,
+        id: uuid(),
+        owner: req.body.userId,
+        telephone,
+        vegetarian,
+        image: image
+          ? image
+          : "https://ucarecdn.com/372b11d4-fa5d-4b61-bad0-04e8ff495dff/pngtreerestauranticonvectorpngimage_5045307.jpg",
+      });
+      return res.status(201).json(food);
+    }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ message: error });
   }
 };
 

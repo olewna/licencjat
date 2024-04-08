@@ -10,11 +10,11 @@ const foodSchema = new Schema(
     },
     telephone: {
       type: String,
-      required: true,
+      // required: true,
     },
     company: {
       type: String,
-      required: true,
+      // required: true,
     },
     id: {
       type: String,
@@ -25,6 +25,10 @@ const foodSchema = new Schema(
       required: true,
     },
     image: {
+      type: String,
+      required: true,
+    },
+    owner: {
       type: String,
     },
   },

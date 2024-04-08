@@ -12,6 +12,7 @@ import { FoodFormComponent } from './components/food-form/food-form.component';
 import { GameFormComponent } from './components/game-form/game-form.component';
 import { MusicFormComponent } from './components/music-form/music-form.component';
 import * as LR from '@uploadcare/blocks';
+import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
 
 LR.registerBlocks(LR);
 
@@ -27,6 +28,7 @@ LR.registerBlocks(LR);
     FoodFormComponent,
     GameFormComponent,
     MusicFormComponent,
+    FileUploaderComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   exports: [],

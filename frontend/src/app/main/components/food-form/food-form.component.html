@@ -11,30 +11,7 @@
             <input type="checkbox" id="vege" />
             <div class=" w-100 m-3 d-flex flex-column justify-content-around align-items-center">
               <div>Food photo</div>
-              <div class="wrapper">
-                <lr-config
-                  ctx-name="my-uploader"
-                  pubkey="8cbea8aa64b63a8be92f"
-                  max-local-file-size-bytes="10000000"
-                  multiple="false"
-                  img-only="true"
-                  source-list="local"
-                  use-cloud-image-editor="false"
-                ></lr-config>
-
-                <lr-file-uploader-regular
-                  css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.35.2/web/lr-file-uploader-regular.min.css"
-                  ctx-name="my-uploader"
-                  class="my-config"
-                ></lr-file-uploader-regular>
-              
-                <lr-upload-ctx-provider
-                  ctx-name="my-uploader"
-                  #ctxProvider
-                ></lr-upload-ctx-provider>
-                
-              </div>
-              <img *ngIf="url" class="preview-image" src="{{url + '/-/preview/-/resize/x200/'}}" />
+              <app-file-uploader (url)="setImageUrl($event)"></app-file-uploader>
             </div>
             <button type="submit">Add food</button>
         </form>

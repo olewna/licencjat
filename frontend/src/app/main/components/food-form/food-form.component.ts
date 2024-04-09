@@ -9,6 +9,7 @@ import { Food } from 'src/app/shared/models/Food.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
 import { LoggedUser } from '../../../shared/models/User.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-food-form',
@@ -18,7 +19,8 @@ import { LoggedUser } from '../../../shared/models/User.model';
 export class FoodFormComponent implements OnInit {
   public constructor(
     private formbuilder: NonNullableFormBuilder,
-    private comboService: ComboService
+    private comboService: ComboService,
+    private router: Router
   ) {}
   protected foodForm!: FormGroup<FoodForm>;
 
@@ -86,5 +88,13 @@ export class FoodFormComponent implements OnInit {
 
   public deleteImage(): void {
     this.foodForm.get('image')?.setValue('');
+  }
+
+  public goBack(): void {
+    this.router.navigate(['food']);
+  }
+
+  public goToGames(): void {
+    this.router.navigate(['games', 'form']);
   }
 }

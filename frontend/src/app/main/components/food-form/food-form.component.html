@@ -3,11 +3,11 @@
     <div class="d-flex justify-content-around category">
       <div class="w-100 text-center food">Food</div>
       <div class="w-100 text-center games" (click)="goToGames()">Games</div>
-      <div class="w-100 text-center music">Music</div>
+      <div class="w-100 text-center music" (click)="goToMusic()">Music</div>
     </div>
     <div class="ramka">
       <form [formGroup]="foodForm" (ngSubmit)="onSubmit(foodForm)">
-        <div class="h3 text-center mb-3 py-3">New food! *Yummy*</div>
+        <div class="h3 text-center py-3">New food! *Yummy*</div>
         <div class="border rounded d-flex w-100">
           <div class="p-3 text">The name of the food</div>
           <div class="p-3 w-100"><input formControlName="name" class="w-100 p-1 m-1" type="text" placeholder="Name of your food..." /></div>
@@ -16,7 +16,7 @@
           <label for="own" class="p-3 text">Is it your food?</label>
           <div class="d-flex align-items-center p-3 w-100">
             <input formControlName="owner" #owner (change)="onOwnerChange()" type="checkbox" id="own" name="owner"/>
-            <div class="mx-3 txt">{{ owner.checked ? "Yes, I am making it by myself!" : "Nope!"}}</div>
+            <div class="mx-3 txt">{{ owner.checked ? "Yes, I am making it by myself!" : ""}}</div>
           </div>
         </div>
         <div class="border rounded d-flex flex-column w-100 mt-1">
@@ -37,7 +37,7 @@
           <label for="vege" class="text p-3">Vegetarian?</label>
           <div class="d-flex align-items-center p-3 w-100">
             <input formControlName="vegetarian" #vege type="checkbox" id="vege" />
-            <div class="mx-3 txt">{{vege.checked ? "Yes, no meat inside!" : "Nope!"}}</div>
+            <div class="mx-3 txt">{{vege.checked ? "Yes, no meat inside!" : ""}}</div>
           </div>
         </div>
         <div class="border rounded d-flex w-100 mt-1">

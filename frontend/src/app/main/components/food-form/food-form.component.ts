@@ -6,9 +6,7 @@ import {
   FoodRequest,
 } from 'src/app/shared/form.models/FoodForm.model';
 import { Food } from 'src/app/shared/models/Food.model';
-import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
-import { LoggedUser } from '../../../shared/models/User.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -96,5 +94,9 @@ export class FoodFormComponent implements OnInit {
 
   public goToGames(): void {
     this.router.navigate(['games', 'form']);
+  }
+
+  public goToMusic(): void {
+    this.router.navigate(['music', 'form']);
   }
 }

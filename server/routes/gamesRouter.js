@@ -8,6 +8,7 @@ const {
   getRandomGame,
   getGameById,
 } = require("../controllers/gamesController.js");
+const { verifyToken } = require("../controllers/userController.js");
 
 const router = express.Router();
 
@@ -24,12 +25,12 @@ router.get("/search/:nazwa", getSearchedGames);
 router.get("/:id", getGameById);
 
 // POST new games
-router.post("/", createGames);
+router.post("/", verifyToken, createGames);
 
 // DELETE games
-router.delete("/:id", deleteGames);
+router.delete("/:id", verifyToken, deleteGames);
 
 // UPDATE games
-router.patch("/:id", updateGames);
+router.patch("/:id", verifyToken, updateGames);
 
 module.exports = router;

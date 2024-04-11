@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { minOneCheckboxRequired } from 'src/app/shared/directives/min-one-checkbox-required.directive';
 import {
   GameForm,
   GameRequest,
@@ -25,14 +26,19 @@ export class GameFormComponent implements OnInit {
   protected gameForm!: FormGroup<GameForm>;
 
   public ngOnInit(): void {
-    this.gameForm = this.formbuilder.group({
-      name: ['', [Validators.required]],
-      type: ['', [Validators.required]],
-      price: ['', [Validators.required]],
-      multiplayer: [false],
-      singleplayer: [false],
-      logoUrl: [''],
-    });
+    this.gameForm = this.formbuilder.group(
+      {
+        name: ['', [Validators.required]],
+        type: ['', [Validators.required]],
+        price: ['', [Validators.required]],
+        multiplayer: [false],
+        singleplayer: [false],
+        logoUrl: [''],
+      },
+      {
+        validators: [minOneCheckboxRequired],
+      }
+    );
   }
 
   public onSubmit(): void {

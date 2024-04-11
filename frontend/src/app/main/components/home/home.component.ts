@@ -143,12 +143,14 @@ export class HomeComponent implements OnInit {
     this.comboService.getRandomFood().subscribe({
       next: (val) => {
         this.todayFood = val as Food;
-        this.checkIfFav(this.loggedUserId, {
-          foodId: val.id,
-          gameId: this.todayGames!.id,
-          musicId: this.todayMusic!.id,
-        });
-        this.saveSingleElementInCombo('food', val.id);
+        if (this.isLogged()) {
+          this.checkIfFav(this.loggedUserId, {
+            foodId: val.id,
+            gameId: this.todayGames!.id,
+            musicId: this.todayMusic!.id,
+          });
+          this.saveSingleElementInCombo('food', val.id);
+        }
       },
     });
   }
@@ -157,12 +159,14 @@ export class HomeComponent implements OnInit {
     this.comboService.getRandomGame().subscribe({
       next: (val) => {
         this.todayGames = val as Game;
-        this.checkIfFav(this.loggedUserId, {
-          foodId: this.todayFood!.id,
-          gameId: val.id,
-          musicId: this.todayMusic!.id,
-        });
-        this.saveSingleElementInCombo('game', val.id);
+        if (this.isLogged()) {
+          this.checkIfFav(this.loggedUserId, {
+            foodId: this.todayFood!.id,
+            gameId: val.id,
+            musicId: this.todayMusic!.id,
+          });
+          this.saveSingleElementInCombo('game', val.id);
+        }
       },
     });
   }
@@ -171,12 +175,14 @@ export class HomeComponent implements OnInit {
     this.comboService.getRandomMusic().subscribe({
       next: (val) => {
         this.todayMusic = val as Music;
-        this.checkIfFav(this.loggedUserId, {
-          foodId: this.todayFood!.id,
-          gameId: this.todayGames!.id,
-          musicId: val.id,
-        });
-        this.saveSingleElementInCombo('music', val.id);
+        if (this.isLogged()) {
+          this.checkIfFav(this.loggedUserId, {
+            foodId: this.todayFood!.id,
+            gameId: this.todayGames!.id,
+            musicId: val.id,
+          });
+          this.saveSingleElementInCombo('music', val.id);
+        }
       },
     });
   }

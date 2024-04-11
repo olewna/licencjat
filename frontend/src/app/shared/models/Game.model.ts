@@ -7,4 +7,5 @@ export interface Game {
   readonly singleplayer: boolean;
   readonly multiplayer: boolean;
   readonly logoUrl: string;
+  readonly author: string;
 }

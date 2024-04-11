@@ -31,6 +31,9 @@ const gamesSchema = new Schema(
     logoUrl: {
       type: String,
     },
+    author: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

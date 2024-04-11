@@ -43,14 +43,14 @@ export class GameFormComponent implements OnInit {
 
   public onSubmit(): void {
     console.log(this.gameForm.value);
-    // this.comboService.addGame(this.gameForm.value as GameRequest).subscribe({
-    //   next: (val: Game) => {
-    //     this.gameForm.reset();
-    //   },
-    //   error: (err: HttpErrorResponse) => {
-    //     console.log(err.error.message);
-    //   }
-    // })
+    this.comboService.addGame(this.gameForm.value as GameRequest).subscribe({
+      next: (val: Game) => {
+        this.gameForm.reset();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err.error.message);
+      },
+    });
   }
 
   public getImageUrl(): string {

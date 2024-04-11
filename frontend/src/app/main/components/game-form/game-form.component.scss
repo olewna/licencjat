@@ -1,0 +1,73 @@
+.row {
+    width: 33vw;
+}
+
+.text {
+    width: 300px;
+    font-weight: 300;
+}
+
+.txt {
+    height: fit-content;
+}
+
+input {
+    height: 35px;
+}
+
+.ramka {
+    border: solid 1px #d23338;
+}
+
+.category {
+    padding: 0;
+    .food {
+        border: solid 1px #f7af1b;
+        background-color: #f7af1b;
+        font-size: 25px;
+        padding: 20px;
+        border-top-right-radius: 50px;
+        border-top-left-radius: 50px;
+        border-bottom: none;
+    }
+    .games {
+        border: solid 1px #d23338;
+        background-color: #d23338;
+        font-weight: 1000;
+        font-size: 25px;
+        padding: 20px;
+        border-top-right-radius: 50px;
+        border-top-left-radius: 50px;
+        border-bottom: none;
+        cursor: pointer;
+    }
+    .food:hover {
+        opacity: 90%;
+    }
+    .music {
+        border: solid 1px #1b814f;
+        background-color: #1b814f;
+        font-size: 25px;
+        padding: 20px;
+        border-top-right-radius: 50px;
+        border-top-left-radius: 50px;
+        border-bottom: none;
+        cursor: pointer;
+    }
+    .music:hover {
+        opacity: 90%;
+    }
+}
+
+.preview-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.submit-button{
+    .button-s {
+        width: 100px;
+        height: 50px;
+    }
+}

@@ -1,1 +1,56 @@
-<p>game-form works!</p>
+<div class="d-flex justify-content-center p-2">
+    <div class="row w-75 p-3">
+      <div class="d-flex justify-content-around category">
+        <div class="w-100 text-center food" (click)="goToFood()">Food</div>
+        <div class="w-100 text-center games">Games</div>
+        <div class="w-100 text-center music" (click)="goToMusic()">Music</div>
+      </div>
+      <div class="ramka">
+        <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
+          <div class="h3 text-center py-3">New game? Cool!</div>
+          <div class="border rounded d-flex w-100">
+            <div class="p-3 text">The name of the game</div>
+            <div class="p-3 w-100"><input formControlName="name" class="w-100 p-1 m-1" type="text" placeholder="Name of your game..." /></div>
+          </div>
+          <div class="border rounded d-flex w-100">
+            <div class="p-3 text">Game type</div>
+            <div class="p-3 w-100"><input formControlName="type" class="w-100 p-1 m-1" type="text" placeholder="Platformer, sandbox etc..." /></div>
+          </div>
+          <div class="border rounded d-flex w-100">
+            <div class="p-3 text">Price</div>
+            <div class="p-3 w-100"><input formControlName="price" class="w-100 p-1 m-1" type="text" placeholder="Price..." /></div>
+          </div>
+          <div class="border rounded d-flex w-100 mt-1">
+            <div class="p-3 text">Singleplayer or multiplayer?</div>
+            <div class="d-flex align-items-center justify-content-around p-3 w-100">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <input formControlName="singleplayer" type="checkbox" id="single" name="singleplayer"/>
+                    <label for="single" class="p-3 text-center">Singleplayer</label>
+                </div>
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <input formControlName="multiplayer" type="checkbox" id="multi" name="multiplayer"/>
+                    <label for="multi" class="p-3 text-center">Multiplayer</label>
+                </div>
+            </div>
+          </div>
+          <div class="border rounded d-flex w-100 mt-1">
+            <div class="text p-3">Game cover</div>
+            <div class="d-flex justify-content-around align-items-center w-100">
+              <div>
+                <app-file-uploader (url)="setImageUrl($event)"></app-file-uploader>
+              </div>
+              <div class="d-flex flex-row ">
+                <img *ngIf="getImageUrl()" class="preview-image" src="{{getImageUrl() + '/-/preview/-/resize/x200/'}}" />
+                <button type="button" *ngIf="getImageUrl()" (click)="deleteImage()" class="btn-close" aria-label="Close"></button>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between submit-button">
+            <button class="m-3 mx-5 button-s btn btn-dark" type="button" (click)="goBack()">Back</button>
+            <button class="m-3 mx-5 button-s btn btn-dark" type="submit" [disabled]="gameForm.invalid">Add game</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

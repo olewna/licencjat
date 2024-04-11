@@ -8,6 +8,7 @@ import {
 import { Food } from 'src/app/shared/models/Food.model';
 import { ComboService } from 'src/app/shared/services/combo.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-food-form',
@@ -18,7 +19,8 @@ export class FoodFormComponent implements OnInit {
   public constructor(
     private formbuilder: NonNullableFormBuilder,
     private comboService: ComboService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
   protected foodForm!: FormGroup<FoodForm>;
 
@@ -51,8 +53,7 @@ export class FoodFormComponent implements OnInit {
     });
   }
 
-  public onSubmit(form: any): void {
-    console.log(form.value);
+  public onSubmit(): void {
     this.comboService.addFood(this.foodForm.value as FoodRequest).subscribe({
       next: (val: Food) => {
         this.foodForm.reset();
@@ -89,7 +90,7 @@ export class FoodFormComponent implements OnInit {
   }
 
   public goBack(): void {
-    this.router.navigate(['food']);
+    this.location.back();
   }
 
   public goToGames(): void {

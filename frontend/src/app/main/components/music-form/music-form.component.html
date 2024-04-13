@@ -1,1 +1,62 @@
-<p>music-form works!</p>
+<div class="d-flex justify-content-center p-2">
+    <div class="row w-75 p-3">
+      <div class="d-flex justify-content-around category">
+        <div class="w-100 text-center food" (click)="goToFood()">Food</div>
+        <div class="w-100 text-center games" (click)="goToGames()">Games</div>
+        <div class="w-100 text-center music">Music</div>
+      </div>
+      <div class="ramka">
+        <form [formGroup]="musicForm" (ngSubmit)="onSubmit()">
+          <div class="h3 text-center py-3">New beats? Sounds awesome!</div>
+          <div class="border rounded d-flex w-100">
+            <div class="p-3 text">Title</div>
+            <div class="p-3 w-100"><input formControlName="name" class="w-100 p-1 m-1" type="text" placeholder="Playlist, single..." /></div>
+          </div>
+          <div class="border rounded d-flex w-100">
+            <div class="p-3 text">Songwriter</div>
+            <div class="p-3 w-100">
+                <input formControlName="author" class="w-100 p-1 m-1" type="text" placeholder="Songwriter..." />
+            </div>
+          </div>
+          <div class="border rounded d-flex w-100">
+            <div class="p-3 text">Length</div>
+            <div class="p-3 w-100">
+                <input formControlName="length" class="w-100 p-1 m-1" type="text" placeholder="hours, minutes..." />
+            </div>
+          </div>
+          <div class="border rounded d-flex w-100">
+            <div class="p-3 text">Music type</div>
+            <div class="p-3 w-100">
+                <input formControlName="type" class="w-100 p-1 m-1" type="text" placeholder="Music type..." />
+            </div>
+          </div>
+          <div formArrayName="service" class="border rounder d-flex w-100">
+            <div class="text p-3">Services: </div>
+            <div class="d-flex flex-column w-100 p-3">
+              <div *ngFor="let serv of getServices().controls; index as i" [formGroup]="serv" class="d-flex align-items-center">
+                  <input type="checkbox" [id]="serv.controls['name'].value" formControlName="checked">
+                  <label [for]="serv.controls['name'].value" class="px-3">{{serv.controls['name'].value}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="border rounded d-flex w-100 mt-1">
+            <div class="text p-3">Album cover photo</div>
+            <div class="d-flex justify-content-around align-items-center w-100">
+              <div>
+                <app-file-uploader (url)="setImageUrl($event)"></app-file-uploader>
+              </div>
+              <div class="d-flex flex-row ">
+                <img *ngIf="getImageUrl()" class="preview-image" src="{{getImageUrl() + '/-/preview/-/resize/x200/'}}" />
+                <button type="button" *ngIf="getImageUrl()" (click)="deleteImage()" class="btn-close" aria-label="Close"></button>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between submit-button">
+            <button class="m-3 mx-5 button-s btn btn-dark" type="button" (click)="goBack()">Back</button>
+            <button class="m-3 mx-5 button-s btn btn-dark" type="submit" [disabled]="musicForm.invalid">Add music</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

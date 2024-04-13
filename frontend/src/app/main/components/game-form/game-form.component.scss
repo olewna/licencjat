@@ -29,6 +29,7 @@ input {
         border-top-right-radius: 50px;
         border-top-left-radius: 50px;
         border-bottom: none;
+        cursor: pointer;
     }
     .games {
         border: solid 1px #d23338;
@@ -39,7 +40,6 @@ input {
         border-top-right-radius: 50px;
         border-top-left-radius: 50px;
         border-bottom: none;
-        cursor: pointer;
     }
     .food:hover {
         opacity: 90%;

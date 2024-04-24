@@ -63,5 +63,5 @@
     </div>
 
     <!-- todo - zmienic ten chat -->
-    <app-chat *ngIf="false && !notRolled && todayGames?.multiplayer" [gamename]="todayGames!.name"></app-chat>
+    <app-chat *ngIf="isLogged() && !notRolled && todayGames?.multiplayer" [gamename]="todayGames!.name"></app-chat>
 </div>

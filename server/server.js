@@ -33,6 +33,42 @@ const checkIfUserIsLogged = (req, res, next) => {
   next();
 };
 
+const server = require("http").createServer(app);
+const sio = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:4200",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
+
+sio.on("connection", async (socket) => {
+  console.log("nowe połączenie");
+  // console.log(socket);
+
+  socket.on("disconnect", async () => {
+    console.log("user disconnected");
+  });
+
+  socket.on("join", async (room) => {
+    socket.join(room);
+  });
+
+  try {
+    socket.on("msg", async (msg) => {
+      const message = JSON.parse(msg);
+      socket
+        .to(message.room)
+        .emit(
+          "newMsg",
+          JSON.stringify({ author: message.author, message: message.message })
+        );
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.use(checkIfUserIsLogged);
 
 //routes
@@ -46,7 +82,7 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     //listener
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log("working on port " + port);
     });
   })

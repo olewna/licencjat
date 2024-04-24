@@ -5,10 +5,17 @@
             <button (click)="joinChat()" class="join glow-on-hover">Join chat</button>
         </div>
         <div *ngIf="joined" class="rest d-flex flex-column align-items-center justify-content-center">
-            <div class="h-100 w-100 m-2 text-light">Chat XD</div>
+            <div class="h-100 w-100 m-2 text-light">
+                <ng-container *ngFor="let txt of chatMessages">
+                    <div>
+                        <div>{{txt.author}}</div>
+                        <div>{{txt.message}}</div>
+                    </div>
+                </ng-container>
+            </div>
             <div class="d-flex flex-row">
-                <input class="w-100" type="text" placeholder="Ask about coop gaming..."/>
-                <button class="send glow-on-hover">Send</button>
+                <input class="w-100" type="text" placeholder="Ask about coop gaming..." [(ngModel)]="message"/>
+                <button type="submit" (click)="sendMessage()" class="send glow-on-hover">Send</button>
             </div>
             <button (click)="leaveChat()" class="leave glow-on-hover">Leave chat</button>
         </div>

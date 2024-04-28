@@ -5,17 +5,21 @@
             <button (click)="joinChat()" class="join glow-on-hover">Join chat</button>
         </div>
         <div *ngIf="joined" class="rest d-flex flex-column align-items-center justify-content-center">
-            <div class="h-100 w-100 m-2 text-light">
+            <div class="h-100 w-100 m-2 text-light chatbox">
                 <ng-container *ngFor="let txt of chatMessages">
-                    <div>
-                        <div>{{txt.author}}</div>
-                        <div>{{txt.message}}</div>
+                    <div *ngIf="txt.author; else info" class="message">
+                        <div class="text-success bold" *ngIf="currentUser===txt.author; else cond">{{txt.author}} (You)</div>
+                        <ng-template #cond class="text-secondary" >{{txt.author}}</ng-template>
+                        <div class="text-dark">{{txt.message}}</div>
                     </div>
+                    <ng-template #info>
+                        <div class="info text-center">{{txt.message}}</div>
+                    </ng-template>
                 </ng-container>
             </div>
-            <div class="d-flex flex-row">
-                <input class="w-100" type="text" placeholder="Ask about coop gaming..." [(ngModel)]="message"/>
-                <button type="submit" (click)="sendMessage()" class="send glow-on-hover">Send</button>
+            <div class="d-flex flex-row w-100 input-msg">
+                <input class="w-100" type="text" (keydown.enter)="sendMessage()" placeholder="Ask about coop gaming..." [(ngModel)]="message"/>
+                <button type="submit" (click)="sendMessage()" [disabled]="message.length<1" class="sent-btn">Send</button>
             </div>
             <button (click)="leaveChat()" class="leave glow-on-hover">Leave chat</button>
         </div>

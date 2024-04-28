@@ -7,6 +7,7 @@ const gamesRoutes = require("./routes/gamesRouter");
 const userRoutes = require("./routes/usersRouter");
 const jwt = require("jsonwebtoken");
 const secret = "si3m5s0NXD";
+const { socketServer } = require("./controllers/socketController.js");
 
 const mongoose = require("mongoose");
 const port = process.env.PORT || 4000;
@@ -42,32 +43,7 @@ const sio = require("socket.io")(server, {
   },
 });
 
-sio.on("connection", async (socket) => {
-  console.log("nowe połączenie");
-  // console.log(socket);
-
-  socket.on("disconnect", async () => {
-    console.log("user disconnected");
-  });
-
-  socket.on("join", async (room) => {
-    socket.join(room);
-  });
-
-  try {
-    socket.on("msg", async (msg) => {
-      const message = JSON.parse(msg);
-      socket
-        .to(message.room)
-        .emit(
-          "newMsg",
-          JSON.stringify({ author: message.author, message: message.message })
-        );
-    });
-  } catch (err) {
-    console.log(err);
-  }
-});
+socketServer(sio);
 
 app.use(checkIfUserIsLogged);
 

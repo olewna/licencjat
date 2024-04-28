@@ -2,6 +2,26 @@
     background-color: rgb(33,37,41);
 }
 
+.chatbox{
+    overflow: auto;
+
+    .message {
+        background-color: white;
+        border-radius: 25px;
+        padding: 10px;
+        margin: 5px 0 ;
+
+        .bold {
+            font-weight: bolder;
+        }
+    }
+
+    .info {
+        font-style: italic;
+        color: gray;
+    }
+}
+
 .title{
     height: fit-content;
 }
@@ -16,10 +36,19 @@
     height: 50px;
 }
 
-.send {
-    margin: 5px;
-    padding: 5px;
+.input-msg{
+    height: 50px;
+
+    input {
+        padding: 5px;
+    }
+
+    .send {
+        margin: 5px;
+        padding: 5px;
+    }
 }
+
 
 .leave {
     width: 100%;

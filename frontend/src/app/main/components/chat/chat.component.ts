@@ -28,8 +28,6 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.key !== 0) {
       this.leaveChat(changes['gamename'].previousValue);
-      this.chatMessages = [];
-      this.message = '';
     }
   }
 
@@ -41,11 +39,11 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.socket.on('info', (data) => {
-      this.chatMessages.push({
-        author: '',
-        message: data,
-        room: this.gamename,
-      });
+      this.chatMessages.push(JSON.parse(data));
+    });
+
+    this.socket.on('getMsgs', (data) => {
+      this.chatMessages = [...JSON.parse(data).reverse(), ...this.chatMessages];
     });
   }
 
@@ -89,6 +87,7 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
       };
       this.socket.emit('leave', JSON.stringify(msg));
     }
+    this.chatMessages = [];
     this.message = '';
     this.joined = false;
   }

@@ -1,12 +1,20 @@
 const Music = require("../models/musicModel");
 const mongoose = require("mongoose");
+const { v4: uuid } = require("uuid");
 
 //GET all
 const getMusic = async (req, res) => {
   const pageNumber = parseInt(req.query.pageNumber) || 1;
   const pageSize = parseInt(req.query.pageSize) || 3;
 
-  const music = await Music.find({});
+  let music;
+  if (req.user) {
+    music = await Music.find({
+      $or: [{ user: { $exists: false } }, { user: req.user.userId }],
+    });
+  } else {
+    music = await Music.find({ user: { $exists: false } });
+  }
 
   const startIndex = (pageNumber - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -23,9 +31,19 @@ const getMusic = async (req, res) => {
 };
 
 const getRandomMusic = async (req, res) => {
-  const count = await Music.countDocuments();
-  const random = Math.floor(Math.random() * count);
-  const randomMusic = await Music.findOne().skip(random).limit(1);
+  const count = await Music.find({
+    $or: req.user
+      ? [{ user: { $exists: false } }, { user: req.user.userId }]
+      : [{ user: { $exists: false } }],
+  });
+  const random = Math.floor(Math.random() * count.length);
+  const randomMusic = await Music.findOne({
+    $or: req.user
+      ? [{ user: { $exists: false } }, { user: req.user.userId }]
+      : [{ user: { $exists: false } }],
+  })
+    .skip(random)
+    .limit(1);
   res.status(200).json(randomMusic);
 };
 
@@ -38,6 +56,9 @@ const getSearchedMusic = async (req, res) => {
 
   if (nazwa) {
     music = await Music.find({
+      $or: req.user
+        ? [{ user: { $exists: false } }, { user: req.user.userId }]
+        : [{ user: { $exists: false } }],
       $or: [
         { name: { $regex: nazwa, $options: "i" } },
         { author: { $regex: nazwa, $options: "i" } },
@@ -45,7 +66,11 @@ const getSearchedMusic = async (req, res) => {
       ],
     });
   } else {
-    music = await Music.find({});
+    music = await Music.find({
+      $or: req.user
+        ? [{ user: { $exists: false } }, { user: req.user.userId }]
+        : [{ user: { $exists: false } }],
+    });
   }
 
   const startIndex = (pageNumber - 1) * pageSize;
@@ -78,10 +103,22 @@ const getMusicById = async (req, res) => {
 
 //POST new
 const createMusic = async (req, res) => {
-  const { name, author, length, type, id } = req.body;
+  const { name, author, length, type, service, image } = req.body.music;
+  const services = service.filter((x) => x.checked === true).map((x) => x.name);
   try {
-    const music = await Music.create({ name, author, length, type, id });
-    res.status(200).json(music);
+    const music = await Music.create({
+      name,
+      user: req.user.userId,
+      author,
+      length,
+      type,
+      id: uuid(),
+      service: services,
+      image: image
+        ? image
+        : "https://ucarecdn.com/24cef946-d0f9-49a1-bca0-aaf9783cc685/d5bf4ba00a7a2ff69cf76b6c4e57c3e7.jpg",
+    });
+    res.status(201).json(music);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

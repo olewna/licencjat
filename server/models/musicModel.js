@@ -31,6 +31,9 @@ const musicSchema = new Schema(
     image: {
       type: String,
     },
+    user: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

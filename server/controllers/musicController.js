@@ -1,4 +1,5 @@
 const Music = require("../models/musicModel");
+const User = require("../models/userModel");
 const mongoose = require("mongoose");
 const { v4: uuid } = require("uuid");
 
@@ -127,9 +128,21 @@ const createMusic = async (req, res) => {
 //DELETE one
 const deleteMusic = async (req, res) => {
   const { id } = req.params;
-  // if (!mongoose.Types.ObjectId.isValid(id)){
-  //     return res.status(404).json({error: "food not found!"})
-  // }
+
+  await User.findOneAndUpdate(
+    { _id: req.user.userId },
+    { $pull: { favouriteCombos: { musicId: id } } }
+  );
+
+  const user = await User.findOne({ _id: req.user.userId });
+  const today = new Date().toJSON().slice(0, 10);
+  const combo = user.dailyCombo.get(today);
+  if (combo.musicId === id) {
+    await User.findOneAndUpdate(
+      { _id: req.user.userId },
+      { $unset: { [`dailyCombo.${today}`]: "" } }
+    );
+  }
   const music = await Music.findOneAndDelete({ id: id });
 
   if (!music) {

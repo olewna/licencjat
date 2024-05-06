@@ -13,6 +13,7 @@ import { GameFormComponent } from './components/game-form/game-form.component';
 import { MusicFormComponent } from './components/music-form/music-form.component';
 import * as LR from '@uploadcare/blocks';
 import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
+import { SharedModule } from '../shared/shared.module';
 
 LR.registerBlocks(LR);
 
@@ -30,7 +31,7 @@ LR.registerBlocks(LR);
     MusicFormComponent,
     FileUploaderComponent,
   ],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, SharedModule],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

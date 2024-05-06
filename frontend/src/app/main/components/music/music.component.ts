@@ -21,6 +21,7 @@ export class MusicComponent implements OnInit {
   protected page: number = 1;
   protected musicList: Music[] = [];
   protected isLoggedUser: boolean = false;
+  protected isModalShowed: boolean = false;
 
   public ngOnInit(): void {
     this.loadMusic();
@@ -63,5 +64,22 @@ export class MusicComponent implements OnInit {
     this.musicList = [];
     this.page = 1;
     this.loadMusic();
+  }
+
+  protected goToUpdateForm(): void {
+    console.log('update');
+  }
+
+  protected showModal(): void {
+    this.isModalShowed = true;
+  }
+
+  protected cancel(): void {
+    this.isModalShowed = false;
+  }
+
+  protected confirm(): void {
+    console.log('delete');
+    this.isModalShowed = false;
   }
 }

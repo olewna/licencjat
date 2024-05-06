@@ -17,7 +17,19 @@
             <div class="border rounded p-3 item d-flex align-items-center" *ngFor="let music of musicList">
                 <img class="img img-thumbnail" [src]="music?.image || 'https://ucarecdn.com/24cef946-d0f9-49a1-bca0-aaf9783cc685/d5bf4ba00a7a2ff69cf76b6c4e57c3e7.jpg'" alt="{{music.name}} cover" /> 
                 <div class="d-flex flex-column w-100">
-                    <div class="border p-2">{{music.name}} <div class="text-secondary">{{music.author}}</div></div>
+                    <div class="border p-2">
+                        <div class="d-flex justify-content-between">
+                            <div>{{music.name}}</div>
+                            <div class="d-flex flex-row">
+                                {{music.length}}
+                                <div>
+                                    <button class="edit text-primary" (click)="goToUpdateForm()">✎</button>
+                                    <button class="edit text-danger" (click)="showModal()">X</button>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="text-secondary">{{music.author}}</div>
+                    </div>
                     <div class="border d-flex flex-column">
                         <div class="p-2" *ngFor="let service of music.service">{{service}}</div></div>
                     </div>
@@ -28,3 +40,9 @@
         </div>
     </div>
 </div>
+<app-modal *ngIf="isModalShowed" [text]="'This action will delete all favourite combos with this element. What is more, if your today combo has this element it also will be deleted.'">
+    <div #modalDiv class="d-flex w-50 justify-content-around">
+        <button (click)="cancel()" class="modal-btn">No</button>
+        <button (click)="confirm()" class="modal-btn">Yes</button>
+    </div>
+</app-modal>

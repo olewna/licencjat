@@ -31,6 +31,7 @@ export class MusicFormComponent implements OnInit {
   ) {}
   protected musicForm!: FormGroup<MusicForm>;
   protected services: string[] = ['spotify', 'youtube', 'soundcloud', 'other'];
+  protected responseMsg: string = '';
 
   public ngOnInit(): void {
     this.musicForm = this.formbuilder.group({
@@ -60,9 +61,17 @@ export class MusicFormComponent implements OnInit {
     this.comboService.addMusic(this.musicForm.value as MusicRequest).subscribe({
       next: (val: Music) => {
         this.musicForm.reset();
+        this.responseMsg = 'Added successfully!';
+        setTimeout(() => {
+          this.responseMsg = '';
+        }, 5000);
       },
       error: (err: HttpErrorResponse) => {
         console.log(err.error.message);
+        this.responseMsg = 'Something went wrong...';
+        setTimeout(() => {
+          this.responseMsg = '';
+        }, 5000);
       },
     });
   }

@@ -27,18 +27,18 @@ app-modal {
     .dialog-content {
         background-color: white;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         flex-direction: column;
-        height: 30%;
-        padding: 10px;
+        height: fit-content;
+        padding: 20px;
         border-radius: 50px;
-        width: 50vw;
+        width: fit-content;
     }
 }
 
 .modal-btn {
-    margin-bottom: 5px;
+    margin-top: 15px;
     background-color: black;
     color: white;
     border: none;

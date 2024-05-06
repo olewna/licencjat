@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Music } from 'src/app/shared/models/Music.model';
@@ -22,6 +23,9 @@ export class MusicComponent implements OnInit {
   protected musicList: Music[] = [];
   protected isLoggedUser: boolean = false;
   protected isModalShowed: boolean = false;
+  protected responseModal: boolean = false;
+  protected loggedUserId: string = '';
+  protected responseModalMsg: string = '';
 
   public ngOnInit(): void {
     this.loadMusic();
@@ -35,6 +39,7 @@ export class MusicComponent implements OnInit {
   protected loadMusic(): void {
     this.crudService.getMusic(this.page, this.searchedInput).subscribe({
       next: (val) => {
+        this.loggedUserId = this.authService.getUserId();
         this.musicList = [...this.musicList, ...val.music];
         if (val.allPages > this.page) {
           this.page++;
@@ -78,8 +83,25 @@ export class MusicComponent implements OnInit {
     this.isModalShowed = false;
   }
 
-  protected confirm(): void {
-    console.log('delete');
-    this.isModalShowed = false;
+  protected confirm(musicId: string): void {
+    this.crudService.deleteMusic(musicId).subscribe({
+      next: (val: Music) => {
+        this.isModalShowed = false;
+        this.musicList = [];
+        this.page = 1;
+        this.loadMusic();
+        this.responseModal = true;
+        this.responseModalMsg = val.name + ' deleted successfully!';
+      },
+      error: (err: HttpErrorResponse) => {
+        this.responseModal = true;
+        this.responseModalMsg = 'Something went wrong...';
+      },
+    });
+  }
+
+  protected closeReponseModal(): void {
+    this.responseModal = false;
+    this.responseModalMsg = '';
   }
 }

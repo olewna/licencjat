@@ -32,6 +32,10 @@ export class AuthService {
     return this.currentUser.getValue()!.name;
   }
 
+  public getUserId(): string {
+    return this.currentUser.getValue()!._id;
+  }
+
   public setCurrentUser(user: LoggedUser | null, token: string): void {
     this.currentToken = token;
     this.currentUser.next(user);

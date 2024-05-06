@@ -79,4 +79,8 @@ export class ComboService {
   public addMusic(music: MusicRequest): Observable<Music> {
     return this.httpClient.post<Music>(`api/music/`, { music });
   }
+
+  public deleteMusic(id: string): Observable<Music> {
+    return this.httpClient.delete<Music>(`api/music/` + id);
+  }
 }

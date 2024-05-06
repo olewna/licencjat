@@ -7,5 +7,6 @@ import { Component, ContentChild, ElementRef, Input } from '@angular/core';
 })
 export class ModalComponent {
   @Input() text!: string;
+  @Input() responseModal: boolean = false;
   @ContentChild('modalDiv') modalDiv!: ElementRef;
 }

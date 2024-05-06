@@ -24,6 +24,7 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
   protected message: string = '';
   protected currentUser: string = this.authService.getUser();
   protected key: number = 0;
+  protected isMore: boolean = false;
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.key !== 0) {
@@ -36,6 +37,10 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
 
     this.socket.on('newMsg', (data) => {
       this.chatMessages.push(JSON.parse(data));
+    });
+
+    this.socket.on('isMore', (data) => {
+      this.isMore = JSON.parse(data);
     });
 
     this.socket.on('info', (data) => {
@@ -90,5 +95,15 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
     this.chatMessages = [];
     this.message = '';
     this.joined = false;
+  }
+
+  public loadMoreMsgs(): void {
+    this.socket.emit(
+      'more',
+      JSON.stringify({
+        room: this.gamename,
+        createdAt: this.chatMessages[0].createdAt,
+      })
+    );
   }
 }

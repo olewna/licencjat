@@ -1,30 +1,24 @@
 const Chat = require("../models/chatModel");
 const mongoose = require("mongoose");
 
-const getChatMessages = async (req, res) => {
-  const pageNumber = parseInt(req.query.pageNumber) || 1;
-  const pageSize = parseInt(req.query.pageSize) || 3;
-
-  const music = await Music.find({});
-
-  const startIndex = (pageNumber - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const resultMusic = music
-    .sort((a, b) => {
-      const nameA = a.name.toLowerCase();
-      const nameB = b.name.toLowerCase();
-      return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
-    })
-    .slice(startIndex, endIndex);
-
-  const totalPages = Math.ceil(music.length / pageSize);
-  res.status(200).json({ music: resultMusic, allPages: totalPages });
-};
-
 function socketServer(sio) {
   sio.on("connection", async (socket) => {
     socket.on("disconnect", async () => {
       console.log("user disconnected");
+    });
+
+    socket.on("more", async (data) => {
+      const dataInfo = JSON.parse(data);
+      const fromToday = new Date();
+      fromToday.setHours(0, 0, 0, 0);
+
+      const getMsgs = await Chat.find({
+        room: dataInfo.room,
+        createdAt: { $lt: dataInfo.createdAt, $gte: fromToday.toISOString() },
+      }).sort({ createdAt: -1 });
+
+      socket.emit("isMore", JSON.stringify(getMsgs.length > 25));
+      socket.emit("getMsgs", JSON.stringify(getMsgs.slice(0, 25)));
     });
 
     socket.on("join", async (msg) => {
@@ -32,15 +26,15 @@ function socketServer(sio) {
       socket.join(message.room);
 
       const fromToday = new Date();
-      // fromToday.setDate(fromToday.getDate() - 2);
       fromToday.setHours(0, 0, 0, 0);
+
       const getMsgs = await Chat.find({
         room: message.room,
         createdAt: { $gte: fromToday.toISOString() },
-      })
-        .sort({ createdAt: -1 })
-        .limit(25);
-      socket.emit("getMsgs", JSON.stringify(getMsgs));
+      }).sort({ createdAt: -1 });
+
+      socket.emit("isMore", JSON.stringify(getMsgs.length > 25));
+      socket.emit("getMsgs", JSON.stringify(getMsgs.slice(0, 25)));
 
       const chatMsg = await Chat.create({
         author: "",

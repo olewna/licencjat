@@ -6,6 +6,7 @@
         </div>
         <div *ngIf="joined" class="rest d-flex flex-column align-items-center justify-content-center">
             <div class="h-100 w-100 m-2 text-light chatbox">
+                <button *ngIf="isMore" (click)="loadMoreMsgs()">More</button>
                 <ng-container *ngFor="let txt of chatMessages">
                     <div *ngIf="txt.author; else info" class="message">
                         <div class="text-success bold" *ngIf="currentUser===txt.author; else cond">{{txt.author}} (You)</div>

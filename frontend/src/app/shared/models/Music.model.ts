@@ -7,4 +7,5 @@ export interface Music {
   readonly createdAt: string;
   readonly service: string[];
   readonly image: string;
+  readonly user: string;
 }

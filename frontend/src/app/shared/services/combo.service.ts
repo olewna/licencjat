@@ -11,6 +11,7 @@ import {
 } from '../models/Pagination.model';
 import { FoodForm, FoodRequest } from '../form.models/FoodForm.model';
 import { GameRequest } from '../form.models/GameForm.model';
+import { MusicRequest } from '../form.models/MusicForm.model';
 
 @Injectable({
   providedIn: 'root',
@@ -73,5 +74,9 @@ export class ComboService {
 
   public addGame(game: GameRequest): Observable<Game> {
     return this.httpClient.post<Game>(`api/games/`, { game });
+  }
+
+  public addMusic(music: MusicRequest): Observable<Music> {
+    return this.httpClient.post<Music>(`api/music/`, { music });
   }
 }

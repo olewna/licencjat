@@ -9,7 +9,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MusicForm, Service } from 'src/app/shared/form.models/MusicForm.model';
+import {
+  MusicForm,
+  MusicRequest,
+  Service,
+} from 'src/app/shared/form.models/MusicForm.model';
 import { Music } from 'src/app/shared/models/Music.model';
 import { ComboService } from 'src/app/shared/services/combo.service';
 
@@ -52,15 +56,15 @@ export class MusicFormComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    console.log(this.musicForm.value);
-    // this.comboService.addGame(this.musicForm.value as Music).subscribe({
-    //   next: (val: Music) => {
-    //     this.musicForm.reset();
-    //   },
-    //   error: (err: HttpErrorResponse) => {
-    //     console.log(err.error.message);
-    //   },
-    // });
+    // console.log(this.musicForm.value);
+    this.comboService.addMusic(this.musicForm.value as MusicRequest).subscribe({
+      next: (val: Music) => {
+        this.musicForm.reset();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err.error.message);
+      },
+    });
   }
 
   public getImageUrl(): string {

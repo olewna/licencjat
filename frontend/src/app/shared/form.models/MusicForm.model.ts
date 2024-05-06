@@ -20,5 +20,5 @@ export interface MusicRequest {
   readonly length: string;
   readonly author: string;
   readonly service: string[];
-  readonly logoUrl: string;
+  readonly image: string;
 }

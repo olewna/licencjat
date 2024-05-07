@@ -39,7 +39,9 @@ export class MusicComponent implements OnInit {
   protected loadMusic(): void {
     this.crudService.getMusic(this.page, this.searchedInput).subscribe({
       next: (val) => {
-        this.loggedUserId = this.authService.getUserId();
+        if (this.isLoggedUser) {
+          this.loggedUserId = this.authService.getUserId();
+        }
         this.musicList = [...this.musicList, ...val.music];
         if (val.allPages > this.page) {
           this.page++;
@@ -71,8 +73,8 @@ export class MusicComponent implements OnInit {
     this.loadMusic();
   }
 
-  protected goToUpdateForm(): void {
-    console.log('update');
+  protected goToUpdateForm(id: string): void {
+    this.router.navigate(['music', 'form', id]);
   }
 
   protected showModal(): void {

@@ -50,6 +50,11 @@ const routes: Routes = [
     canActivate: [notLoggedGuard],
   },
   {
+    path: 'music/form/:id',
+    component: MusicFormComponent,
+    canActivate: [notLoggedGuard],
+  },
+  {
     path: 'games',
     component: GameComponent,
   },

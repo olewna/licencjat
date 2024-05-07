@@ -155,20 +155,23 @@ const deleteMusic = async (req, res) => {
 //UPDATE one
 const updateMusic = async (req, res) => {
   const { id } = req.params;
-  // if (!mongoose.Types.ObjectId.isValid(id)){
-  //     return res.status(404).json({error: "food not found!"})
-  // }
-  const music = await Music.findOneAndUpdate(
-    { id: id },
-    {
-      ...req.body,
-    }
-  );
-
-  if (!music) {
-    return res.status(400).json({ error: "This music not found!" });
-  } else {
-    res.status(200).json(music);
+  const { image, service, ...rest } = req.body.music;
+  const services = service.filter((x) => x.checked === true).map((x) => x.name);
+  console.log(services);
+  try {
+    const music = await Music.findOneAndUpdate(
+      { id: id },
+      {
+        ...rest,
+        service: services,
+        image: image
+          ? image
+          : "https://ucarecdn.com/24cef946-d0f9-49a1-bca0-aaf9783cc685/d5bf4ba00a7a2ff69cf76b6c4e57c3e7.jpg",
+      }
+    );
+    res.status(201).json(music);
+  } catch (error) {
+    res.status(400).json({ error: error });
   }
 };
 

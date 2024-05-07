@@ -7,7 +7,7 @@
       </div>
       <div class="ramka">
         <form [formGroup]="musicForm" (ngSubmit)="onSubmit()">
-          <div class="h3 text-center py-3">New beats? Sounds awesome!</div>
+          <div class="h3 text-center py-3">{{isAddMode ? "New beats? Sounds awesome!" : "Edit music"}}</div>
           <div class="border rounded d-flex w-100">
             <div class="p-3 text">Title</div>
             <div class="p-3 w-100"><input formControlName="name" class="w-100 p-1 m-1" type="text" placeholder="Playlist, single..." /></div>
@@ -46,7 +46,7 @@
                 <app-file-uploader (url)="setImageUrl($event)"></app-file-uploader>
               </div>
               <div class="d-flex flex-row ">
-                <img *ngIf="getImageUrl()" class="preview-image" src="{{getImageUrl() + '/-/preview/-/resize/x200/'}}" />
+                <img *ngIf="getImageUrl()" class="preview-image" src="{{getImageUrl()}}" />
                 <button type="button" *ngIf="getImageUrl()" (click)="deleteImage()" class="btn-close" aria-label="Close"></button>
               </div>
             </div>
@@ -54,7 +54,7 @@
           <div class="d-flex justify-content-between submit-button">
             <button class="m-3 mx-5 button-s btn btn-dark" type="button" (click)="goBack()">Back</button>
             <div class="d-flex flex-column">
-              <button class="m-3 mx-5 button-s btn btn-dark" type="submit" [disabled]="musicForm.invalid">Add music</button>
+              <button class="m-3 mx-5 button-s btn btn-dark" type="submit" [disabled]="musicForm.invalid">{{isAddMode ? 'Add music' : 'Update'}}</button>
               <div *ngIf="responseMsg">{{responseMsg}}</div>
             </div>
           </div>
@@ -62,4 +62,8 @@
       </div>
     </div>
   </div>
-  
+<app-modal *ngIf="showModal" [responseModal]="true" [text]="'Element updated! You will be redirected to music list.'">
+  <div #modalDiv>
+    <button (click)="goToMusic()">OK</button>
+  </div>
+</app-modal>

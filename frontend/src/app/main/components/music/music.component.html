@@ -23,7 +23,7 @@
                             <div class="d-flex flex-row">
                                 {{music.length}}
                                 <div *ngIf="isLoggedUser && loggedUserId===music.user">
-                                    <button class="edit text-primary" (click)="goToUpdateForm()">✎</button>
+                                    <button class="edit text-primary" (click)="goToUpdateForm(music.id)">✎</button>
                                     <button class="edit text-danger" (click)="showModal()">X</button>
                                     <app-modal *ngIf="isModalShowed" [text]="'This action will delete all favourite combos with this element. What is more, if your today combo has this element it also will be deleted. Do you really want to delete ' + music.name + '?'">
                                         <div #modalDiv class="d-flex w-50 justify-content-around">

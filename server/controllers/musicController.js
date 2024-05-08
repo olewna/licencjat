@@ -137,7 +137,7 @@ const deleteMusic = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
   const today = new Date().toJSON().slice(0, 10);
   const combo = user.dailyCombo.get(today);
-  if (combo.musicId === id) {
+  if (combo && combo.musicId === id) {
     await User.findOneAndUpdate(
       { _id: req.user.userId },
       { $unset: { [`dailyCombo.${today}`]: "" } }
@@ -155,9 +155,10 @@ const deleteMusic = async (req, res) => {
 //UPDATE one
 const updateMusic = async (req, res) => {
   const { id } = req.params;
+
   const { image, service, ...rest } = req.body.music;
   const services = service.filter((x) => x.checked === true).map((x) => x.name);
-  console.log(services);
+
   try {
     const music = await Music.findOneAndUpdate(
       { id: id },

@@ -17,7 +17,19 @@
             <div class="border rounded p-3 item d-flex align-items-center" *ngFor="let game of gameList">
                 <img class="img img-thumbnail" [src]="game.logoUrl || 'https://ucarecdn.com/378b3a04-7d09-4adb-bee0-7220880dd725/pngtreevectorvideogameiconpngimage_4101325.jpg'" alt="{{game.name}} logo" />
                 <div class="d-flex flex-column w-100">
-                    <div class="border p-2">{{game.name}} ({{game.type}}{{game.multiplayer && game.singleplayer ? ", singleplayer & multiplayer" : game.multiplayer ? ", multiplayer" : game.singleplayer ? ", singleplayer" : ""}})</div>
+                    <div class="d-flex flex-row justify-content-between border p-2">
+                        <div>{{game.name}} ({{game.type}}{{game.multiplayer && game.singleplayer ? ", singleplayer & multiplayer" : game.multiplayer ? ", multiplayer" : game.singleplayer ? ", singleplayer" : ""}})</div>
+                        <div *ngIf="isLoggedUser && loggedUserId===game.author">
+                            <button class="edit text-primary" (click)="goToUpdateForm(game.id)">✎</button>
+                            <button class="edit text-danger" (click)="showModal()">X</button>
+                            <app-modal *ngIf="isModalShowed" [text]="'This action will delete all favourite combos with this element. What is more, if your today combo has this element it also will be deleted. Do you really want to delete ' + game.name + '?'">
+                                <div #modalDiv class="d-flex w-50 justify-content-around">
+                                    <button (click)="cancel()" class="modal-btn">No</button>
+                                    <button (click)="confirm(game.id)" class="modal-btn">Yes</button>
+                                </div>
+                            </app-modal>
+                        </div>
+                    </div>
                     <div class="border p-2">Price: {{game.price}}</div>
                 </div>
             </div>
@@ -27,3 +39,8 @@
         </div>
     </div>
 </div>
+<app-modal *ngIf="responseModal" [responseModal]="true" [text]="responseModalMsg">
+    <div #modalDiv class="d-flex justify-content-center">
+        <button (click)="closeReponseModal()" class="modal-btn">OK</button>
+    </div>
+</app-modal>

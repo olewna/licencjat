@@ -30,6 +30,7 @@ export class MusicFormComponent implements OnInit {
     private comboService: ComboService,
     private route: ActivatedRoute
   ) {}
+
   protected musicForm!: FormGroup<MusicForm>;
   protected services: string[] = ['spotify', 'youtube', 'soundcloud', 'other'];
   protected responseMsg: string = '';
@@ -72,6 +73,10 @@ export class MusicFormComponent implements OnInit {
           const editMusic = { ...rest };
           this.musicForm.patchValue(editMusic);
           this.musicForm.controls.service.patchValue(services);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+          this.responseMsg = 'Could not find item...';
         },
       });
     }

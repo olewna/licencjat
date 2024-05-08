@@ -7,7 +7,7 @@
       </div>
       <div class="ramka">
         <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
-          <div class="h3 text-center py-3">New game? Cool!</div>
+          <div class="h3 text-center py-3">{{isAddMode ? "New game? Cool!" : "Edit game"}}</div>
           <div class="border rounded d-flex w-100">
             <div class="p-3 text">The name of the game</div>
             <div class="p-3 w-100"><input formControlName="name" class="w-100 p-1 m-1" type="text" placeholder="Name of your game..." /></div>
@@ -40,17 +40,24 @@
                 <app-file-uploader (url)="setImageUrl($event)"></app-file-uploader>
               </div>
               <div class="d-flex flex-row ">
-                <img *ngIf="getImageUrl()" class="preview-image" src="{{getImageUrl() + '/-/preview/-/resize/x200/'}}" />
+                <img *ngIf="getImageUrl()" class="preview-image" src="{{getImageUrl()}}" />
                 <button type="button" *ngIf="getImageUrl()" (click)="deleteImage()" class="btn-close" aria-label="Close"></button>
               </div>
             </div>
           </div>
           <div class="d-flex justify-content-between submit-button">
             <button class="m-3 mx-5 button-s btn btn-dark" type="button" (click)="goBack()">Back</button>
-            <button class="m-3 mx-5 button-s btn btn-dark" type="submit" [disabled]="gameForm.invalid">Add game</button>
+            <div class="d-flex flex-column">
+              <button class="m-3 mx-5 button-s btn btn-dark" type="submit" [disabled]="gameForm.invalid">{{isAddMode ? "Add game" : "Update"}}</button>
+              <div *ngIf="responseMsg">{{responseMsg}}</div>
+            </div>
           </div>
         </form>
       </div>
     </div>
   </div>
-  
+  <app-modal *ngIf="showModal" [responseModal]="true" [text]="'Element updated! You will be redirected to games list.'">
+    <div #modalDiv>
+      <button (click)="goToGames()">OK</button>
+    </div>
+  </app-modal>

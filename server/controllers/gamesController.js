@@ -1,4 +1,5 @@
 const Games = require("../models/gamesModel");
+const User = require("../models/userModel");
 const mongoose = require("mongoose");
 const { v4: uuid } = require("uuid");
 
@@ -149,9 +150,21 @@ const createGames = async (req, res) => {
 //DELETE one
 const deleteGames = async (req, res) => {
   const { id } = req.params;
-  // if (!mongoose.Types.ObjectId.isValid(id)){
-  //     return res.status(404).json({error: "games not found!"})
-  // }
+
+  await User.findOneAndUpdate(
+    { _id: req.user.userId },
+    { $pull: { favouriteCombos: { gameId: id } } }
+  );
+
+  const user = await User.findOne({ _id: req.user.userId });
+  const today = new Date().toJSON().slice(0, 10);
+  const combo = user.dailyCombo.get(today);
+  if (combo && combo.gameId === id) {
+    await User.findOneAndUpdate(
+      { _id: req.user.userId },
+      { $unset: { [`dailyCombo.${today}`]: "" } }
+    );
+  }
   const games = await Games.findOneAndDelete({ id: id });
 
   if (!games) {
@@ -164,20 +177,22 @@ const deleteGames = async (req, res) => {
 //UPDATE one
 const updateGames = async (req, res) => {
   const { id } = req.params;
-  // if (!mongoose.Types.ObjectId.isValid(id)){
-  //     return res.status(404).json({error: "games not found!"})
-  // }
-  const games = await Games.findOneAndUpdate(
-    { id: id },
-    {
-      ...req.body,
-    }
-  );
 
-  if (!games) {
-    return res.status(400).json({ error: "This game not found!" });
-  } else {
-    res.status(200).json(games);
+  const { logoUrl, ...rest } = req.body.game;
+
+  try {
+    const game = await Games.findOneAndUpdate(
+      { id: id },
+      {
+        ...rest,
+        logoUrl: logoUrl
+          ? logoUrl
+          : "https://ucarecdn.com/378b3a04-7d09-4adb-bee0-7220880dd725/pngtreevectorvideogameiconpngimage_4101325.jpg",
+      }
+    );
+    res.status(201).json(game);
+  } catch (error) {
+    res.status(400).json({ error });
   }
 };
 

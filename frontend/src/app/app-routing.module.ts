@@ -63,6 +63,11 @@ const routes: Routes = [
     component: GameFormComponent,
     canActivate: [notLoggedGuard],
   },
+  {
+    path: 'games/form/:id',
+    component: GameFormComponent,
+    canActivate: [notLoggedGuard],
+  },
 ];
 
 @NgModule({

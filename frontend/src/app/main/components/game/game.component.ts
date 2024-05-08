@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Game } from 'src/app/shared/models/Game.model';
@@ -21,6 +22,10 @@ export class GameComponent implements OnInit {
   protected page: number = 1;
   protected gameList: Game[] = [];
   protected isLoggedUser: boolean = false;
+  protected isModalShowed: boolean = false;
+  protected responseModal: boolean = false;
+  protected loggedUserId: string = '';
+  protected responseModalMsg: string = '';
 
   public ngOnInit(): void {
     this.loadGames();
@@ -34,6 +39,9 @@ export class GameComponent implements OnInit {
   protected loadGames(): void {
     this.crudService.getGames(this.page, this.searchedInput).subscribe({
       next: (val) => {
+        if (this.isLoggedUser) {
+          this.loggedUserId = this.authService.getUserId();
+        }
         this.gameList = [...this.gameList, ...val.games];
         if (val.allPages > this.page) {
           this.page++;
@@ -66,5 +74,39 @@ export class GameComponent implements OnInit {
     this.gameList = [];
     this.page = 1;
     this.loadGames();
+  }
+
+  protected goToUpdateForm(id: string): void {
+    this.router.navigate(['games', 'form', id]);
+  }
+
+  protected showModal(): void {
+    this.isModalShowed = true;
+  }
+
+  protected cancel(): void {
+    this.isModalShowed = false;
+  }
+
+  protected confirm(gameId: string): void {
+    this.crudService.deleteGame(gameId).subscribe({
+      next: (val: Game) => {
+        this.isModalShowed = false;
+        this.gameList = [];
+        this.page = 1;
+        this.loadGames();
+        this.responseModal = true;
+        this.responseModalMsg = val.name + ' deleted successfully!';
+      },
+      error: (err: HttpErrorResponse) => {
+        this.responseModal = true;
+        this.responseModalMsg = 'Something went wrong...';
+      },
+    });
+  }
+
+  protected closeReponseModal(): void {
+    this.responseModal = false;
+    this.responseModalMsg = '';
   }
 }

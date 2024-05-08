@@ -80,6 +80,10 @@ export class ComboService {
     return this.httpClient.post<Music>(`api/music/`, { music });
   }
 
+  public deleteFood(id: string): Observable<Food> {
+    return this.httpClient.delete<Food>(`api/food/` + id);
+  }
+
   public deleteGame(id: string): Observable<Game> {
     return this.httpClient.delete<Game>(`api/games/` + id);
   }
@@ -88,9 +92,14 @@ export class ComboService {
     return this.httpClient.delete<Music>(`api/music/` + id);
   }
 
+  public updateFood(id: string, food: FoodRequest): Observable<Food> {
+    return this.httpClient.patch<Food>(`api/food/` + id, { food });
+  }
+
   public updateGame(id: string, game: GameRequest): Observable<Game> {
     return this.httpClient.patch<Game>(`api/games/` + id, { game });
   }
+
   public updateMusic(id: string, music: MusicRequest): Observable<Music> {
     return this.httpClient.patch<Music>(`api/music/` + id, { music });
   }

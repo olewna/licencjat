@@ -7,7 +7,7 @@ import {
 } from 'src/app/shared/form.models/FoodForm.model';
 import { Food } from 'src/app/shared/models/Food.model';
 import { ComboService } from 'src/app/shared/services/combo.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -20,11 +20,20 @@ export class FoodFormComponent implements OnInit {
     private formbuilder: NonNullableFormBuilder,
     private comboService: ComboService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ) {}
+
   protected foodForm!: FormGroup<FoodForm>;
+  protected responseMsg: string = '';
+  protected isAddMode: boolean = true;
+  protected id: string = '';
+  protected showModal: boolean = false;
 
   public ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
+    this.isAddMode = !this.id;
+
     this.foodForm = this.formbuilder.group({
       name: ['', [Validators.required]],
       telephone: ['', [Validators.required]],
@@ -51,19 +60,75 @@ export class FoodFormComponent implements OnInit {
         this.foodForm.controls['telephone'].updateValueAndValidity();
       },
     });
+
+    if (!this.isAddMode) {
+      this.comboService.getFoodById(this.id).subscribe({
+        next: (food) => {
+          const { owner, company, telephone, ...rest } = food;
+          if (company || telephone) {
+            this.foodForm.patchValue({ owner: false });
+            this.foodForm.patchValue({ company, telephone });
+          } else {
+            this.foodForm.patchValue({ owner: true });
+          }
+          this.foodForm.patchValue(rest);
+          this.onOwnerChange();
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+          this.responseMsg = 'Cound not find item...';
+        },
+      });
+    }
   }
 
   public onSubmit(): void {
+    if (this.isAddMode) {
+      this.createFood();
+    } else {
+      this.updateFood();
+    }
+  }
+
+  private createFood(): void {
     this.comboService.addFood(this.foodForm.value as FoodRequest).subscribe({
       next: (val: Food) => {
         this.foodForm.reset();
         this.foodForm.get('company')!.enable();
         this.foodForm.get('telephone')!.enable();
+        this.responseMsg = 'Added successfully!';
+        setTimeout(() => {
+          this.responseMsg = '';
+        }, 5000);
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err.error.message);
+        console.log(err.error);
+        this.responseMsg = 'Something went wrong...';
+        setTimeout(() => {
+          this.responseMsg = '';
+        }, 5000);
       },
     });
+  }
+
+  private updateFood(): void {
+    this.comboService
+      .updateFood(this.id, this.foodForm.value as FoodRequest)
+      .subscribe({
+        next: (food: Food) => {
+          this.foodForm.reset();
+          this.foodForm.get('company')!.enable();
+          this.foodForm.get('telephone')!.enable();
+          this.showModal = true;
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err.error);
+          this.responseMsg = 'Something went wrong...';
+          setTimeout(() => {
+            this.responseMsg = '';
+          }, 5000);
+        },
+      });
   }
 
   public onOwnerChange() {
@@ -99,5 +164,9 @@ export class FoodFormComponent implements OnInit {
 
   public goToMusic(): void {
     this.router.navigate(['music', 'form']);
+  }
+
+  public goToFood(): void {
+    this.router.navigate(['food']);
   }
 }

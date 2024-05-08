@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Food } from 'src/app/shared/models/Food.model';
@@ -21,6 +22,10 @@ export class FoodComponent implements OnInit {
   protected page: number = 1;
   protected foodList: Food[] = [];
   protected isLoggedUser: boolean = false;
+  protected responseModal: boolean = false;
+  protected loggedUserId: string = '';
+  protected responseModalMsg: string = '';
+  protected showModalId: string = '';
 
   public ngOnInit(): void {
     this.loadFood();
@@ -34,6 +39,9 @@ export class FoodComponent implements OnInit {
   protected loadFood(): void {
     this.crudService.getFood(this.page, this.searchedInput).subscribe({
       next: (val) => {
+        if (this.isLoggedUser) {
+          this.loggedUserId = this.authService.getUserId();
+        }
         this.foodList = [...this.foodList, ...val.food];
         if (val.allPages > this.page) {
           this.page++;
@@ -63,5 +71,39 @@ export class FoodComponent implements OnInit {
     this.foodList = [];
     this.page = 1;
     this.loadFood();
+  }
+
+  protected goToUpdateForm(id: string): void {
+    this.router.navigate(['food', 'form', id]);
+  }
+
+  protected showModal(id: string): void {
+    this.showModalId = id;
+  }
+
+  protected cancel(): void {
+    this.showModalId = '';
+  }
+
+  protected confirm(foodId: string): void {
+    this.crudService.deleteFood(foodId).subscribe({
+      next: (val: Food) => {
+        this.foodList = [];
+        this.page = 1;
+        this.loadFood();
+        this.responseModal = true;
+        this.showModalId = '';
+        this.responseModalMsg = val.name + ' deleted successfully!';
+      },
+      error: (err: HttpErrorResponse) => {
+        this.responseModal = true;
+        this.responseModalMsg = 'Something went wrong...';
+      },
+    });
+  }
+
+  protected closeReponseModal(): void {
+    this.responseModal = false;
+    this.responseModalMsg = '';
   }
 }

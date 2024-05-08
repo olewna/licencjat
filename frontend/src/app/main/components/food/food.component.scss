@@ -3,6 +3,19 @@
     height: 20vh;
 }
 
+.options {
+    width: 80px;
+
+    .edit{
+        width: 30px;
+        height: 30px;
+        font-weight: bolder;
+        border: none;
+        background-color: white;
+        margin: 0 5px;
+    }
+}
+
 .input-group {
     width: 45vw;
 }

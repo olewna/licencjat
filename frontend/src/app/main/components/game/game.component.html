@@ -21,8 +21,8 @@
                         <div>{{game.name}} ({{game.type}}{{game.multiplayer && game.singleplayer ? ", singleplayer & multiplayer" : game.multiplayer ? ", multiplayer" : game.singleplayer ? ", singleplayer" : ""}})</div>
                         <div *ngIf="isLoggedUser && loggedUserId===game.author">
                             <button class="edit text-primary" (click)="goToUpdateForm(game.id)">✎</button>
-                            <button class="edit text-danger" (click)="showModal()">X</button>
-                            <app-modal *ngIf="isModalShowed" [text]="'This action will delete all favourite combos with this element. What is more, if your today combo has this element it also will be deleted. Do you really want to delete ' + game.name + '?'">
+                            <button class="edit text-danger" (click)="showModal(game.id)">X</button>
+                            <app-modal *ngIf="showModalId===game.id" [text]="'This action will delete all favourite combos with this element. What is more, if your today combo has this element it also will be deleted. Do you really want to delete ' + game.name + '?'">
                                 <div #modalDiv class="d-flex w-50 justify-content-around">
                                     <button (click)="cancel()" class="modal-btn">No</button>
                                     <button (click)="confirm(game.id)" class="modal-btn">Yes</button>

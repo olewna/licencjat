@@ -1,4 +1,5 @@
 const Food = require("../models/foodModel");
+const User = require("../models/userModel");
 const mongoose = require("mongoose");
 const { v4: uuid } = require("uuid");
 
@@ -173,9 +174,22 @@ const createFood = async (req, res) => {
 //DELETE one
 const deleteFood = async (req, res) => {
   const { id } = req.params;
-  // if (!mongoose.Types.ObjectId.isValid(id)){
-  //     return res.status(404).json({error: "food not found!"})
-  // }
+
+  await User.findOneAndUpdate(
+    { _id: req.user.userId },
+    { $pull: { favouriteCombos: { foodId: id } } }
+  );
+
+  const user = await User.findOne({ _id: req.user.userId });
+  const today = new Date().toJSON().slice(0, 10);
+  const combo = user.dailyCombo.get(today);
+  if (combo && combo.foodId === id) {
+    await User.findOneAndUpdate(
+      { _id: req.user.userId },
+      { $unset: { [`dailyCombo.${today}`]: "" } }
+    );
+  }
+
   const food = await Food.findOneAndDelete({ id: id });
 
   if (!food) {
@@ -188,20 +202,39 @@ const deleteFood = async (req, res) => {
 //UPDATE one
 const updateFood = async (req, res) => {
   const { id } = req.params;
-  // if (!mongoose.Types.ObjectId.isValid(id)){
-  //     return res.status(404).json({error: "food not found!"})
-  // }
-  const food = await Food.findOneAndUpdate(
-    { id: id },
-    {
-      ...req.body,
-    }
-  );
 
-  if (!food) {
-    return res.status(400).json({ error: "This food not found!" });
-  } else {
-    res.status(200).json(food);
+  const { image, owner, ...rest } = req.body.food;
+
+  try {
+    let food;
+    if (owner) {
+      food = await Food.findOneAndUpdate(
+        { id: id },
+        {
+          ...rest,
+          image: image
+            ? image
+            : "https://ucarecdn.com/372b11d4-fa5d-4b61-bad0-04e8ff495dff/pngtreerestauranticonvectorpngimage_5045307.jpg",
+          $unset: {
+            company: "",
+            telephone: "",
+          },
+        }
+      );
+    } else {
+      food = await Food.findOneAndUpdate(
+        { id: id },
+        {
+          ...rest,
+          image: image
+            ? image
+            : "https://ucarecdn.com/372b11d4-fa5d-4b61-bad0-04e8ff495dff/pngtreerestauranticonvectorpngimage_5045307.jpg",
+        }
+      );
+    }
+    res.status(201).json(food);
+  } catch (error) {
+    res.status(400).json({ error: error });
   }
 };
 

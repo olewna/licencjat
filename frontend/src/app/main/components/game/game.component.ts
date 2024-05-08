@@ -22,7 +22,7 @@ export class GameComponent implements OnInit {
   protected page: number = 1;
   protected gameList: Game[] = [];
   protected isLoggedUser: boolean = false;
-  protected isModalShowed: boolean = false;
+  protected showModalId: string = '';
   protected responseModal: boolean = false;
   protected loggedUserId: string = '';
   protected responseModalMsg: string = '';
@@ -80,18 +80,18 @@ export class GameComponent implements OnInit {
     this.router.navigate(['games', 'form', id]);
   }
 
-  protected showModal(): void {
-    this.isModalShowed = true;
+  protected showModal(id: string): void {
+    this.showModalId = id;
   }
 
   protected cancel(): void {
-    this.isModalShowed = false;
+    this.showModalId = '';
   }
 
   protected confirm(gameId: string): void {
     this.crudService.deleteGame(gameId).subscribe({
       next: (val: Game) => {
-        this.isModalShowed = false;
+        this.showModalId = '';
         this.gameList = [];
         this.page = 1;
         this.loadGames();

@@ -17,10 +17,20 @@
             <div class="border rounded p-3 item d-flex align-items-center" *ngFor="let food of foodList">
                 <img class="img img-thumbnail" [src]="food.image || 'https://ucarecdn.com/372b11d4-fa5d-4b61-bad0-04e8ff495dff/pngtreerestauranticonvectorpngimage_5045307.jpg'" alt="{{food.name}} image"/>
                 <div class="d-flex flex-column w-100">
-                    <div *ngIf="!food.owner" class="border p-2">{{food.name}} from {{food.company}}</div>
-                    <div *ngIf="food.owner" class="border p-2">{{food.name}}</div>
-                    <div *ngIf="!food.owner" class="border p-2">{{food.telephone}}</div>
-                    <div *ngIf="food.owner" class="border p-2">by me</div>
+                    <div class="border p-2 d-flex flex-row justify-content-between">
+                        <div>{{!food.company ? food.name : food.name + " from " + food.company }}</div>
+                        <div class="options d-flex flex-row" *ngIf="isLoggedUser && loggedUserId===food.owner">
+                            <button class="edit text-primary" (click)="goToUpdateForm(food.id)">✎</button>
+                            <button class="edit text-danger" (click)="showModal(food.id)">X</button>
+                        </div>
+                    </div>
+                    <div class="border p-2">{{!food.telephone ? "by me" : food.telephone}}</div>
+                    <app-modal *ngIf="showModalId===food.id" [text]="'This action will delete all favourite combos with this element. What is more, if your today combo has this element it also will be deleted. Do you really want to delete ' + food.name + '?'">
+                        <div #modalDiv class="d-flex w-50 justify-content-around">
+                            <button (click)="cancel()" class="modal-btn">No</button>
+                            <button (click)="confirm(food.id)" class="modal-btn">Yes</button>
+                        </div>
+                    </app-modal>
                 </div>
             </div>
             <button *ngIf="isNextPage" (click)="loadFood()">More</button>
@@ -29,3 +39,8 @@
         </div>
     </div>
 </div>
+<app-modal *ngIf="responseModal" [responseModal]="true" [text]="responseModalMsg">
+    <div #modalDiv class="d-flex justify-content-center">
+        <button (click)="closeReponseModal()" class="modal-btn">OK</button>
+    </div>
+</app-modal>

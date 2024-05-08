@@ -22,7 +22,7 @@ export class MusicComponent implements OnInit {
   protected page: number = 1;
   protected musicList: Music[] = [];
   protected isLoggedUser: boolean = false;
-  protected isModalShowed: boolean = false;
+  protected showModalId: string = '';
   protected responseModal: boolean = false;
   protected loggedUserId: string = '';
   protected responseModalMsg: string = '';
@@ -77,18 +77,18 @@ export class MusicComponent implements OnInit {
     this.router.navigate(['music', 'form', id]);
   }
 
-  protected showModal(): void {
-    this.isModalShowed = true;
+  protected showModal(id: string): void {
+    this.showModalId = id;
   }
 
   protected cancel(): void {
-    this.isModalShowed = false;
+    this.showModalId = '';
   }
 
   protected confirm(musicId: string): void {
     this.crudService.deleteMusic(musicId).subscribe({
       next: (val: Music) => {
-        this.isModalShowed = false;
+        this.showModalId = '';
         this.musicList = [];
         this.page = 1;
         this.loadMusic();

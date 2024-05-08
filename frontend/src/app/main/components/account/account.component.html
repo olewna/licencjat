@@ -1,7 +1,7 @@
 <div class="container h-75">
     <div class="row h-75">
       <div class="col-md-6 mx-auto d-flex justify-content-center align-items-center">
-        <div *ngIf="!loading" class="border border-secondary rounded d-flex flex-column justify-content-between align-items-center p-4 mt-4">
+        <div *ngIf="!loading" class="profil border border-secondary rounded d-flex flex-column justify-content-between align-items-center p-4 mt-4">
           <div class="h2">Account</div>
           <img class="rounded" [src]="this.user?.image || 'https://ucarecdn.com/d5086e57-9d49-4245-b588-1ff652fd0d24/usersigniconpersonsymbolhumanavatarisolatedonwhitebackogrundvector.jpg'" />
           <div class="h4">{{ this.user!.name }}</div>
@@ -9,7 +9,7 @@
           <ng-container *ngIf="favCombo.length >0">
             <div class="h3 text-primary text-center">FAVOURITE COMBOS:</div>
             <div class="text-primary">
-              <div>{{favCombo[0].name}} + {{favCombo[1].name}} + {{favCombo[2].name}}</div>
+              <div class="w-100">{{favCombo[0].name}} + {{favCombo[1].name}} + {{favCombo[2].name}}</div>
             </div>
             <div>
               <button class="btn btn-link" [disabled]="!(favouritePage>0)" (click)="previousFavouriteCombo()">&laquo;</button>

@@ -143,6 +143,7 @@ const deleteMusic = async (req, res) => {
       { $unset: { [`dailyCombo.${today}`]: "" } }
     );
   }
+
   const music = await Music.findOneAndDelete({ id: id });
 
   if (!music) {

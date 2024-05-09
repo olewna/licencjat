@@ -21,3 +21,10 @@ export interface Combo {
   readonly gameId: string;
   readonly musicId: string;
 }
+
+export interface UserEdit {
+  readonly name: string;
+  readonly email: string;
+  readonly password: string;
+  readonly image: string;
+}

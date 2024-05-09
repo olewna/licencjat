@@ -1,1 +1,46 @@
-<p>account-form works!</p>
+<div class="d-flex justify-content-center p-2">
+    <div class="row w-75 p-3">
+      <div class="ramka">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+          <div class="h3 text-center py-3">Edit account</div>
+          <div class="border rounded d-flex w-100 mt-1 h-120">
+            <div class="text p-3">Profile image</div>
+            <div class="d-flex justify-content-around align-items-center w-100">
+              <div>
+                <app-file-uploader (url)="setImageUrl($event)"></app-file-uploader>
+              </div>
+              <div class="d-flex flex-row ">
+                <img *ngIf="getImageUrl()" class="preview-image" src="{{getImageUrl()}}" />
+                <img *ngIf="!getImageUrl()" class="preview-image" src="https://ucarecdn.com/d5086e57-9d49-4245-b588-1ff652fd0d24/usersigniconpersonsymbolhumanavatarisolatedonwhitebackogrundvector.jpg" />
+                <button type="button" *ngIf="getImageUrl()" (click)="deleteImage()" class="btn-close" aria-label="Close"></button>
+              </div>
+            </div>
+          </div>
+          <div class="border rounded d-flex w-100">
+            <div class="p-3 text">Username</div>
+            <div class="p-3 w-100"><input formControlName="name" class="w-100 p-1 m-1" type="text" placeholder="Username..." /></div>
+          </div>
+          <div class="border rounded d-flex w-100">
+            <div class="p-3 text">Email</div>
+            <div class="p-3 w-100"><input formControlName="email" class="w-100 p-1 m-1" type="text" placeholder="Email..." /></div>
+          </div>
+          <div class="border rounded d-flex w-100">
+            <div class="p-3 text">Password</div>
+            <div class="p-3 w-100"><input formControlName="password" class="w-100 p-1 m-1" type="password" placeholder="New password..." /></div>
+          </div>
+          <div class="d-flex justify-content-between submit-button">
+            <button class="m-3 mx-5 button-b btn btn-dark" type="button" (click)="goBack()">Back</button>
+            <div class="d-flex flex-column">
+              <button class="m-3 mx-5 button-s btn btn-dark" type="submit" [disabled]="userForm.invalid">Update account</button>
+              <div *ngIf="responseMsg">{{responseMsg}}</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-modal *ngIf="showModal" [responseModal]="true" [text]="'Account updated! You will be logged out.'">
+    <div #modalDiv>
+      <button class="modal-btn" (click)="afterUpdate()">OK</button>
+    </div>
+  </app-modal>

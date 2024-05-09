@@ -65,6 +65,6 @@
 </div>
 <app-modal *ngIf="showModal" [responseModal]="true" [text]="'Element updated! You will be redirected to food list.'">
   <div #modalDiv>
-    <button (click)="goToFood()">OK</button>
+    <button class="modal-btn" (click)="goToFood()">OK</button>
   </div>
 </app-modal>

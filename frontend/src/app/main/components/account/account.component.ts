@@ -107,7 +107,6 @@ export class AccountComponent implements OnInit {
   }
 
   public goToUpdateForm(): void {
-    console.log('go to form');
     this.router.navigate(['account', 'edit', this.id]);
   }
 

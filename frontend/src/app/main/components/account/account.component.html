@@ -7,9 +7,9 @@
             <button class="edit text-danger" (click)="showModal()">X</button>
           </div>
           <div class="h2">Account</div>
-          <img class="rounded" [src]="this.user?.image || 'https://ucarecdn.com/d5086e57-9d49-4245-b588-1ff652fd0d24/usersigniconpersonsymbolhumanavatarisolatedonwhitebackogrundvector.jpg'" />
+          <img class="rounded profile-image" [src]="this.user?.image || 'https://ucarecdn.com/d5086e57-9d49-4245-b588-1ff652fd0d24/usersigniconpersonsymbolhumanavatarisolatedonwhitebackogrundvector.jpg'" />
           <div class="h4">{{ this.user!.name }}</div>
-          <div class="text-secondary">{{ this.user!.email }}</div>
+          <div class="text-secondary mb-2">{{ this.user!.email }}</div>
           <ng-container *ngIf="favCombo.length >0">
             <div class="h3 text-primary text-center">FAVOURITE COMBOS:</div>
             <div class="text-primary">
@@ -21,7 +21,7 @@
               <button class="btn btn-link" [disabled]="!(user!.favouriteCombos.length>favouritePage+1)" (click)="nextFavouriteCombo()">&raquo;</button>
             </div>
           </ng-container>
-          <ng-container *ngIf="favCombo.length===0" ><div class="h5 text-secondary text-center">This user does not have favourite combo yet</div></ng-container>
+          <ng-container *ngIf="favCombo.length===0" ><div class="h5 text-secondary text-center mb-3">This user does not have favourite combo yet</div></ng-container>
           <button *ngIf="thisUserIsLogged()" (click)="logout()" class="btn btn-danger">Log out</button>
         </div>
       </div>

@@ -199,6 +199,7 @@ const registerUser = async (req, res) => {
       email,
       image: image || "",
       favouriteCombos: [],
+      dailyCombo: {},
     });
     res.status(201).json(newUser);
   } catch (error) {
@@ -223,6 +224,27 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  const userId = req.params.id;
+
+  const { image, password, email, name } = req.body.user;
+
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        image: image ? image : "",
+        password: sha256(password),
+        email,
+        name,
+      }
+    );
+    res.status(201).json(updatedUser);
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
 module.exports = {
   verifyToken,
   getTodayCombo,
@@ -236,4 +258,5 @@ module.exports = {
   registerUser,
   loginUser,
   deleteUser,
+  updateUser,
 };

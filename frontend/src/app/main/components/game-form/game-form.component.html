@@ -58,6 +58,6 @@
   </div>
   <app-modal *ngIf="showModal" [responseModal]="true" [text]="'Element updated! You will be redirected to games list.'">
     <div #modalDiv>
-      <button (click)="goToGames()">OK</button>
+      <button class="modal-btn" (click)="goToGames()">OK</button>
     </div>
   </app-modal>

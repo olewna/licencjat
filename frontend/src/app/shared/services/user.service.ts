@@ -1,13 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Combo, LoggedUser, User } from '../models/User.model';
+import { Combo, LoggedUser, User, UserEdit } from '../models/User.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserEditForm } from '../form.models/UserEditForm.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   constructor(private httpClient: HttpClient) {}
+
+  public userForm: FormGroup<UserEditForm> = new FormGroup<UserEditForm>({
+    name: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(5),
+    ]),
+    email: new FormControl<string>('', [
+      Validators.required,
+      Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+    ]),
+    password: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+    image: new FormControl<string>(''),
+  });
 
   public registerUser(user: LoggedUser): Observable<LoggedUser> {
     return this.httpClient.post<LoggedUser>('api/users/register', user);
@@ -65,5 +83,9 @@ export class UserService {
 
   public deleteUser(id: string): Observable<string> {
     return this.httpClient.delete<string>(`api/users/` + id);
+  }
+
+  public updateUser(id: string, user: UserEdit): Observable<User> {
+    return this.httpClient.patch<User>(`api/users/` + id, { user });
   }
 }

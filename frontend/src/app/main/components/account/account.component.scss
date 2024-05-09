@@ -3,6 +3,21 @@
     display: block;
 }
 
+.end {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.edit{
+    width: 30px;
+    height: 30px;
+    font-weight: bolder;
+    border: none;
+    background-color: white;
+    margin: 0 5px;
+}
+
 .border-info {
     width:fit-content;
     height: fit-content;

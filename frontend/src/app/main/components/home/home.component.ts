@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
               }
             },
             error: (err: HttpErrorResponse) => {
-              console.log(err.error.message);
+              console.log('User does not have today combo yet.');
             },
           });
         }

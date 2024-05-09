@@ -5,6 +5,7 @@ import { LoggedUser, User } from 'src/app/shared/models/User.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-account',
@@ -22,10 +23,13 @@ export class AccountComponent implements OnInit {
   protected user: User | null = null;
   protected loggedUser: LoggedUser | null = null;
   protected loading: boolean = true;
-  protected theSameUser: boolean = true;
+  protected theSameUser: boolean = false;
   protected id: string = '';
   protected favCombo: any[] = [];
   protected favouritePage: number = 0;
+  protected showDeleteModal: boolean = false;
+  protected responseModal: boolean = false;
+  protected responseModalMsg: string = '';
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -99,6 +103,40 @@ export class AccountComponent implements OnInit {
 
   protected logout(): void {
     this.authService.setCurrentUser(null, '');
+    this.router.navigate(['home']);
+  }
+
+  public goToUpdateForm(): void {
+    console.log('go to form');
+    this.router.navigate(['account', 'edit', this.id]);
+  }
+
+  public showModal(): void {
+    this.showDeleteModal = true;
+  }
+
+  public cancel(): void {
+    this.showDeleteModal = false;
+  }
+
+  public confirm(): void {
+    this.userService.deleteUser(this.id).subscribe({
+      next: (val: string) => {
+        this.showDeleteModal = false;
+        this.responseModalMsg = val;
+        this.responseModal = true;
+        this.authService.setCurrentUser(null, '');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.showDeleteModal = false;
+        this.responseModal = true;
+        this.responseModalMsg = 'Could not delete account.';
+        console.log(err);
+      },
+    });
+  }
+
+  public closeReponseModal(): void {
     this.router.navigate(['home']);
   }
 }

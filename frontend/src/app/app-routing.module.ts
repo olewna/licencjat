@@ -10,6 +10,7 @@ import { GameComponent } from './main/components/game/game.component';
 import { FoodFormComponent } from './main/components/food-form/food-form.component';
 import { GameFormComponent } from './main/components/game-form/game-form.component';
 import { MusicFormComponent } from './main/components/music-form/music-form.component';
+import { AccountFormComponent } from './main/components/account-form/account-form.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,11 @@ const routes: Routes = [
   {
     path: 'account/:id',
     component: AccountComponent,
+    canActivate: [notLoggedGuard],
+  },
+  {
+    path: 'account/edit/:id',
+    component: AccountFormComponent,
     canActivate: [notLoggedGuard],
   },
   {

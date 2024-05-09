@@ -1,4 +1,7 @@
 const User = require("../models/userModel");
+const Music = require("../models/musicModel");
+const Games = require("../models/gamesModel");
+const Food = require("../models/foodModel");
 const sha256 = require("js-sha256");
 const jwt = require("jsonwebtoken");
 const secret = "si3m5s0NXD";
@@ -204,6 +207,22 @@ const registerUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const music = await Music.deleteMany({ user: userId });
+    const food = await Food.deleteMany({ owner: userId });
+    const games = await Games.deleteMany({ author: userId });
+    const deleted = music.deletedCount + food.deletedCount + games.deletedCount;
+
+    const userToDelete = await User.findOneAndDelete({ _id: userId });
+    res.status(200).json(`Deleted ${deleted} elements with account`);
+  } catch (err) {
+    res.status(400).json({ error: "User not found" });
+  }
+};
+
 module.exports = {
   verifyToken,
   getTodayCombo,
@@ -216,4 +235,5 @@ module.exports = {
   addComboToUser,
   registerUser,
   loginUser,
+  deleteUser,
 };

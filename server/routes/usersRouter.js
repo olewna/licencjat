@@ -11,6 +11,7 @@ const {
   checkIfComboFavourite,
   addComboToFavourite,
   deleteComboFromFavourite,
+  deleteUser,
 } = require("../controllers/userController.js");
 
 const router = express.Router();
@@ -44,5 +45,8 @@ router.post("/login", loginUser);
 
 // POST register user
 router.post("/register", registerUser);
+
+// DELETE user
+router.delete("/:id", deleteUser);
 
 module.exports = router;

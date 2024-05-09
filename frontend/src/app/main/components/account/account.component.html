@@ -2,6 +2,10 @@
     <div class="row h-75">
       <div class="col-md-6 mx-auto d-flex justify-content-center align-items-center">
         <div *ngIf="!loading" class="profil border border-secondary rounded d-flex flex-column justify-content-between align-items-center p-4 mt-4">
+          <div *ngIf="theSameUser" class="end">
+            <button class="edit text-primary" (click)="goToUpdateForm()">✎</button>
+            <button class="edit text-danger" (click)="showModal()">X</button>
+          </div>
           <div class="h2">Account</div>
           <img class="rounded" [src]="this.user?.image || 'https://ucarecdn.com/d5086e57-9d49-4245-b588-1ff652fd0d24/usersigniconpersonsymbolhumanavatarisolatedonwhitebackogrundvector.jpg'" />
           <div class="h4">{{ this.user!.name }}</div>
@@ -23,3 +27,15 @@
       </div>
     </div>
   </div>
+
+<app-modal *ngIf="showDeleteModal" [text]="'This action will permanently delete your account with all your private combo elements. Do you really want to delete your account?'">
+  <div #modalDiv class="d-flex justify-content-around w-50">
+      <button (click)="cancel()" class="modal-btn">No</button>
+      <button (click)="confirm()" class="modal-btn">Yes</button>
+  </div>
+</app-modal>
+<app-modal *ngIf="responseModal" [responseModal]="true" [text]="responseModalMsg">
+  <div #modalDiv class="d-flex justify-content-center">
+      <button (click)="closeReponseModal()" class="modal-btn">OK</button>
+  </div>
+</app-modal>

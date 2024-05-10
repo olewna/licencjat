@@ -44,7 +44,7 @@ export class FoodFormComponent implements OnInit {
     });
 
     this.foodForm.get('owner')?.valueChanges.subscribe({
-      next: (val) => {
+      next: (val: boolean) => {
         if (!val) {
           this.foodForm.controls['company'].setValidators([
             Validators.required,
@@ -63,8 +63,8 @@ export class FoodFormComponent implements OnInit {
 
     if (!this.isAddMode) {
       this.comboService.getFoodById(this.id).subscribe({
-        next: (food) => {
-          const { owner, company, telephone, ...rest } = food;
+        next: (food: Food) => {
+          const { owner, company, telephone, ...rest }: Food = food;
           if (company || telephone) {
             this.foodForm.patchValue({ owner: false });
             this.foodForm.patchValue({ company, telephone });
@@ -75,7 +75,7 @@ export class FoodFormComponent implements OnInit {
           this.onOwnerChange();
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err);
+          console.error(err);
           this.responseMsg = 'Cound not find item...';
         },
       });
@@ -92,7 +92,7 @@ export class FoodFormComponent implements OnInit {
 
   private createFood(): void {
     this.comboService.addFood(this.foodForm.value as FoodRequest).subscribe({
-      next: (val: Food) => {
+      next: () => {
         this.foodForm.reset();
         this.foodForm.get('company')!.enable();
         this.foodForm.get('telephone')!.enable();
@@ -102,7 +102,7 @@ export class FoodFormComponent implements OnInit {
         }, 5000);
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err.error);
+        console.error(err.error);
         this.responseMsg = 'Something went wrong...';
         setTimeout(() => {
           this.responseMsg = '';
@@ -115,14 +115,14 @@ export class FoodFormComponent implements OnInit {
     this.comboService
       .updateFood(this.id, this.foodForm.value as FoodRequest)
       .subscribe({
-        next: (food: Food) => {
+        next: () => {
           this.foodForm.reset();
           this.foodForm.get('company')!.enable();
           this.foodForm.get('telephone')!.enable();
           this.showModal = true;
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err.error);
+          console.error(err.error);
           this.responseMsg = 'Something went wrong...';
           setTimeout(() => {
             this.responseMsg = '';
@@ -131,9 +131,8 @@ export class FoodFormComponent implements OnInit {
       });
   }
 
-  public onOwnerChange() {
-    const ownerControl = this.foodForm.get('owner');
-    if (ownerControl!.value) {
+  public onOwnerChange(): void {
+    if (this.foodForm.get('owner')!.value) {
       this.foodForm.get('company')!.disable();
       this.foodForm.get('telephone')!.disable();
     } else {

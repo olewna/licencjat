@@ -51,11 +51,11 @@ export class GameFormComponent implements OnInit {
 
     if (!this.isAddMode) {
       this.comboService.getGameById(this.id).subscribe({
-        next: (game) => {
+        next: (game: Game) => {
           this.gameForm.patchValue(game);
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err);
+          console.error(err);
           this.responseMsg = 'Could not find item...';
         },
       });
@@ -72,7 +72,7 @@ export class GameFormComponent implements OnInit {
 
   private createGame(): void {
     this.comboService.addGame(this.gameForm.value as GameRequest).subscribe({
-      next: (val: Game) => {
+      next: () => {
         this.gameForm.reset();
         this.responseMsg = 'Added successfully!';
         setTimeout(() => {
@@ -80,7 +80,7 @@ export class GameFormComponent implements OnInit {
         }, 5000);
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err.error);
+        console.error(err.error);
         this.responseMsg = 'Something went wrong...';
         setTimeout(() => {
           this.responseMsg = '';
@@ -93,12 +93,12 @@ export class GameFormComponent implements OnInit {
     this.comboService
       .updateGame(this.id, this.gameForm.value as GameRequest)
       .subscribe({
-        next: (game: Game) => {
+        next: () => {
           this.gameForm.reset();
           this.showModal = true;
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err.error);
+          console.error(err.error);
           this.responseMsg = 'Something went wrong...';
           setTimeout(() => {
             this.responseMsg = '';

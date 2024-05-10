@@ -35,19 +35,19 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnInit(): void {
     this.socket = io('http://localhost:4000');
 
-    this.socket.on('newMsg', (data) => {
+    this.socket.on('newMsg', (data: string) => {
       this.chatMessages.push(JSON.parse(data));
     });
 
-    this.socket.on('isMore', (data) => {
+    this.socket.on('isMore', (data: string) => {
       this.isMore = JSON.parse(data);
     });
 
-    this.socket.on('info', (data) => {
+    this.socket.on('info', (data: string) => {
       this.chatMessages.push(JSON.parse(data));
     });
 
-    this.socket.on('getMsgs', (data) => {
+    this.socket.on('getMsgs', (data: string) => {
       this.chatMessages = [...JSON.parse(data).reverse(), ...this.chatMessages];
     });
   }
@@ -56,14 +56,14 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
     this.socket.disconnect();
   }
 
-  public sendMessage() {
+  public sendMessage(): void {
     const msg: ChatMessage = {
       author: this.currentUser,
       message: this.message,
       room: this.gamename,
     };
+
     this.message = '';
-    // this.chatMessages.push(msg);
     this.socket.emit('msg', JSON.stringify(msg));
   }
 
@@ -73,6 +73,7 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
       message: 'joined!',
       room: this.gamename,
     };
+
     this.socket.emit('join', JSON.stringify(msg));
     this.joined = true;
   }
@@ -83,6 +84,7 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
         message: 'left!',
         room: game,
       };
+
       this.socket.emit('leave', JSON.stringify(msg));
     } else {
       const msg: ChatMessage = {
@@ -90,8 +92,10 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
         message: 'left!',
         room: this.gamename,
       };
+
       this.socket.emit('leave', JSON.stringify(msg));
     }
+
     this.chatMessages = [];
     this.message = '';
     this.joined = false;

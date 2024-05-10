@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Food } from 'src/app/shared/models/Food.model';
+import { FoodResponse } from 'src/app/shared/models/Pagination.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
 
@@ -38,7 +39,7 @@ export class FoodComponent implements OnInit {
 
   protected loadFood(): void {
     this.crudService.getFood(this.page, this.searchedInput).subscribe({
-      next: (val) => {
+      next: (val: FoodResponse) => {
         if (this.isLoggedUser) {
           this.loggedUserId = this.authService.getUserId();
         }
@@ -98,6 +99,7 @@ export class FoodComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.responseModal = true;
         this.responseModalMsg = 'Something went wrong...';
+        console.error(err);
       },
     });
   }

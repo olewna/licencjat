@@ -28,3 +28,8 @@ export interface UserEdit {
   readonly password: string;
   readonly image: string;
 }
+
+export interface UserResponse {
+  readonly userToken: string;
+  readonly user: LoggedUser;
+}

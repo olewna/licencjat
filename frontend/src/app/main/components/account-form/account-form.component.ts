@@ -32,11 +32,12 @@ export class AccountFormComponent implements OnInit {
 
     this.userService.getUserById(this.id).subscribe({
       next: (user: User) => {
-        const { name, email, image } = user;
+        const { name, email, image }: User = user;
         this.userForm.patchValue({ name, email, image });
       },
       error: (err: HttpErrorResponse) => {
         this.responseMsg = 'Could not find user!';
+        console.error(err);
       },
     });
   }
@@ -45,12 +46,13 @@ export class AccountFormComponent implements OnInit {
     this.userService
       .updateUser(this.id, this.userForm.value as UserEdit)
       .subscribe({
-        next: (updatedUser: User) => {
+        next: () => {
           this.showModal = true;
           this.userForm.reset();
         },
         error: (err: HttpErrorResponse) => {
           this.responseMsg = 'Could not update user!';
+          console.error(err);
         },
       });
   }

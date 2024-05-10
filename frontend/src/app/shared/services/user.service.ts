@@ -9,7 +9,7 @@ import { UserEditForm } from '../form.models/UserEditForm.model';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private httpClient: HttpClient) {}
+  public constructor(private httpClient: HttpClient) {}
 
   public userForm: FormGroup<UserEditForm> = new FormGroup<UserEditForm>({
     name: new FormControl<string>('', [
@@ -40,7 +40,7 @@ export class UserService {
     );
   }
 
-  public checkSession(token: string): Observable<LoggedUser> {
+  public checkSession(): Observable<LoggedUser> {
     return this.httpClient.get<LoggedUser>('api/users');
   }
 

@@ -15,13 +15,12 @@ import * as LR from '@uploadcare/blocks';
   styleUrls: ['./file-uploader.component.scss'],
 })
 export class FileUploaderComponent implements OnInit, OnDestroy {
-  @Output() url = new EventEmitter<string>();
+  @Output() public url: EventEmitter<string> = new EventEmitter<string>();
   protected imageUrl: string = '';
 
   protected uploadedFiles: LR.OutputFileEntry<'success'>[] = [];
-  @ViewChild('ctxProvider', { static: true }) ctxProviderRef!: ElementRef<
-    InstanceType<LR.UploadCtxProvider>
-  >;
+  @ViewChild('ctxProvider', { static: true })
+  public ctxProviderRef!: ElementRef<InstanceType<LR.UploadCtxProvider>>;
 
   public ngOnInit(): void {
     this.ctxProviderRef.nativeElement.addEventListener(
@@ -60,6 +59,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
 
   public handleChangeEvent = (e: LR.EventMap['change']): void => {
     this.uploadedFiles = e.detail.allEntries.filter(
+      // eslint-disable-next-line @typescript-eslint/typedef
       (f) => f.status === 'success'
     ) as LR.OutputFileEntry<'success'>[];
     if (this.uploadedFiles.length > 0) {

@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Game } from 'src/app/shared/models/Game.model';
+import { GameResponse } from 'src/app/shared/models/Pagination.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
 
@@ -38,7 +39,7 @@ export class GameComponent implements OnInit {
 
   protected loadGames(): void {
     this.crudService.getGames(this.page, this.searchedInput).subscribe({
-      next: (val) => {
+      next: (val: GameResponse) => {
         if (this.isLoggedUser) {
           this.loggedUserId = this.authService.getUserId();
         }
@@ -50,8 +51,8 @@ export class GameComponent implements OnInit {
           this.isNextPage = false;
         }
       },
-      error: (err) => {
-        console.log(err);
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
       },
     });
   }
@@ -101,6 +102,7 @@ export class GameComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.responseModal = true;
         this.responseModalMsg = 'Something went wrong...';
+        console.error(err);
       },
     });
   }

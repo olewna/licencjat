@@ -9,7 +9,7 @@ import {
   GameResponse,
   MusicResponse,
 } from '../models/Pagination.model';
-import { FoodForm, FoodRequest } from '../form.models/FoodForm.model';
+import { FoodRequest } from '../form.models/FoodForm.model';
 import { GameRequest } from '../form.models/GameForm.model';
 import { MusicRequest } from '../form.models/MusicForm.model';
 
@@ -17,7 +17,7 @@ import { MusicRequest } from '../form.models/MusicForm.model';
   providedIn: 'root',
 })
 export class ComboService {
-  constructor(private httpClient: HttpClient) {}
+  public constructor(private httpClient: HttpClient) {}
   private vegetarian: boolean = false;
   private singleplayer: boolean = false;
   private multiplayer: boolean = false;

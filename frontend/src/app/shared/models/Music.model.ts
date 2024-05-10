@@ -9,3 +9,8 @@ export interface Music {
   readonly image: string;
   readonly user: string;
 }
+
+export interface Services {
+  readonly name: string;
+  readonly checked: boolean;
+}

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { Food } from 'src/app/shared/models/Food.model';
 import { Game } from 'src/app/shared/models/Game.model';
 import { Music } from 'src/app/shared/models/Music.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
 import { UserService } from '../../../shared/services/user.service';
+import { Combo, LoggedUser } from 'src/app/shared/models/User.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Combo } from 'src/app/shared/models/User.model';
 
 @Component({
   selector: 'app-home',
@@ -32,19 +32,22 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.authService.currentUser.subscribe({
-      next: (user) => {
+      next: (user: LoggedUser | null) => {
         if (user) {
           this.loggedUserId = user._id;
           this.userService.getTodayCombo(user._id).subscribe({
-            next: (combo) => {
+            next: (combo: Combo) => {
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
               if (combo) {
                 this.checkIfFav(this.loggedUserId, combo);
-                const todayFood = this.comboService.getFoodById(combo.foodId);
-                const todayGame = this.comboService.getGameById(combo.gameId);
-                const todayMusic = this.comboService.getMusicById(
-                  combo.musicId
-                );
+                const todayFood: Observable<Food> =
+                  this.comboService.getFoodById(combo.foodId);
+                const todayGame: Observable<Game> =
+                  this.comboService.getGameById(combo.gameId);
+                const todayMusic: Observable<Music> =
+                  this.comboService.getMusicById(combo.musicId);
                 forkJoin([todayFood, todayMusic, todayGame]).subscribe({
+                  // eslint-disable-next-line @typescript-eslint/typedef
                   next: ([food, music, game]) => {
                     this.todayFood = food;
                     this.todayMusic = music;
@@ -54,9 +57,6 @@ export class HomeComponent implements OnInit {
                 });
               }
             },
-            error: (err: HttpErrorResponse) => {
-              console.log('User does not have today combo yet.');
-            },
           });
         }
       },
@@ -64,16 +64,17 @@ export class HomeComponent implements OnInit {
   }
 
   public roll(): void {
-    const randomFood$ = this.comboService.getRandomFood();
-    const randomMusic$ = this.comboService.getRandomMusic();
-    const randomGame$ = this.comboService.getRandomGame();
+    const randomFood$: Observable<Food> = this.comboService.getRandomFood();
+    const randomMusic$: Observable<Music> = this.comboService.getRandomMusic();
+    const randomGame$: Observable<Game> = this.comboService.getRandomGame();
 
     forkJoin([randomFood$, randomMusic$, randomGame$]).subscribe({
+      // eslint-disable-next-line  @typescript-eslint/typedef
       next: ([foodResult, musicResult, gameResult]) => {
         this.todayFood = foodResult as Food;
         this.todayMusic = musicResult as Music;
         this.todayGames = gameResult as Game;
-        const combo = {
+        const combo: Combo = {
           foodId: foodResult.id,
           gameId: gameResult.id,
           musicId: musicResult.id,
@@ -85,15 +86,12 @@ export class HomeComponent implements OnInit {
             next: () => {
               this.notRolled = false;
             },
-            error: (err: HttpErrorResponse) => {
-              console.log(err.error.message);
-            },
           });
         } else {
           this.notRolled = false;
         }
       },
-      error: (error) =>
+      error: (error: HttpErrorResponse) =>
         console.error('Error occurred in one of the subscriptions: ', error),
     });
   }
@@ -108,7 +106,6 @@ export class HomeComponent implements OnInit {
       .subscribe({
         next: () => {
           this.favouriteCombo = true;
-          //todo jakies powiadomienie ze sie udalo dodac
         },
       });
   }
@@ -122,7 +119,6 @@ export class HomeComponent implements OnInit {
       .subscribe({
         next: () => {
           this.favouriteCombo = false;
-          //todo jakies powiadomienie ze sie udalo usunac
         },
       });
   }
@@ -141,8 +137,8 @@ export class HomeComponent implements OnInit {
 
   public rollFood(): void {
     this.comboService.getRandomFood().subscribe({
-      next: (val) => {
-        this.todayFood = val as Food;
+      next: (val: Food) => {
+        this.todayFood = val;
         if (this.isLogged()) {
           this.checkIfFav(this.loggedUserId, {
             foodId: val.id,
@@ -157,8 +153,8 @@ export class HomeComponent implements OnInit {
 
   public rollGame(): void {
     this.comboService.getRandomGame().subscribe({
-      next: (val) => {
-        this.todayGames = val as Game;
+      next: (val: Game) => {
+        this.todayGames = val;
         if (this.isLogged()) {
           this.checkIfFav(this.loggedUserId, {
             foodId: this.todayFood!.id,
@@ -173,8 +169,8 @@ export class HomeComponent implements OnInit {
 
   public rollMusic(): void {
     this.comboService.getRandomMusic().subscribe({
-      next: (val) => {
-        this.todayMusic = val as Music;
+      next: (val: Music) => {
+        this.todayMusic = val;
         if (this.isLogged()) {
           this.checkIfFav(this.loggedUserId, {
             foodId: this.todayFood!.id,
@@ -189,12 +185,11 @@ export class HomeComponent implements OnInit {
 
   private checkIfFav(id: string, combo: Combo): void {
     this.userService.checkIfComboIsFavourite(id, combo).subscribe({
-      next: (val) => {
+      next: (val: boolean) => {
         this.favouriteCombo = val;
       },
-      error: (err: HttpErrorResponse) => {
+      error: () => {
         this.favouriteCombo = false;
-        console.log('ERROR: ' + err.error.message);
       },
     });
   }
@@ -205,7 +200,7 @@ export class HomeComponent implements OnInit {
         .updateOneElementInCombo(this.loggedUserId, { type, id })
         .subscribe({
           error: (err: HttpErrorResponse) => {
-            console.log(err.error.message);
+            console.error(err);
           },
         });
     }

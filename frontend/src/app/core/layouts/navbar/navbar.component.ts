@@ -9,7 +9,10 @@ import { LoggedUser } from 'src/app/shared/models/User.model';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {}
+  public constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
   protected navbarCollapsed: boolean = true;
   public toggleNavbarCollapsing(): void {
     this.navbarCollapsed = !this.navbarCollapsed;
@@ -20,7 +23,7 @@ export class NavbarComponent implements OnInit {
   public ngOnInit(): void {
     this.authService.loadCurrentUser();
     this.authService.currentUser.subscribe({
-      next: (value) => {
+      next: (value: LoggedUser | null) => {
         this.currentUser = value;
       },
     });

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LoggedUser } from '../models/User.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { UserService } from './user.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(
+  public constructor(
     private userService: UserService,
     private jwtHelper: JwtHelperService,
     private router: Router
@@ -20,7 +20,8 @@ export class AuthService {
   private currentToken: string = '';
 
   public isLogged(): boolean {
-    const token = localStorage.getItem('token');
+    const token: string | null = localStorage.getItem('token');
+
     return !this.jwtHelper.isTokenExpired(token);
   }
 
@@ -45,11 +46,11 @@ export class AuthService {
   public loadCurrentUser(): void {
     this.currentToken = localStorage.getItem('token')! || '';
     if (this.currentToken) {
-      this.userService.checkSession(this.currentToken).subscribe({
-        next: (val) => {
+      this.userService.checkSession().subscribe({
+        next: (val: LoggedUser) => {
           this.setCurrentUser(val, this.currentToken);
         },
-        error: (err) => {
+        error: () => {
           this.setCurrentUser(null, '');
           this.router.navigate(['home']);
         },

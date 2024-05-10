@@ -1,7 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Music } from 'src/app/shared/models/Music.model';
+import { MusicResponse } from 'src/app/shared/models/Pagination.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ComboService } from 'src/app/shared/services/combo.service';
 
@@ -38,7 +38,7 @@ export class MusicComponent implements OnInit {
 
   protected loadMusic(): void {
     this.crudService.getMusic(this.page, this.searchedInput).subscribe({
-      next: (val) => {
+      next: (val: MusicResponse) => {
         if (this.isLoggedUser) {
           this.loggedUserId = this.authService.getUserId();
         }
@@ -95,7 +95,7 @@ export class MusicComponent implements OnInit {
         this.responseModal = true;
         this.responseModalMsg = val.name + ' deleted successfully!';
       },
-      error: (err: HttpErrorResponse) => {
+      error: () => {
         this.responseModal = true;
         this.responseModalMsg = 'Something went wrong...';
       },

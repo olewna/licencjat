@@ -13,7 +13,7 @@ import {
   MusicRequest,
   Service,
 } from 'src/app/shared/form.models/MusicForm.model';
-import { Music } from 'src/app/shared/models/Music.model';
+import { Music, Services } from 'src/app/shared/models/Music.model';
 import { ComboService } from 'src/app/shared/services/combo.service';
 
 @Component({
@@ -60,21 +60,19 @@ export class MusicFormComponent implements OnInit {
 
     if (!this.isAddMode) {
       this.comboService.getMusicById(this.id).subscribe({
-        next: (music) => {
-          const { service, ...rest } = music;
-          const services = this.services.map((x) => {
+        next: (music: Music) => {
+          const { service, ...rest }: Music = music;
+          const services: Services[] = this.services.map((x: string) => {
             if (service.includes(x)) {
               return { name: x, checked: true };
-            } else {
-              return { name: x, checked: false };
             }
+
+            return { name: x, checked: false };
           });
-          const editMusic = { ...rest };
-          this.musicForm.patchValue(editMusic);
+          this.musicForm.patchValue(rest);
           this.musicForm.controls.service.patchValue(services);
         },
-        error: (err: HttpErrorResponse) => {
-          console.log(err);
+        error: () => {
           this.responseMsg = 'Could not find item...';
         },
       });
@@ -95,7 +93,7 @@ export class MusicFormComponent implements OnInit {
 
   private createMusic(): void {
     this.comboService.addMusic(this.musicForm.value as MusicRequest).subscribe({
-      next: (val: Music) => {
+      next: () => {
         this.musicForm.reset();
         this.responseMsg = 'Added successfully!';
         setTimeout(() => {
@@ -103,8 +101,8 @@ export class MusicFormComponent implements OnInit {
         }, 5000);
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err.error);
         this.responseMsg = 'Something went wrong...';
+        console.error(err);
         setTimeout(() => {
           this.responseMsg = '';
         }, 5000);
@@ -116,13 +114,13 @@ export class MusicFormComponent implements OnInit {
     this.comboService
       .updateMusic(this.id, this.musicForm.value as MusicRequest)
       .subscribe({
-        next: (val: Music) => {
+        next: () => {
           this.musicForm.reset();
           this.showModal = true;
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err.error);
           this.responseMsg = 'Something went wrong...';
+          console.error(err);
           setTimeout(() => {
             this.responseMsg = '';
           }, 5000);

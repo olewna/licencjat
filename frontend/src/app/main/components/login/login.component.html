@@ -25,6 +25,7 @@
           <button type="submit" class="btn btn-primary mt-3" [disabled]="!userLoginForm.valid">
             Sign up
           </button>
+          <div *ngIf="errorMsg" class="text-danger mt-2">{{errorMsg}}</div>
         </form>
       </ng-container>
   
@@ -60,7 +61,7 @@
           <button type="submit" class="btn btn-primary mt-3" [disabled]="!userRegisterForm.valid">
             Sign in
           </button>
-          <div *ngIf="errorMsg !== ''" class="text-danger mt-2">{{errorMsg}}</div>
+          <div *ngIf="errorMsg" class="text-danger mt-2">{{errorMsg}}</div>
         </form>
       </ng-template>
     </div>

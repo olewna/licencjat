@@ -48,6 +48,7 @@ socketServer(sio);
 app.use(checkIfUserIsLogged);
 
 //routes
+app.use("/", express.static("public"));
 app.use("/api/food", foodRoutes);
 app.use("/api/music", musicRoutes);
 app.use("/api/games", gamesRoutes);

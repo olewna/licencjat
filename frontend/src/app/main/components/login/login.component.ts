@@ -64,10 +64,11 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['home']);
           },
           error: (err: HttpErrorResponse) => {
-            this.errorMsg = err.error.message;
+            console.error(err.error.message);
+            this.errorMsg = err.error.message || 'Error';
             setTimeout(() => {
               this.errorMsg = '';
-            }, 3000);
+            }, 5000);
           },
         });
     } else {
@@ -79,10 +80,11 @@ export class LoginComponent implements OnInit {
             this.loginMode = true;
           },
           error: (err: HttpErrorResponse) => {
-            this.errorMsg = err.error.message;
+            console.error(err.error.message);
+            this.errorMsg = err.error.message || 'Error';
             setTimeout(() => {
               this.errorMsg = '';
-            }, 3000);
+            }, 5000);
           },
         });
     }

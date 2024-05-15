@@ -106,6 +106,7 @@ export class HomeComponent implements OnInit {
       .subscribe({
         next: () => {
           this.favouriteCombo = true;
+          this.authService.loadCurrentUser();
         },
       });
   }
@@ -119,6 +120,7 @@ export class HomeComponent implements OnInit {
       .subscribe({
         next: () => {
           this.favouriteCombo = false;
+          this.authService.loadCurrentUser();
         },
       });
   }

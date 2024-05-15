@@ -9,6 +9,7 @@ const {
   getRandomMusic,
   getMusicById,
 } = require("../controllers/musicController.js");
+const { verifyToken } = require("../controllers/userController.js");
 
 const router = express.Router();
 
@@ -25,12 +26,12 @@ router.get("/search/:nazwa", getSearchedMusic);
 router.get("/:id", getMusicById);
 
 // POST new music
-router.post("/", createMusic);
+router.post("/", verifyToken, createMusic);
 
 // DELETE music
-router.delete("/:id", deleteMusic);
+router.delete("/:id", verifyToken, deleteMusic);
 
 // UPDATE music
-router.patch("/:id", updateMusic);
+router.patch("/:id", verifyToken, updateMusic);
 
 module.exports = router;

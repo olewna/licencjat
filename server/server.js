@@ -49,14 +49,14 @@ socketServer(sio);
 app.use(checkIfUserIsLogged);
 
 //routes
-// app.use("/", express.static(path.join(__dirname, "/public")));
+app.use("/", express.static(path.join(__dirname, "/public")));
 app.use("/api/food", foodRoutes);
 app.use("/api/music", musicRoutes);
 app.use("/api/games", gamesRoutes);
 app.use("/api/users", userRoutes);
-// app.get("/*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "/public/index.html"));
-// });
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
 
 //connect to db
 mongoose

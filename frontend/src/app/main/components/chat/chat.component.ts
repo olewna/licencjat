@@ -57,14 +57,16 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public sendMessage(): void {
-    const msg: ChatMessage = {
-      author: this.currentUser,
-      message: this.message,
-      room: this.gamename,
-    };
+    if (this.message.length > 0) {
+      const msg: ChatMessage = {
+        author: this.currentUser,
+        message: this.message,
+        room: this.gamename,
+      };
 
-    this.message = '';
-    this.socket.emit('msg', JSON.stringify(msg));
+      this.message = '';
+      this.socket.emit('msg', JSON.stringify(msg));
+    }
   }
 
   public joinChat(): void {

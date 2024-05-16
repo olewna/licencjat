@@ -32,6 +32,13 @@ describe('ChatComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should send message and reset input', () => {
+    component['message'] = 'fakeMessage';
+    expect(component['message']).toEqual('fakeMessage');
+    component.sendMessage();
+    expect(component['message']).toEqual('');
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

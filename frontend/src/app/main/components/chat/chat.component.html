@@ -12,7 +12,9 @@
                 <ng-container *ngFor="let txt of chatMessages">
                     <div *ngIf="txt.author; else info" class="message">
                         <div class="text-success bold" *ngIf="currentUser===txt.author; else cond">{{txt.author}} (You)</div>
-                        <ng-template #cond class="text-secondary" >{{txt.author}}</ng-template>
+                        <ng-template #cond>
+                            <div class="text-secondary">{{txt.author}}</div>
+                        </ng-template>
                         <div class="text-dark">{{txt.message}}</div>
                     </div>
                     <ng-template #info>

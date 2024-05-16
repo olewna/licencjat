@@ -47,6 +47,16 @@ describe('AccountComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should show modal for deleting element', () => {
+    component.showModal();
+    expect(component['showDeleteModal']).toBeTrue();
+  });
+
+  it('should hide modal for deleting element', () => {
+    component.cancel();
+    expect(component['showDeleteModal']).toBeFalse();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

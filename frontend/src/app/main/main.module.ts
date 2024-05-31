@@ -15,6 +15,7 @@ import * as LR from '@uploadcare/blocks';
 import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
 import { SharedModule } from '../shared/shared.module';
 import { AccountFormComponent } from './components/account-form/account-form.component';
+import { SiteNotFoundComponent } from './components/site-not-found/site-not-found.component';
 
 LR.registerBlocks(LR);
 
@@ -32,6 +33,7 @@ LR.registerBlocks(LR);
     MusicFormComponent,
     FileUploaderComponent,
     AccountFormComponent,
+    SiteNotFoundComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule, SharedModule],
   exports: [],

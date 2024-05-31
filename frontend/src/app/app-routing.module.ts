@@ -11,6 +11,7 @@ import { FoodFormComponent } from './main/components/food-form/food-form.compone
 import { GameFormComponent } from './main/components/game-form/game-form.component';
 import { MusicFormComponent } from './main/components/music-form/music-form.component';
 import { AccountFormComponent } from './main/components/account-form/account-form.component';
+import { SiteNotFoundComponent } from './main/components/site-not-found/site-not-found.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,10 @@ const routes: Routes = [
     path: 'games/form/:id',
     component: GameFormComponent,
     canActivate: [notLoggedGuard],
+  },
+  {
+    path: '**',
+    component: SiteNotFoundComponent,
   },
 ];
 
